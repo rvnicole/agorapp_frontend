@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Label } from "../ui/Label";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
-import MessageErrors from "../MessageErrors";
+import MessageErrors from "../ui/MessageErrors";
 import type { LoginType } from "../../types";
 
 

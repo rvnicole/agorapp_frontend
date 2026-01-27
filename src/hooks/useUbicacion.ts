@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useAppStore } from "../store/appStore";
 import { getAddress } from "../api/AddressAPI";
 import type { NewUbicacionType } from "../types";
 
@@ -13,6 +14,8 @@ export default function useUbicacion({ onChange }: UseUbicacionProps) {
     const [address, setAddress] = useState("");
     const [loadingUbicacion, setloadingUbicacion] = useState(false);
 
+    const { showMessages } = useAppStore(); 
+
     const { mutate, isPending } = useMutation({
         mutationFn: getAddress,
         onSuccess: (data) => {
@@ -20,8 +23,11 @@ export default function useUbicacion({ onChange }: UseUbicacionProps) {
             setAddress(data);
         },
         onError: (error) => {
-            if("messages" in error) {
-               console.log(error.messages); 
+            if("messages" in error && Array.isArray(error.messages)) {
+                console.log(error.messages);
+                error.messages.forEach((error: string) => {
+                    showMessages("error", error);
+                }); 
             }            
         }
     });
@@ -54,7 +60,7 @@ export default function useUbicacion({ onChange }: UseUbicacionProps) {
                 setMode(false);
                 setloadingUbicacion(false);
                 console.error(error);
-                console.log("No se pudo obtener la ubicación.");
+                showMessages("error", "No se pudo obtener la ubicación.");
             }
         );
     }

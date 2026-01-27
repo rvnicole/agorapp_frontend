@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useAppStore } from "../../store/appStore";
 import { searchAddress } from "../../api/AddressAPI";
 import { Input } from "../ui/Input";
 import type { AddressResult, NewUbicacionType } from "../../types";
@@ -14,15 +15,20 @@ export default function AddressSearchInput({ value, onChange }: AddressSearchInp
     const [results, setResults] = useState<AddressResult []>([]);
     const [selected, setSelected] = useState(false);
 
+    const { showMessages } = useAppStore();
+
     const { mutate, isPending } = useMutation({
         mutationFn: searchAddress,
         onSuccess: (data) => {
             setResults(data);
         },
         onError: (error) => {
-            if("messages" in error) {
-               console.log(error.messages); 
-            }            
+            if("messages" in error && Array.isArray(error.messages)) {
+                console.log(error.messages);
+                error.messages.forEach((error: string) => {
+                    showMessages("error", error);
+                }); 
+            }             
         }
     });
 

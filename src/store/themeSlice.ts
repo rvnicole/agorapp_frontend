@@ -16,13 +16,7 @@ export const ThemeSlice: StateCreator<IThemeSlice> = (set) => ({
         const body = document.querySelector("body");
         if(body) {
             body.setAttribute("data-theme", theme);
-
-            if(theme === "dark") {
-                body.classList.add(theme);
-            }
-            else {
-                body.classList.remove("dark");
-            }
+            body.classList.toggle("dark", theme === "dark");
         }
     }
 });

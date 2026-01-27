@@ -1,5 +1,6 @@
 import z from "zod";
 
+/* ------------------ Auth ------------------ */
 export const LoginSchema = z.object({
     email: z.string(),
     token: z.string()
@@ -19,6 +20,8 @@ export const RegisterSchema = z.object({
     lng: z.coerce.number().min(-180).max(180),
 });
 
+
+/* ------------------ Post ------------------ */
 export const NewUbicacionSchema = z.object({
     lat: z.coerce.number().min(-90).max(90),
     lng: z.coerce.number().min(-180).max(180),
@@ -70,6 +73,8 @@ export const ReportSchema = PostSchema.pick({
     imgs: true
 });
 
+
+/* ------------------ nominatim ------------------ */
 export const AddressSchema = z.object({
     address: z.object({
         road: z.string().optional(), 
@@ -85,4 +90,11 @@ export const AddressResultSchema = z.object({
     lat: z.string(),
     lon: z.string(),
     display_name: z.string()
+});
+
+/* ------------------ Messages ------------------ */
+export const MessageSchema = z.object({
+    id: z.string(),
+    type: z.literal(["success", "error", "info", "warning"]),
+    text: z.string()
 });

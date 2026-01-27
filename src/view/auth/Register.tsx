@@ -9,7 +9,7 @@ import { Button } from "../../components/ui/Button";
 import { Toggle } from "../../components/ui/Toggle";
 import Map from "../../components/Map";
 import Modal from "../../components/ui/Modal";
-import MessageErrors from "../../components/MessageErrors";
+import MessageErrors from "../../components/ui/MessageErrors";
 import { curpRegex } from "../../utils/regex";
 import { Check, Loader2 } from "lucide-react"
 import type { RegisterType } from "../../types";

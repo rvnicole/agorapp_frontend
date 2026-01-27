@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import ImageSection from "./ImageSection";
 import InformationSection from "./InformationSection";
 import UbicacionSection from "./UbicacionSection";
-import MessageErrors from "../MessageErrors";
+import MessageErrors from "../ui/MessageErrors";
 import type { Post } from "../../types";
 
 type PostFormProps = {
