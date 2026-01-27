@@ -25,7 +25,12 @@ export default function useImagenes({ max }: UseImagenesProps) {
             if (!totalActual) return i;
           
             const permitidas = files.slice(0, totalActual);
-            const newImagenes = permitidas.map(file => ({
+
+            const nuevas = permitidas.filter(file => 
+                !i.find(f => file.name === f.imagen.name && file.lastModified === f.imagen.lastModified )
+            );
+
+            const newImagenes = nuevas.map(file => ({
                 imagen: file,
                 url: URL.createObjectURL(file),
             }));

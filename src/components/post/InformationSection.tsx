@@ -76,7 +76,12 @@ export default function InformationSection({ tipo, register, control, errors }: 
                     <Input
                         id="link"
                         placeholder="Ej: https://example.com"
-                        {...register("link")}
+                        {...register("link", {
+                            pattern: {
+                                value: /^(https?:\/\/)([\w-]+\.)+[\w-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/,
+                                message: "El enlace no es válido"
+                            }
+                        })}
                     />
                 </div>
             )}
