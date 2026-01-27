@@ -32,16 +32,16 @@ export default function Message() {
                 return (
                     <div
                         key={m.id}
-                        className="p-4 max-w-64 flex items-center justify-between gap-2 rounded-lg border bg-popover/70 backdrop-blur-lg shadow-sm fade-in"
+                        className="p-4 max-w-64 flex items-center justify-between gap-2 rounded-lg border bg-popover/70 backdrop-blur-lg shadow-sm hover:scale-105 fade-in"
                     >
                         <div className="w-10 h-10 flex items-center justify-cente">
                             <Icono className={color} />
                         </div>
 
-                        <span className=" text-popover-foreground text-sm">{m.text}</span>
+                        <span className="text-popover-foreground text-sm select-none">{m.text}</span>
                         
                         <button
-                            className="text-popover-foreground cursor-pointer hover:text-primary hover:scale-105"
+                            className="p-1 text-popover-foreground cursor-pointer rounded-full hover:text-primary hover:bg-popover-foreground/10"
                             onClick={() => removeMessages(m.id)}
                         >
                             <X className="h-4 w-4" />
