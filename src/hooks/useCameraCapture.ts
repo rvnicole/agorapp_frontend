@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 export default function useCameraCapture() {
     const [stream, setStream] = useState<MediaStream | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -19,10 +20,11 @@ export default function useCameraCapture() {
         
             setStream(mediaStream);
             setIsOpen(true);
+            return { success: true };
         }
         catch( error ) {
-            console.error(error);
-            console.log("No se pudo acceder a la camara.");
+            console.log("Error: ", error);
+            return { success: false, error: "No se pudo acceder a la camara." };
         }
     }
         

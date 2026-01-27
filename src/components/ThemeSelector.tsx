@@ -65,7 +65,7 @@ export default function ThemeSelector() {
                 <Content 
                     align="end"
                     forceMount
-                    className="bg-popover/20 backdrop-blur-lg text-popover-foreground min-w-32 w-56 rounded-lg border p-1 shadow-md z-50 max-h-(--radix-dropdown-menu-content-available-height) origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto fade-in"
+                    className="bg-popover/60 backdrop-blur-lg text-popover-foreground min-w-32 w-56 rounded-lg border p-1 shadow-md z-50 max-h-(--radix-dropdown-menu-content-available-height) origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto fade-in"
                 >
                     { themes.map(t => (
                         <Item

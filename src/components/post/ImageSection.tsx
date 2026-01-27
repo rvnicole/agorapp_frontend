@@ -5,6 +5,7 @@ import Modal from "../ui/Modal";
 import { Button } from "../ui/Button";
 import { Label } from "../ui/Label";
 import { Camera, ImageIcon, Loader2, X } from "lucide-react";
+import { useAppStore } from "../../store/appStore";
 
 type ImageSectionProps = {
     onChange: (imgs: File[]) => void;
@@ -13,6 +14,8 @@ type ImageSectionProps = {
 export default function ImageSection({ onChange }: ImageSectionProps) {
     const [openModal, setOpenModal] = useState(false); // Abrir o Cerrar Modal
     const inputImgs = useRef<HTMLInputElement>(null);
+
+    const { showMessages } = useAppStore(state => state);
 
     // Gestionar las imagenes
     const { filesImagenes, imagenes, addImagen, addImagenes, removeImagen } = useImagenes({ max: 3});
@@ -23,6 +26,21 @@ export default function ImageSection({ onChange }: ImageSectionProps) {
     useEffect(() => {
         onChange(filesImagenes);
     }, [filesImagenes, onChange]);
+
+    useEffect(() => {
+        if( !openModal ) return;
+
+        const startCamera = async () => {
+            const res = await openCamera();
+    
+            if (!res.success && res.error ) {
+                setOpenModal(false);
+                showMessages("error", res.error);
+            }
+        };
+    
+        startCamera();
+    }, [openModal]);
 
     // Tomar foto desde la camara
     const handleCaptureImg = async () => {
@@ -60,10 +78,7 @@ export default function ImageSection({ onChange }: ImageSectionProps) {
                             variant="outline"
                             size="default"
                             className="aspect-square h-auto flex flex-col items-center justify-center gap-2"
-                            onClick={() => {
-                                openCamera();
-                                setOpenModal(true);
-                            }}
+                            onClick={() => setOpenModal(true)}
                         >                            
                             <Camera className="h-6 w-6" />
                             <span className="text-sm font-semibold">Cámara</span>

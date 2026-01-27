@@ -76,7 +76,7 @@ export default function AddressSearchInput({ value, onChange }: AddressSearchInp
 
             { results.length > 0 && (
                 <div
-                    className="bg-popover/20 text-popover-foreground backdrop-blur-lg p-1 mt-1 absolute z-50 w-full rounded-lg border shadow-md fade-in"
+                    className="bg-popover/60 text-popover-foreground backdrop-blur-lg p-1 mt-1 absolute z-40 w-full rounded-lg border shadow-md fade-in"
                 >
                     <ul 
                         className=" w-full max-h-60 overflow-x-hidden p-1"

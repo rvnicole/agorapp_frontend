@@ -32,7 +32,7 @@ export default function Message() {
                 return (
                     <div
                         key={m.id}
-                        className="p-4 max-w-64 flex items-center justify-between gap-2 rounded-lg border bg-popover/70 backdrop-blur-lg shadow-sm hover:scale-105 fade-in"
+                        className="p-4 max-w-64 flex items-center justify-between gap-2 rounded-lg border bg-popover/60 backdrop-blur-lg shadow-sm hover:scale-105 fade-in"
                     >
                         <div className="w-10 h-10 flex items-center justify-cente">
                             <Icono className={color} />

@@ -14,7 +14,7 @@ export default function useUbicacion({ onChange }: UseUbicacionProps) {
     const [address, setAddress] = useState("");
     const [loadingUbicacion, setloadingUbicacion] = useState(false);
 
-    const { showMessages } = useAppStore(); 
+    const { showMessages } = useAppStore(state => state); 
 
     const { mutate, isPending } = useMutation({
         mutationFn: getAddress,

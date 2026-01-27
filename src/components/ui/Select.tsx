@@ -33,7 +33,7 @@ export function Select({ value, onChange, placeholder, children, ...rest }: Sele
             <Portal>
                 <Content
                     position="popper"
-                    className="bg-popover/20 text-popover-foreground backdrop-blur-lg relative z-50 w-full 
+                    className="bg-popover/60 text-popover-foreground backdrop-blur-lg relative z-50 w-full 
                     max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) 
                     overflow-x-hidden rounded-lg border shadow-md fade-in"
                 >
