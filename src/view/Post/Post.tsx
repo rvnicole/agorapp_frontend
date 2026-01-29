@@ -1,0 +1,44 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom"
+import { getPost } from "../../api/PostAPI";
+import { useAppStore } from "../../store/appStore";
+import type { Post } from "../../types";
+import Spinner from "../../components/ui/Spinner";
+
+export default function Post() {
+    const { showMessages } = useAppStore(state => state);
+    const navigate = useNavigate();
+
+    const params = useParams();
+    const id = Number( params.id );
+    const tipo = params.tipo; // Reporte, Aviso o Publicidad 
+
+    const search = (location.search).replace("+", "%2B");
+    const searchParams = new URLSearchParams( search );
+    const createdAt = String( searchParams.get("createdAt") );
+
+    const queryClient = useQueryClient();
+
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["get-post"],
+        queryFn: async () => getPost({ id, createdAt })
+    }, queryClient);
+
+    queryClient.invalidateQueries({ queryKey: ["get-post"] });
+
+    console.log(data);
+
+    if( isError ) {
+        navigate("/");
+        showMessages("error", "No se encontro la publicación");
+    }
+    else if( isLoading ) return (
+        <div className="flex justify-center">
+            <Spinner />
+        </div>
+    )
+    else if( data ) return (
+        <div>
+        </div>
+    )
+}

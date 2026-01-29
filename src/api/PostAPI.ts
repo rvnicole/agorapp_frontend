@@ -1,6 +1,6 @@
-import { AxiosError } from "axios";
 import { APIAgorAppError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
+import { handleApiError } from "./handleAgorappError";
 import type { Post } from "../types";
 
 export async function createPost(post : Post) {
@@ -30,7 +30,7 @@ export async function createPost(post : Post) {
             errors.push("La ubicación es obligatoria");
         }
 
-        if( post.lat == null || post.lng == null ) {
+        if( post.lat != null || post.lng != null ) {
             formData.append("lat", String(post.lat));
             formData.append("lon", String(post.lng));
         }
@@ -65,23 +65,25 @@ export async function createPost(post : Post) {
         return respuesta.data;
     }
     catch( error ) {
-        // Axios error 
-        if (error instanceof AxiosError) {
-            // Errores de peticion devueltos por la API
-            if( error.response?.data.errors ) {
-                const apiErrors = error.response.data.errors.map((error: { msg: string }) => error.msg );
-                throw new APIAgorAppError(apiErrors);
-            }
-            // Errores (network o timeout)
-            throw new APIAgorAppError(["No se pudo conectar con el servicio"]);
-        }
-
-        // Errores en al formar el formData
-        if (error instanceof APIAgorAppError) {
-            throw error;
-        }
-
-        // Error desconocido
-        throw new APIAgorAppError(["Ocurrió un error inesperado"]);
+        handleApiError( error );
     }
 }
+
+export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">) {
+    try {
+        const url = (`/post/${id}?createdAt=${createdAt}`).replace("+", "%2B");
+    
+        const res = await agorappApi.get(url);
+        const respuesta = res.data;
+
+        if( !respuesta.success ) {
+            const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
+            throw new APIAgorAppError(apiErrors);
+        }
+
+        return respuesta.data;
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+};

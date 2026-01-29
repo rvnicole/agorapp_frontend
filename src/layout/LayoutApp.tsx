@@ -10,7 +10,7 @@ export default function LayoutApp() {
             <Header />
 
             <main  className="container m-auto px-4 py-6">
-                <div className="min-h-screen bg-background pb-20 md:pb-8">
+                <div className="h-full bg-background pb-20 md:pb-8">
                     <Outlet />
                 </div>
             </main>

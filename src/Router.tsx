@@ -5,7 +5,8 @@ import Register from "./view/auth/Register";
 import ConfirmAccount from "./view/auth/ConfirmAccount";
 import LayoutApp from "./layout/LayoutApp";
 import Inicio from "./view/Inicio";
-import CreateReport from "./view/CreateReport";
+import CreateReport from "./view/Post/CreateReport";
+import Post from "./view/Post/Post";
 
 export default function Router() {
     return (
@@ -19,6 +20,7 @@ export default function Router() {
             <Route element={<LayoutApp />}>
                 <Route path="/" element={<Inicio />} />
                 <Route path="/create-report" element={<CreateReport />} />
+                <Route path="/post/:tipo/:id" element={<Post />} />
             </Route>
         </Routes>
     )

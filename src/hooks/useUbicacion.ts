@@ -19,12 +19,12 @@ export default function useUbicacion({ onChange }: UseUbicacionProps) {
     const { mutate, isPending } = useMutation({
         mutationFn: getAddress,
         onSuccess: (data) => {
-            console.log("Dirección: ", data);
+            //console.log("Dirección: ", data);
             setAddress(data);
         },
         onError: (error) => {
             if("messages" in error && Array.isArray(error.messages)) {
-                console.log(error.messages);
+                //console.log(error.messages);
                 error.messages.forEach((error: string) => {
                     showMessages("error", error);
                 }); 

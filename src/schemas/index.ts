@@ -45,20 +45,9 @@ export const PostSchema = z.object({
     totalLikes: z.number(),
     totalCompartidos: z.number(),
     activo: z.boolean(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
     imgs: z.array( ImagenSchema ).max(3, "Máximo 3 imágenes")
-});
-
-export const NewReportSchema = PostSchema.pick({
-    tipo: true,
-    titulo: true,
-    categoriaId: true,
-    descripcion: true,
-    lat: true,
-    lng: true,
-    usuarioId: true,
-    imgs: true
 });
 
 export const ReportSchema = PostSchema.pick({
@@ -72,7 +61,6 @@ export const ReportSchema = PostSchema.pick({
     usuarioId: true,    
     imgs: true
 });
-
 
 /* ------------------ nominatim ------------------ */
 export const AddressSchema = z.object({

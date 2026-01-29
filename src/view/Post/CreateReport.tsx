@@ -1,22 +1,25 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAppStore } from "../store/appStore";
-import { createPost } from "../api/PostAPI";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
-import PostForm from "../components/post/PostForm";
-import type { Post } from "../types";
+import { useAppStore } from "../../store/appStore";
+import { useNavigate } from "react-router-dom";
+import { createPost } from "../../api/PostAPI";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
+import PostForm from "../../components/post/PostForm";
+import type { Post } from "../../types";
 
 export default function CreateReport() {
     const { showMessages } = useAppStore(state => state);
+    const navigate = useNavigate();
 
     const { mutate } = useMutation({
         mutationFn: createPost,
         onSuccess: (data) => {
-            console.log("Success: ", data);
+            //console.log("Success: ", data);
             showMessages("success", "Reporte creado");
+            navigate(`/post/reporte/${data.id}?createdAt=${data.createdAt}`);
         },
         onError: (error) => {
             if("messages" in error && Array.isArray(error.messages)) {
-                console.log(error.messages);
+                //console.log(error.messages);
                 error.messages.forEach((error: string) => {
                     showMessages("error", error);
                 }); 
