@@ -1,9 +1,9 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom"
 import { getPost } from "../../api/PostAPI";
 import { useAppStore } from "../../store/appStore";
-import type { Post } from "../../types";
 import Spinner from "../../components/ui/Spinner";
+import UbicacionPost from "../../components/post/postView/UbicacionPost";
 
 export default function Post() {
     const { showMessages } = useAppStore(state => state);
@@ -17,14 +17,10 @@ export default function Post() {
     const searchParams = new URLSearchParams( search );
     const createdAt = String( searchParams.get("createdAt") );
 
-    const queryClient = useQueryClient();
-
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["get-post"],
+        queryKey: ["get-post", id, createdAt],
         queryFn: async () => getPost({ id, createdAt })
-    }, queryClient);
-
-    queryClient.invalidateQueries({ queryKey: ["get-post"] });
+    });
 
     console.log(data);
 
@@ -38,7 +34,8 @@ export default function Post() {
         </div>
     )
     else if( data ) return (
-        <div>
+        <div className="flex items-center justify-center w-full">
+            <UbicacionPost post={data[0]}/>
         </div>
     )
 }

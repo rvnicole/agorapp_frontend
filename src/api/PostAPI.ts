@@ -1,6 +1,7 @@
 import { APIAgorAppError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
+import { PostRespuestaSchema } from "../schemas";
 import type { Post } from "../types";
 
 export async function createPost(post : Post) {
@@ -81,7 +82,15 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
             throw new APIAgorAppError(apiErrors);
         }
 
-        return respuesta.data;
+        const result = PostRespuestaSchema.array().safeParse(respuesta.data);
+
+        if( !result.success ) {
+            const errors = result.error.issues.map(error => error.message);
+            console.log(errors);
+            throw new APIAgorAppError(errors);
+        }
+
+        return result.data;
     }
     catch( error ) {
         handleApiError( error );

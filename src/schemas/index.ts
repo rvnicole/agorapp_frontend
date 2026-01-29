@@ -62,6 +62,34 @@ export const ReportSchema = PostSchema.pick({
     imgs: true
 });
 
+/* ------------------ API AgorApp Backend ------------------ */
+const RespuestaImagenSchema = z.object({
+    imgId: z.number(),
+    urlImg: z.string()
+});
+
+export const PostRespuestaSchema = z.object({
+    id: z.coerce.number(),
+    tipo: z.string(),
+    titulo: z.string(),
+    descripcion: z.string(),
+    total_comentarios: z.coerce.number(),
+    total_likes: z.coerce.number(),
+    total_compartidos: z.coerce.number(),
+    link: z.string().nullable(),
+    created_at: z.string(),
+    updated_at: z.string(),
+    fk_categoria_id: z.coerce.number().nullable(),
+    alias: z.string(),
+    usuario_id: z.coerce.number(),
+    estilos: z.string().nullable(),
+    lon: z.coerce.number().nullable(),
+    lat: z.coerce.number().nullable(),
+    ubicacion_id: z.coerce.number().nullable(),
+    nombre: z.string().nullable(),
+    imagenes: z.array(RespuestaImagenSchema).nullable()
+});
+
 /* ------------------ nominatim ------------------ */
 export const AddressSchema = z.object({
     address: z.object({

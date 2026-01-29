@@ -6,7 +6,7 @@ import "../utils/fixLeafletIcons";
 
 type MapProps = {
     className?: string,
-    position: NewUbicacionType,
+    position: NewUbicacionType
     onDragend?: ({lat, lng}: NewUbicacionType) => Promise<void>
 }
 
@@ -45,12 +45,12 @@ export default function Map({ className, position, onDragend }: MapProps) {
                 <Recenter position={position} />
 
                 <Marker 
-                    draggable={true}
+                    draggable={ Boolean(onDragend) }
                     position={[position.lat, position.lng]}
                     eventHandlers={eventHandlers}
                 >
                     <Popup>
-                        Estoy aqui✨
+                        ⚠️Incidente aqui
                     </Popup>
                 </Marker>
             </MapContainer>

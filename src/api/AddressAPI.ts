@@ -26,18 +26,7 @@ export async function getAddress({ lat, lng }: NewUbicacionType): Promise<string
         return `${road ? road + "," : ""} ${city ? city : county}, ${state}, ${country}`;
     }
     catch(error) {
-        // Axios error (network o timeout)
-        if (error instanceof AxiosError) {
-            throw new AddressError(["No se pudo conectar con el servicio"]);
-        }
-
-        // Error de validación (Zod)
-        if (error instanceof AddressError) {
-            throw new AddressError(["No se pudieron procesar los datos recibidos"]);
-        }
-
-        // Error desconocido
-        throw new AddressError(["Ocurrió un error inesperado"]);
+        handleApiError(error);
     }
 }
 
@@ -61,17 +50,21 @@ export async function searchAddress( query: string ): Promise<AddressResult []> 
         return result.data;
     }
     catch(error) {
-        // Axios error (network o timeout)
-        if (error instanceof AxiosError) {
-            throw new AddressError(["No se pudo conectar con el servicio"]);
-        }
-
-        // Error de validación (Zod)
-        if (error instanceof AddressError) {
-            throw new AddressError(["No se pudieron procesar los datos recibidos"]);
-        }
-
-        // Error desconocido
-        throw new AddressError(["Ocurrió un error inesperado"]);
+        handleApiError(error);
     }
+}
+
+export function handleApiError(error: unknown): never {
+    // Axios error (network o timeout)
+    if (error instanceof AxiosError) {
+        throw new AddressError(["No se pudo conectar con el servicio"]);
+    }
+
+    // Error de validación (Zod)
+    if (error instanceof AddressError) {
+        throw new AddressError(["No se pudieron procesar los datos recibidos"]);
+    }
+
+    // Error desconocido
+    throw new AddressError(["Ocurrió un error inesperado"]);
 }

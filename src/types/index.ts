@@ -1,5 +1,5 @@
 import z from 'zod';
-import { AddressResultSchema, LoginSchema, MessageSchema, NewUbicacionSchema, PostSchema, RegisterSchema, ReportSchema } from './../schemas/index';
+import { AddressResultSchema, LoginSchema, MessageSchema, NewUbicacionSchema, PostRespuestaSchema, PostSchema, RegisterSchema, ReportSchema } from './../schemas/index';
 
 /* ------------------ Proveedores de Servicio ------------------ */
 export type ProviderType = "google" | "microsoft" | "apple";
@@ -16,3 +16,6 @@ export type AddressResult = z.infer<typeof AddressResultSchema>;
 
 /* ------------------ Messages ------------------ */
 export type Message = z.infer<typeof MessageSchema>;
+
+/* ------------------ API AgorApp Backend ------------------ */
+export type PostRespuesta = z.infer<typeof PostRespuestaSchema>;
