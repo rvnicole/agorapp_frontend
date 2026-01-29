@@ -1,11 +1,28 @@
-import PostForm from "../components/post/PostForm";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
+import { useMutation } from "@tanstack/react-query";
 import { useAppStore } from "../store/appStore";
-import type { NewReport } from "../types";
-
+import { createPost } from "../api/PostAPI";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
+import PostForm from "../components/post/PostForm";
+import type { Post } from "../types";
 
 export default function CreateReport() {
     const { showMessages } = useAppStore(state => state);
+
+    const { mutate } = useMutation({
+        mutationFn: createPost,
+        onSuccess: (data) => {
+            console.log("Success: ", data);
+            showMessages("success", "Reporte creado");
+        },
+        onError: (error) => {
+            if("messages" in error && Array.isArray(error.messages)) {
+                console.log(error.messages);
+                error.messages.forEach((error: string) => {
+                    showMessages("error", error);
+                }); 
+            }
+        }
+    });
 
     return (
         <div className="flex items-center justify-center w-full">
@@ -18,10 +35,7 @@ export default function CreateReport() {
                 <CardContent>
                     <PostForm 
                         tipo="reporte"
-                        onSubmit={(report: NewReport) => {
-                            console.log("Creando...", report);
-                            showMessages("success", "Reporte Creado");
-                        }} 
+                        onSubmit={(report: Post) => mutate(report) } 
                     />
                 </CardContent>                
             </Card>

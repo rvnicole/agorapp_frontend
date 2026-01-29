@@ -23,7 +23,8 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
         mode: "onChange",
         defaultValues: {
             ...post,
-            usuarioId: usuarioId
+            tipo,
+            usuarioId
         }
     });
 

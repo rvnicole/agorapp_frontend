@@ -9,3 +9,4 @@ export class ApiError extends Error {
 
 // Errores de la API de nominatim
 export class AddressError extends ApiError {}
+export class APIAgorAppError extends ApiError {}
