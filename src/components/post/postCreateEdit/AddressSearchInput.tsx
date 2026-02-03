@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useAppStore } from "../../store/appStore";
-import { searchAddress } from "../../api/AddressAPI";
-import { Input } from "../ui/Input";
-import type { AddressResult, NewUbicacionType } from "../../types";
+import { useAppStore } from "../../../store/appStore";
+import { searchAddress } from "../../../api/AddressAPI";
+import { Input } from "../../ui/Input";
+import type { AddressResult, NewUbicacionType } from "../../../types";
 
 type AddressSearchInputProps = {
     value: string;

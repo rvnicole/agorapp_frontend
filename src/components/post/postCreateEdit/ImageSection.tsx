@@ -1,11 +1,11 @@
 import { useState, useRef, type ChangeEvent, useEffect } from "react";
-import useCameraCapture from "../../hooks/useCameraCapture";
-import useImagenes from "../../hooks/useImagenes";
-import Modal from "../ui/Modal";
-import { Button } from "../ui/Button";
-import { Label } from "../ui/Label";
+import useCameraCapture from "../../../hooks/useCameraCapture";
+import useImagenes from "../../../hooks/useImagenes";
+import Modal from "../../ui/Modal";
+import { Button } from "../../ui/Button";
+import { Label } from "../../ui/Label";
 import { Camera, ImageIcon, Loader2, X } from "lucide-react";
-import { useAppStore } from "../../store/appStore";
+import { useAppStore } from "../../../store/appStore";
 
 type ImageSectionProps = {
     onChange: (imgs: File[]) => void;

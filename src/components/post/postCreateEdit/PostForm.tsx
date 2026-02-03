@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
-import { useAppStore } from "../../store/appStore";
-import { Button } from "../ui/Button";
+import { useAppStore } from "../../../store/appStore";
+import { Button } from "../../ui/Button";
 import { Loader2 } from "lucide-react";
 import ImageSection from "./ImageSection";
 import InformationSection from "./InformationSection";
 import UbicacionSection from "./UbicacionSection";
-import MessageErrors from "../ui/MessageErrors";
-import type { Post } from "../../types";
+import MessageErrors from "../../ui/MessageErrors";
+import type { Post } from "../../../types";
 
 type PostFormProps = {
     post?: Post;

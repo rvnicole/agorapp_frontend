@@ -3,7 +3,7 @@ import { useAppStore } from "../../store/appStore";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../api/PostAPI";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
-import PostForm from "../../components/post/PostForm";
+import PostForm from "../../components/post/postCreateEdit/PostForm";
 import type { Post } from "../../types";
 
 export default function CreateReport() {

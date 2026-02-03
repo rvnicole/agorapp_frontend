@@ -63,7 +63,7 @@ export const ReportSchema = PostSchema.pick({
 });
 
 /* ------------------ API AgorApp Backend ------------------ */
-const RespuestaImagenSchema = z.object({
+export const RespuestaImagenSchema = z.object({
     imgId: z.number(),
     urlImg: z.string()
 });

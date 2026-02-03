@@ -1,11 +1,11 @@
-import useUbicacion from "../../hooks/useUbicacion";
-import { Label } from "../ui/Label";
-import { Input } from "../ui/Input";
-import { Toggle } from "../ui/Toggle";
+import useUbicacion from "../../../hooks/useUbicacion";
+import { Label } from "../../ui/Label";
+import { Input } from "../../ui/Input";
+import { Toggle } from "../../ui/Toggle";
 import AddressSearchInput from "./AddressSearchInput";
-import Map from "../Map";
+import Map from "../../Map";
 import { Loader2 } from "lucide-react";
-import type { NewUbicacionType } from "../../types";
+import type { NewUbicacionType } from "../../../types";
 
 type UbicacionSectionProps = {
     onChange: ({ lat, lng }: NewUbicacionType) => void;

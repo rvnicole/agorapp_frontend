@@ -1,11 +1,11 @@
 import { Controller, type Control, type UseFormRegister, type FieldErrors } from "react-hook-form";
-import { Input } from "../ui/Input";
-import { Label } from "../ui/Label";
-import { Textarea } from "../ui/Textarea";
-import { Select, SelectItem } from "../ui/Select";
-import { categorias } from "../../data/categorias";
-import MessageErrors from "../ui/MessageErrors";
-import type { Post } from "../../types";
+import { Input } from "../../ui/Input";
+import { Label } from "../../ui/Label";
+import { Textarea } from "../../ui/Textarea";
+import { Select, SelectItem } from "../../ui/Select";
+import { categorias } from "../../../data/categorias";
+import MessageErrors from "../../ui/MessageErrors";
+import type { Post } from "../../../types";
 
 type InformationSectionProps = {
     tipo: Post["tipo"];
