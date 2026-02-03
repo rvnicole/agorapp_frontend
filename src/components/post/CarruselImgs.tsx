@@ -22,7 +22,7 @@ export default function CarruselImgs({ imgs }: CarruselImgs) {
 
     return (
         <div 
-            className="relative w-full h-60 rounded-xl overflow-hidden bg-cover bg-center"
+            className="relative w-full h-96 rounded-xl overflow-hidden bg-cover bg-center"
             style={{ backgroundImage: `url(${url})` }}
         >
             <div className="absolute w-full h-full bg-primary/10 backdrop-blur"/>
@@ -31,7 +31,7 @@ export default function CarruselImgs({ imgs }: CarruselImgs) {
                 id="carrusel-img"
                 src={url}
                 alt="imagen"
-                className="relative z-10 cursor-pointer object-cover h-full m-auto"
+                className="relative z-10 cursor-pointer object-cover h-full m-auto fadeIn"
                 onClick={() => setFullScreen(true)}
             />
 

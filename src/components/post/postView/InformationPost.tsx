@@ -56,30 +56,30 @@ export default function InformationPost({ post }: InformationPostProps) {
 
             <SeparatorHorizontal />
 
-            <div className="flex flex-col md:flex-row gap-3 space-y-3">
-                <div className="flex items-start gap-2 flex-2">
-                    <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
-                    <div className="flex-1">
-                        <p className="text-sm font-medium">Ubicación</p>
-                        <p className="text-sm text-muted-foreground">{address}</p>
-                    </div> 
-                </div>
-
-                <div className="flex items-start gap-2 flex-1">
-                    <Calendar className="h-4 w-4 text-muted-foreground mt-0.5" />
-                    <div className="flex-1">
-                        <p className="text-sm font-medium">Fecha de reporte</p>
-                        <p className="text-sm text-muted-foreground">{formatDate(post.created_at)}</p>
-                    </div> 
-                </div>
-
-                <div className="flex items-start gap-2 flex-1">
+            <div className="flex flex-col gap-3 space-y-3">
+                <div className="flex items-start gap-2">
                     <Avatar>
                         <img src="/public/user-avar-default.jpg"/>
                     </Avatar>
                     <div className="flex-1">
                         <p className="text-sm font-medium">Reportado por</p>
                         <p className="text-sm text-muted-foreground">{post.alias}</p>
+                    </div> 
+                </div>
+
+                <div className="flex items-start gap-2">
+                    <Calendar className="h-4 w-4 text-muted-foreground mt-0.5" />
+                    <div className="flex-1">
+                        <p className="text-sm font-medium">Fecha de reporte</p>
+                        <p className="text-sm text-muted-foreground">{formatDate(post.created_at)}</p>
+                    </div> 
+                </div>
+                
+                <div className="flex items-start gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
+                    <div className="flex-1">
+                        <p className="text-sm font-medium">Ubicación</p>
+                        <p className="text-sm text-muted-foreground">{address}</p>
                     </div> 
                 </div>
             </div>
