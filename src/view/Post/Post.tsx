@@ -4,6 +4,7 @@ import { getPost } from "../../api/PostAPI";
 import { useAppStore } from "../../store/appStore";
 import Spinner from "../../components/ui/Spinner";
 import UbicacionPost from "../../components/post/postView/UbicacionPost";
+import InformationPost from "../../components/post/postView/InformationPost";
 
 export default function Post() {
     const { showMessages } = useAppStore(state => state);
@@ -34,8 +35,14 @@ export default function Post() {
         </div>
     )
     else if( data ) return (
-        <div className="flex items-center justify-center w-full">
-            <UbicacionPost post={data[0]}/>
+        <div className="flex items-center justify-center">
+            <div className="flex flex-col gap-5 items-center justify-center w-3xl">
+                <InformationPost post={data[0]} />
+
+                { data[0].lat != null && data[0].lon != null && (
+                    <UbicacionPost position={{ lat: data[0].lat, lng: data[0].lon }}/>
+                )}
+            </div>
         </div>
     )
 }
