@@ -5,14 +5,17 @@ import type { Permissions } from "../types";
 
 export function usePermissions() {
     const [status, setStatus] = useState<Permissions | null>(null);
+    const [isChecking, setIsChecking] = useState(true);
     const [loading, setLoading] = useState(false);
 
-    const hasAllGranted = status && Object.values(status).every(p => p === "granted");
-    const hasAnyDenied = status && Object.values(status).some(p => p === "denied");
+    const hasAllGranted = !isChecking && status && Object.values(status).every(p => p === "granted");
+    const hasAnyDenied = !isChecking && status && Object.values(status).some(p => p === "denied");
 
     const check = async () => {
+        setIsChecking(true);
         const res = await permissionsStatus();
         setStatus(res);
+        setIsChecking(false);
         return res;
     };
 
@@ -21,15 +24,15 @@ export function usePermissions() {
         const res = await permissionsFlow();
         setLoading(false);
     
-        if (res?.success) {
-            setStatus(res.data);
-        }
+        const updated = await permissionsStatus();
+        setStatus(updated);
     
         return res;
     };
 
     return {
         status,
+        isChecking,
         loading,
         hasAllGranted,
         hasAnyDenied,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAppStore } from "../../store/appStore";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,7 @@ import { Loader2 } from "lucide-react";
 import type { Post } from "../../types";
 
 export default function CreateReport() {
-    const [openModal, setOpenModal] = useState(false); // Abrir o Cerrar Modal
-    const { status, loading, hasAllGranted, hasAnyDenied, check, request } = usePermissions();
+    const { status, loading, isChecking, hasAllGranted, hasAnyDenied, check, request } = usePermissions();
     const { showMessages } = useAppStore(state => state);
     const navigate = useNavigate();
 
@@ -22,10 +21,6 @@ export default function CreateReport() {
         (async () => {
             const current = await check();
             console.log("Current", current);
-
-            if ( !hasAllGranted ){
-                setOpenModal(true);
-            }
         })();
     }, []);
 
@@ -47,12 +42,8 @@ export default function CreateReport() {
     });
 
     const handleRequestPermissions = async () => {
-        const res = await request();
-        
-        if( res && res.success ) {
-            setOpenModal(false);
-        }       
-    }
+        await request();
+    };
 
     return (
         <div className="flex items-center justify-center w-full">
@@ -72,7 +63,7 @@ export default function CreateReport() {
             
 
             <Modal
-                open={openModal}
+                open={ !isChecking && !hasAllGranted }
                 onClose={() => navigate("/")}
             >
                 { status && (
