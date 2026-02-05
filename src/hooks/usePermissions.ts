@@ -7,6 +7,9 @@ export function usePermissions() {
     const [status, setStatus] = useState<Permissions | null>(null);
     const [loading, setLoading] = useState(false);
 
+    const hasAllGranted = status && Object.values(status).every(p => p === "granted");
+    const hasAnyDenied = status && Object.values(status).some(p => p === "denied");
+
     const check = async () => {
         const res = await permissionsStatus();
         setStatus(res);
@@ -28,6 +31,8 @@ export function usePermissions() {
     return {
         status,
         loading,
+        hasAllGranted,
+        hasAnyDenied,
         check,
         request
     }

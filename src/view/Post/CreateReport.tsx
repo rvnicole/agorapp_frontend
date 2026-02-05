@@ -9,20 +9,21 @@ import { Button } from "../../components/ui/Button";
 import PostForm from "../../components/post/postCreateEdit/PostForm";
 import Modal from "../../components/ui/Modal";
 import MessagePermissions from "../../components/MessagePermissions";
+import { Loader2 } from "lucide-react";
 import type { Post } from "../../types";
-
 
 export default function CreateReport() {
     const [openModal, setOpenModal] = useState(false); // Abrir o Cerrar Modal
-    const { status, loading, check, request } = usePermissions();
+    const { status, loading, hasAllGranted, hasAnyDenied, check, request } = usePermissions();
     const { showMessages } = useAppStore(state => state);
     const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
             const current = await check();
+            console.log("Current", current);
 
-            if (current.camera !== "granted" && current.microphone !== "granted" && current.location !== "granted") {
+            if ( !hasAllGranted ){
                 setOpenModal(true);
             }
         })();
@@ -78,20 +79,26 @@ export default function CreateReport() {
                     <MessagePermissions 
                         camera={status.camera}
                         microphone={status.microphone}
-                        location={status.microphone}
+                        location={status.location}
                     />
                 )}
 
-                
-                <Button
-                    type="button"
-                    className="flex justify-center items-center"
-                    variant="default"
-                    size="default"
-                    onClick={handleRequestPermissions}
-                >
-                    Continuar
-                </Button>
+                { status && !hasAnyDenied && (
+                    <Button
+                        type="button"
+                        className="flex justify-center items-center"
+                        variant="default"
+                        size="default"
+                        onClick={handleRequestPermissions}
+                    >
+                        { loading ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                "Solicitando..."
+                            </>
+                        ) : "Continuar"}
+                    </Button>
+                )}
             </Modal>
         </div>
     )
