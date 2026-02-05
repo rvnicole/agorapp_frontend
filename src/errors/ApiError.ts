@@ -7,6 +7,11 @@ export class ApiError extends Error {
     }
 };
 
+// Errores de la APP
+export class AgorAppError extends ApiError {}
+
 // Errores de la API de nominatim
 export class AddressError extends ApiError {}
+
+// Errores de la API del Backend
 export class APIAgorAppError extends ApiError {}

@@ -17,6 +17,15 @@ export type AddressResult = z.infer<typeof AddressResultSchema>;
 /* ------------------ Messages ------------------ */
 export type Message = z.infer<typeof MessageSchema>;
 
+/* ------------------ Permisos del navegador ------------------ */
+export type PermissionState = "granted" | "denied" | "prompt" | "unknown";
+
+export type Permissions = {
+    camera: PermissionState;
+    microphone: PermissionState;
+    location: PermissionState;
+};
+
 /* ------------------ API AgorApp Backend ------------------ */
 export type PostRespuesta = z.infer<typeof PostRespuestaSchema>;
 export type ImgsRespuesta = z.infer<typeof RespuestaImagenSchema>;

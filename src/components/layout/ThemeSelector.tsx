@@ -1,7 +1,7 @@
 import { Moon, Palette, Sun } from "lucide-react";
 import { Content, Item, Portal, Root, Trigger } from "@radix-ui/react-dropdown-menu";
-import { Button } from "./ui/Button";
-import { useAppStore } from "../store/appStore";
+import { Button } from "../ui/Button";
+import { useAppStore } from "../../store/appStore";
 
 const themes = [
     {
