@@ -87,8 +87,6 @@ export default function CreateReport() {
                     <Button
                         type="button"
                         className="flex justify-center items-center"
-                        variant="default"
-                        size="default"
                         onClick={handleRequestPermissions}
                     >
                         { loading ? (

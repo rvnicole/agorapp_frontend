@@ -61,8 +61,6 @@ export default function TokenForm({ email, onLogin, type }: TokenFormProps) {
                 type="submit" 
                 className={`w-full h-11 flex items-center justify-center ${isSubmitting && "disabled:opacity-60 disabled:cursor-not-allowed transition-all"}`}
                 disabled={isSubmitting}
-                variant="default" 
-                size="default"
             >
                 {isSubmitting ? (
                     <>

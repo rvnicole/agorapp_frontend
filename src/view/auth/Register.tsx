@@ -125,8 +125,6 @@ export default function Register() {
 
                                 <Button
                                     type="button"
-                                    size="default" 
-                                    variant="default"
                                     className="flex items-center justify-center gap-2 w-full disabled:opacity-60 disabled:cursor-not-allowed"
                                     onClick={verifyAlias}
                                     disabled={!alias || isSubmitting}
@@ -218,7 +216,6 @@ export default function Register() {
                                 type="button"
                                 className="w-full h-11 flex items-center justify-center"
                                 variant="secondary"
-                                size="default"
                                 onClick={() => setOpenModal(true)}
                             >
                                 Selecciona tu ubicación*
@@ -229,8 +226,6 @@ export default function Register() {
                             type="submit" 
                             className={`w-full h-11 flex items-center justify-center ${isSubmitting && "disabled:opacity-60 disabled:cursor-not-allowed transition-all"}`}
                             disabled={isSubmitting}
-                            variant="default" 
-                            size="default"
                         >
                             {isSubmitting ? (
                                 <>
@@ -281,8 +276,6 @@ export default function Register() {
                     <Button
                         type="button"
                         className="w-full h-11 flex items-center justify-center"
-                        variant="default"
-                        size="default"
                         onClick={() => setOpenModal(false)}
                     >
                         Continuar

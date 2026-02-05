@@ -76,7 +76,6 @@ export default function ImageSection({ onChange }: ImageSectionProps) {
                         <Button
                             type="button"
                             variant="outline"
-                            size="default"
                             className="aspect-square h-auto flex flex-col items-center justify-center gap-2"
                             onClick={() => setOpenModal(true)}
                         >                            
@@ -87,7 +86,6 @@ export default function ImageSection({ onChange }: ImageSectionProps) {
                         <Button
                             type="button"
                             variant="outline"
-                            size="default"
                             className="aspect-square h-auto flex flex-col items-center justify-center gap-2"
                             onClick={() => inputImgs.current && inputImgs.current.click() }
                         >
@@ -141,8 +139,6 @@ export default function ImageSection({ onChange }: ImageSectionProps) {
 
                         <Button
                             type="button"
-                            variant="default"
-                            size="default"
                             className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center h-12 w-12 rounded-full"
                             onClick={handleCaptureImg}
                             hidden={!isOpen} 

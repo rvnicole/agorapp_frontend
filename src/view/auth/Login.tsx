@@ -49,7 +49,6 @@ export default function Login() {
                         <Button
                             type="button"
                             variant="outline"
-                            size="default"
                             className="flex items-center justify-center w-full h-11 bg-white hover:bg-gray-100 text-gray-900 dark:text-white border-gray-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
                             onClick={() => handleOAuthLogin("google")}
                             disabled={Boolean(oauthLoading)}
@@ -82,7 +81,6 @@ export default function Login() {
                         <Button
                             type="button"
                             variant="outline"
-                            size="default"
                             className="flex items-center justify-center w-full h-11 bg-white hover:bg-gray-100 text-gray-900 dark:text-white border-gray-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
                             onClick={() => handleOAuthLogin("microsoft")}
                             disabled={Boolean(oauthLoading)}
@@ -103,7 +101,6 @@ export default function Login() {
                         <Button
                             type="button"
                             variant="outline"
-                            size="default"
                             className="flex items-center justify-center w-full h-11 bg-black hover:bg-gray-900 text-white hover:text-white border-gray-800 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
                             onClick={() => handleOAuthLogin("apple")}
                             disabled={Boolean(oauthLoading)}

@@ -2,8 +2,8 @@ import type { ButtonHTMLAttributes } from "react";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     className?: string;
-    variant: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
-    size: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg" ;
+    variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+    size?: "default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg" ;
 };
 
 const variants = {
@@ -24,7 +24,7 @@ const sizes ={
     'icon-lg': 'size-10',
 }
 
-export function Button({ className, variant, size, ...rest }: ButtonProps) {
+export function Button({ className, variant = "default", size = "default", ...rest }: ButtonProps) {
 
     return (
         <button

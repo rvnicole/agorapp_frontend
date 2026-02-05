@@ -39,9 +39,7 @@ export default function EmailForm({ onEmailSubmitted }: EmailFormProps) {
 
             <Button 
                 type="submit" 
-                className="w-full h-11" 
-                variant="default" 
-                size="default"
+                className="w-full h-11"
             >
                 Continuar
             </Button>

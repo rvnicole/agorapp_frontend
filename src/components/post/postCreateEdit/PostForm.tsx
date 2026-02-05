@@ -78,8 +78,6 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
                     type="submit" 
                     className="w-full h-12 flex items-center justify-center text-base" 
                     disabled={isSubmitting}
-                    variant="default" 
-                    size="default"
                 >
                     { isSubmitting ? (
                         <>

@@ -34,9 +34,7 @@ export default function InformationPost({ post }: InformationPostProps) {
                 <p className="text-muted-foreground leading-relaxed">{post.descripcion}</p>
 
                 <div className="flex flex-col md:flex-row items-center gap-4">
-                    <Button 
-                        variant="default"
-                        size="default"
+                    <Button
                         className="flex justify-center items-center gap-3 w-full"
                     >
                         <ThumbsUp className={`h-5 w-5`} />
