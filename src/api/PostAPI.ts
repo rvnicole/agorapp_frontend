@@ -10,7 +10,7 @@ export async function createPost(post : Post) {
         const errors = [];
 
         const formData = new FormData();
-        formData.append("titulo", post.titulo);
+        //formData.append("titulo", post.titulo);
         formData.append("descripcion", post.descripcion);
         formData.append("tipo", post.tipo);
         formData.append("categoriaId", String(post.categoriaId));
