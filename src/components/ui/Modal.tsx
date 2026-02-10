@@ -21,7 +21,7 @@ export default function Modal({ open, onClose, children }: ModalProps) {
                 onClick={onClose}
             />
 
-            <Card className="relative max-h-[90%] border p-6 w-full max-w-md shadow-xl mx-2 fade-in">
+            <Card className="relative max-h-[90%] border p-6 w-full max-w-md shadow-xl mx-2 fade-in rounded-xl">
                 
                 {children}
     

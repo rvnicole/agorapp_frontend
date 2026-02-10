@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-export default function useCameraCapture() {
+export function useCameraCapture() {
     const [stream, setStream] = useState<MediaStream | null>(null);
     const [isOpen, setIsOpen] = useState(false);
 

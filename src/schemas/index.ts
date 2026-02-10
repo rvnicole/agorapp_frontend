@@ -71,7 +71,7 @@ export const RespuestaImagenSchema = z.object({
 export const PostRespuestaSchema = z.object({
     id: z.coerce.number(),
     tipo: z.string(),
-    titulo: z.string(),
+    titulo: z.string().nullable(),
     descripcion: z.string(),
     total_comentarios: z.coerce.number(),
     total_likes: z.coerce.number(),

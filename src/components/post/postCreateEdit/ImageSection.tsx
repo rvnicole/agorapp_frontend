@@ -1,5 +1,5 @@
 import { useState, useRef, type ChangeEvent, useEffect } from "react";
-import useCameraCapture from "../../../hooks/useCameraCapture";
+import { useCameraCapture } from "../../../hooks/useCameraCapture";
 import useImagenes from "../../../hooks/useImagenes";
 import Modal from "../../ui/Modal";
 import { Button } from "../../ui/Button";
@@ -83,15 +83,17 @@ export default function ImageSection({ onChange }: ImageSectionProps) {
                             <span className="text-sm font-semibold">Cámara</span>
                         </Button>
 
-                        <Button
-                            type="button"
-                            variant="outline"
-                            className="aspect-square h-auto flex flex-col items-center justify-center gap-2"
-                            onClick={() => inputImgs.current && inputImgs.current.click() }
-                        >
-                            <ImageIcon className="h-6 w-6" />
-                            <span className="text-sm font-semibold">Galería</span>
-                        </Button>
+                        {/*
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="aspect-square h-auto flex flex-col items-center justify-center gap-2"
+                                onClick={() => inputImgs.current && inputImgs.current.click() }
+                            >
+                                <ImageIcon className="h-6 w-6" />
+                                <span className="text-sm font-semibold">Galería</span>
+                            </Button>
+                        */}
                     </>
                 )}
 

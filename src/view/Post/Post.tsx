@@ -27,7 +27,7 @@ export default function Post() {
     console.log(data);
 
     if( isError ) {
-        navigate("/");
+        //navigate("/");
         showMessages("error", "No se encontro la publicación");
     }
     else if( isLoading ) return (

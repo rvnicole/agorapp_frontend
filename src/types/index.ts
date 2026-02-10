@@ -14,10 +14,16 @@ export type Post = z.infer<typeof PostSchema>;
 export type Report = z.infer<typeof ReportSchema>;
 export type AddressResult = z.infer<typeof AddressResultSchema>;
 
+export type ImagenPreview = {
+    imagen: File;
+    url: string;
+};
+
 /* ------------------ Messages ------------------ */
 export type Message = z.infer<typeof MessageSchema>;
 
 /* ------------------ Permisos del navegador ------------------ */
+export type PermissionKey = "camera" | "microphone" | "location";
 export type PermissionState = "granted" | "denied" | "prompt" | "unknown";
 
 export type Permissions = {

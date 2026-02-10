@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { permissionsStatus } from "../services/permissions/permissionsStatus";
-import { permissionsFlow } from "../services/permissions/permissionsFlow";
-import type { Permissions } from "../types";
+import { requestCamera, requestLocation, requestMicrophone } from "../services/permissions/requestPermissions";
+import type { PermissionKey, Permissions } from "../types";
 
 export function usePermissions() {
     const [status, setStatus] = useState<Permissions | null>(null);
@@ -19,15 +19,30 @@ export function usePermissions() {
         return res;
     };
 
-    const request = async () => {
+    const request = async (permiso: PermissionKey) => {
         setLoading(true);
-        const res = await permissionsFlow();
+        let res;
+
+        if(permiso === "camera") {
+            res = await requestCamera();
+        }
+        else if(permiso === "microphone") {
+            res = await requestMicrophone();
+        } 
+        else if(permiso === "location") {
+            res = await requestLocation();
+        }
+
         setLoading(false);
-    
+
         const updated = await permissionsStatus();
         setStatus(updated);
-    
-        return res;
+
+        if( res && res.success ) {
+            return res.data;
+        }
+
+        return res && res.error;
     };
 
     return {

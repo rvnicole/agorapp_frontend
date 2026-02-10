@@ -59,7 +59,7 @@ export default function TokenForm({ email, onLogin, type }: TokenFormProps) {
 
             <Button 
                 type="submit" 
-                className={`w-full h-11 flex items-center justify-center ${isSubmitting && "disabled:opacity-60 disabled:cursor-not-allowed transition-all"}`}
+                className="w-full h-11 flex items-center justify-center"
                 disabled={isSubmitting}
             >
                 {isSubmitting ? (

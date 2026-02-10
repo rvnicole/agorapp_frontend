@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { usePermissions } from "../../hooks/usePermissions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
-import PostForm from "../../components/post/postCreateEdit/PostForm";
 import Modal from "../../components/ui/Modal";
 import MessagePermissions from "../../components/MessagePermissions";
+import CapturedImgs from "../../components/post/CapturedImgs";
 import { createPost } from "../../api/PostAPI";
 import { Loader2 } from "lucide-react";
-import type { Post } from "../../types";
+
 
 export default function CreateReport() {
-    const { status, loading, isChecking, hasAllGranted, hasAnyDenied, check, request } = usePermissions();
+    const { status, loading, isChecking, hasAllGranted, hasAnyDenied, check } = usePermissions();
     const { showMessages } = useAppStore(state => state);
     const navigate = useNavigate();
 
@@ -42,22 +42,25 @@ export default function CreateReport() {
     });
 
     const handleRequestPermissions = async () => {
-        await request();
+        //const res = await request();
+        //if( res && res.success ) return;
+        //navigate("/");
     };
 
     return (
         <div className="flex items-center justify-center w-full">
-            <Card className="border w-3xl">
+            <Card className="border w-full md:w-3xl">
                 <CardHeader className="space-y-1">
                    <CardTitle className="text-2xl">Creá un Reporte</CardTitle>
                    <CardDescription></CardDescription>
                 </CardHeader>
-
+                
                 <CardContent>
-                    <PostForm 
-                        tipo="reporte"
-                        onSubmit={(report: Post) => mutate(report) } 
-                    />
+                    { hasAllGranted && (
+                        <div id="CapturedImgs">
+                            <CapturedImgs /> 
+                        </div>
+                    )}
                 </CardContent>                
             </Card>
             
@@ -66,28 +69,7 @@ export default function CreateReport() {
                 open={ !isChecking && !hasAllGranted }
                 onClose={() => navigate("/")}
             >
-                { status && (
-                    <MessagePermissions 
-                        camera={status.camera}
-                        microphone={status.microphone}
-                        location={status.location}
-                    />
-                )}
-
-                { status && !hasAnyDenied && (
-                    <Button
-                        type="button"
-                        className="flex justify-center items-center"
-                        onClick={handleRequestPermissions}
-                    >
-                        { loading ? (
-                            <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                "Solicitando..."
-                            </>
-                        ) : "Continuar"}
-                    </Button>
-                )}
+                k
             </Modal>
         </div>
     )
