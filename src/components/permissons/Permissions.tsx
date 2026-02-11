@@ -43,6 +43,7 @@ export default function Permissions({ onGranted }: PermissionsProps) {
 
         if( res?.success ) {
             nextPermission();
+            return;
         }
 
         showMessages("error", res?.error);
@@ -52,24 +53,31 @@ export default function Permissions({ onGranted }: PermissionsProps) {
         <Modal
             open={ true }
             onClose={() => console.log("Cerrando...")}
-        >              
-            <MessagePermissions
-                permiso={currentPermission}
-                estado={status[currentPermission]}
-            />
-
-            <Button
-                type="button"
-                className="flex justify-center items-center"
-                onClick={handleRequestPermissions}
+        > 
+            <div 
+                key={currentPermission}
+                className="flex flex-col gap-3 w-full transition-all duration-700 ease-out animate-traslate"
             >
-                { loading ? (
-                    <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        "Solicitando..."
-                    </>
-                ) : "Continuar"}
-            </Button>
+                <MessagePermissions
+                    permiso={currentPermission}
+                    estado={status[currentPermission]}
+                />
+
+                { status[currentPermission] !== "denied" && (
+                    <Button
+                        type="button"
+                        className="flex justify-center items-center"
+                        onClick={handleRequestPermissions}
+                    >
+                        { loading ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                "Solicitando..."
+                            </>
+                        ) : "Continuar"}
+                    </Button>
+                )}
+            </div>         
         </Modal>
     )
 }

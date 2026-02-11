@@ -253,6 +253,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* ---------------------- Animaciones ---------------------- */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -268,7 +270,23 @@ body {
   animation: fadeIn 0.25s ease-out;
 }
 
-/* Spinner */
+@keyframes traslate {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-traslate {
+  animation: traslate 0.3s ease-out;
+}
+
+
+/* ---------------------- Spinner ---------------------- */
 .spinner {
   width: 40px;
   height: 40px;
