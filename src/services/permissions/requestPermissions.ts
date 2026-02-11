@@ -1,12 +1,12 @@
-export async function requestCamera() {
+import type { Result } from "../../types";
+
+export async function requestCamera(): Promise<Result> {
     try {
         const res = await navigator.mediaDevices.getUserMedia({
             video: true
         });
         
-        if( res.active ) {
-            return { success: true, data: res }
-        }
+        return { success: true, data: res }
     }
     catch( error ) {
         console.log("Permissions Camera Error:", error);
@@ -14,15 +14,14 @@ export async function requestCamera() {
     }
 };
 
-export async function requestMicrophone() {
+export async function requestMicrophone(): Promise<Result> {
     try {
         const res = await navigator.mediaDevices.getUserMedia({
             audio: true
         });
         
-        if( res.active ) {
-            return { success: true, data: res }
-        }
+        return { success: true, data: res }
+        
     }
     catch( error ) {
         console.log("Permissions Microphone Error:", error);
@@ -30,14 +29,16 @@ export async function requestMicrophone() {
     }
 };
 
-export async function requestLocation() {
-    await navigator.geolocation.getCurrentPosition(
-        (data) => {
-            return { success: true, data }
-        }, 
-        (error) => {
-            console.log("Permissions Location Error:", error);
-            return { success: false, error: "No se pudo acceder a la ubicación" };
-        }
-    );
+export async function requestLocation(): Promise<Result> {
+    return new Promise(resolve => {
+        navigator.geolocation.getCurrentPosition(
+            ( data) => {
+                resolve({ success: true, data });
+            }, 
+            (error) => {
+                console.log("Permissions Location Error:", error);
+                resolve({ success: false, error: "No se pudo acceder a la ubicación" });
+            }
+        )
+    });
 }

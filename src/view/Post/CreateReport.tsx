@@ -1,28 +1,16 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAppStore } from "../../store/appStore";
 import { useNavigate } from "react-router-dom";
-import { usePermissions } from "../../hooks/usePermissions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
-import Modal from "../../components/ui/Modal";
-import MessagePermissions from "../../components/MessagePermissions";
 import CapturedImgs from "../../components/post/CapturedImgs";
 import { createPost } from "../../api/PostAPI";
-import { Loader2 } from "lucide-react";
-
+import Permissions from "../../components/permissons/Permissions";
 
 export default function CreateReport() {
-    const { status, loading, isChecking, hasAllGranted, hasAnyDenied, check } = usePermissions();
+    const [ready, setReady] = useState(false);
     const { showMessages } = useAppStore(state => state);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        (async () => {
-            const current = await check();
-            console.log("Current", current);
-        })();
-    }, []);
 
     const { mutate } = useMutation({
         mutationFn: createPost,
@@ -41,12 +29,6 @@ export default function CreateReport() {
         }
     });
 
-    const handleRequestPermissions = async () => {
-        //const res = await request();
-        //if( res && res.success ) return;
-        //navigate("/");
-    };
-
     return (
         <div className="flex items-center justify-center w-full">
             <Card className="border w-full md:w-3xl">
@@ -56,21 +38,14 @@ export default function CreateReport() {
                 </CardHeader>
                 
                 <CardContent>
-                    { hasAllGranted && (
+                    <Permissions onGranted={() => setReady(true)} />
+                    { false && (
                         <div id="CapturedImgs">
                             <CapturedImgs /> 
                         </div>
                     )}
                 </CardContent>                
             </Card>
-            
-
-            <Modal
-                open={ !isChecking && !hasAllGranted }
-                onClose={() => navigate("/")}
-            >
-                k
-            </Modal>
         </div>
     )
 }

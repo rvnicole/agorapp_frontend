@@ -1,13 +1,13 @@
 import { Camera, CameraOff, MapPin, MapPinOff, Mic, MicOff } from "lucide-react";
-import type { PermissionKey } from "../types";
+import type { PermissionKey, PermissionState } from "../../types";
 
 type MessagePermissionsProps = {
     permiso: PermissionKey;
-    estado: Extract<PermissionState, "denied" | "prompt">;
+    estado: PermissionState;
 }
 
 export default function MessagePermissions({ permiso, estado }: MessagePermissionsProps) {
-    return (
+    if ( estado === "denied" || estado === "prompt" ) return (
         <div className="space-y-3 p-1">
             <div className="flex gap-3 items-center">
                 <div className="h-7 w-7">
@@ -24,7 +24,9 @@ export default function MessagePermissions({ permiso, estado }: MessagePermissio
                 <div>
                     <p className="text-sm font-semibold text-muted-foreground">
                         <span className="font-bold">Parece que el acceso está bloqueado.</span>{" "}
-                        Para poder usar esta función, necesitamos tu permiso. Haz clic en el icono() de la barra de navegación y selecciona "Permitir". Luego, recarga la página.</p>
+                        Para poder usar esta función, necesitamos tu permiso. Haz clic en el icono
+                        () 
+                        de la barra de navegación y selecciona "Permitir". Luego, recarga la página.</p>
                 </div>
             )}
         </div>

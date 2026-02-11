@@ -38,11 +38,7 @@ export function usePermissions() {
         const updated = await permissionsStatus();
         setStatus(updated);
 
-        if( res && res.success ) {
-            return res.data;
-        }
-
-        return res && res.error;
+        return res;
     };
 
     return {

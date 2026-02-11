@@ -32,6 +32,12 @@ export type Permissions = {
     location: PermissionState;
 };
 
+export type Result = {
+    success: boolean;
+    data?: any;
+    error?: any;
+}
+
 /* ------------------ API AgorApp Backend ------------------ */
 export type PostRespuesta = z.infer<typeof PostRespuestaSchema>;
 export type ImgsRespuesta = z.infer<typeof RespuestaImagenSchema>;
