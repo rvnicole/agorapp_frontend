@@ -3,7 +3,9 @@ import type { Result } from "../../types";
 export async function requestCamera(): Promise<Result> {
     try {
         const res = await navigator.mediaDevices.getUserMedia({
-            video: true
+            video: {
+                facingMode: "environment"
+            }
         });
         
         return { success: true, data: res }

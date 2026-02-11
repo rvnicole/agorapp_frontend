@@ -1,6 +1,6 @@
 export default function Inicio() {
     return (
-        <div>
+        <div className="bg-none">
             Inicio
         </div>
     )

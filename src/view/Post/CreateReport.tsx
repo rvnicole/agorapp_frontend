@@ -29,6 +29,7 @@ export default function CreateReport() {
         }
     });
 
+    if( !ready ) return (<Permissions onGranted={() => setReady(true)} />);
     return (
         <div className="flex items-center justify-center w-full">
             <Card className="border w-full md:w-3xl">
@@ -38,12 +39,9 @@ export default function CreateReport() {
                 </CardHeader>
                 
                 <CardContent>
-                    <Permissions onGranted={() => setReady(true)} />
-                    { false && (
-                        <div id="CapturedImgs">
-                            <CapturedImgs /> 
-                        </div>
-                    )}
+                    <div id="CapturedImgs">
+                        <CapturedImgs /> 
+                    </div>
                 </CardContent>                
             </Card>
         </div>

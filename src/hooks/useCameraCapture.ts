@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { requestCamera } from "../services/permissions/requestPermissions";
 
 export function useCameraCapture() {
     const [stream, setStream] = useState<MediaStream | null>(null);
@@ -9,9 +10,8 @@ export function useCameraCapture() {
 
     const openCamera = async () => {
         try {
-            const mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "environment" }
-            });
+            const res = await requestCamera();
+            const mediaStream = res.data;
         
             if (videoRef.current) {
                 videoRef.current.hidden = false;
