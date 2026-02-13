@@ -47,6 +47,8 @@ export default function Permissions({ onGranted }: PermissionsProps) {
             nextPermission();
             return;
         }
+
+        console.log(res);
     };
     
     if(status) return (
@@ -91,7 +93,6 @@ export default function Permissions({ onGranted }: PermissionsProps) {
                 >
                     <MessagePermissions
                         permiso={currentPermission}
-                        estado={status[currentPermission]}
                     />
 
                     { status[currentPermission] !== "denied" && (

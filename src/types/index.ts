@@ -32,10 +32,27 @@ export type Permissions = {
     location: PermissionState;
 };
 
-export type Result = {
+export type CameraError = 
+    "PERMISSION_DENIED" | 
+    "DEVICE_NOT_FOUND" | 
+    "DEVICE_BUSY" | 
+    "REQUEST_ABORTED" |
+    "UNKNOWN_ERROR";
+
+export type MicrophoneError = CameraError;
+
+export type LocationError = 
+    "PERMISSION_DENIED" | 
+    "POSITION_UNAVAILABLE" |
+    "TIMEOUT" |
+    "UNKNOWN_ERROR";
+
+export type PermissionsError = CameraError | MicrophoneError | LocationError;
+
+export type ResultPermission = {
     success: boolean;
     data?: any;
-    error?: any;
+    error?: PermissionsError;
 }
 
 /* ------------------ API AgorApp Backend ------------------ */

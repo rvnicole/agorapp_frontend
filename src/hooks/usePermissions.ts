@@ -14,6 +14,7 @@ export function usePermissions() {
     const check = async () => {
         setIsChecking(true);
         const res = await permissionsStatus();
+        console.log(res);
         setStatus(res);
         setIsChecking(false);
         return res;
@@ -34,9 +35,7 @@ export function usePermissions() {
         }
 
         setLoading(false);
-
-        const updated = await permissionsStatus();
-        setStatus(updated);
+        await check();
 
         return res;
     };
