@@ -5,6 +5,8 @@ import { Button } from "../ui/Button";
 import Modal from "../ui/Modal";
 import MessagePermissions from "./MessagePermissions";
 import { Loader2 } from "lucide-react";
+import type { PermissionsError } from "../../types";
+import MessageErrorPermissions from "./MessageErrorPermissions";
 
 const PERMISSION_ORDER = ["camera", "microphone", "location"] as const;
 
@@ -17,7 +19,7 @@ export default function Permissions({ onGranted }: PermissionsProps) {
     const navigate = useNavigate();
 
     const [rejectPermissions, setRejectpermissions] = useState<boolean>(false);
-    
+    const [errorPermission, setErrorpermission] = useState<PermissionsError|null>(null);
     const [step, setStep] = useState(0);
     const currentPermission = PERMISSION_ORDER[step];
     
@@ -36,6 +38,7 @@ export default function Permissions({ onGranted }: PermissionsProps) {
             onGranted();
         } 
         else {
+            setErrorpermission(null);
             setStep(step + 1);
         }
     };
@@ -43,12 +46,12 @@ export default function Permissions({ onGranted }: PermissionsProps) {
     const handleRequestPermissions = async () => {
         const res = await request(currentPermission);
 
-        if( res?.success ) {
-            nextPermission();
+        if( res?.error) {
+            setErrorpermission(res?.error);
             return;
         }
 
-        console.log(res);
+        nextPermission();
     };
     
     if(status) return (
@@ -91,23 +94,30 @@ export default function Permissions({ onGranted }: PermissionsProps) {
                     key={currentPermission}
                     className="flex flex-col gap-3 w-full transition-all duration-700 ease-out animate-traslate"
                 >
-                    <MessagePermissions
-                        permiso={currentPermission}
-                    />
-
-                    { status[currentPermission] !== "denied" && (
-                        <Button
-                            type="button"
-                            className="flex justify-center items-center"
-                            onClick={handleRequestPermissions}
-                        >
-                            { loading ? (
-                                <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    "Solicitando..."
-                                </>
-                            ) : "Continuar"}
-                        </Button>
+                    { errorPermission ? (
+                        <MessageErrorPermissions
+                            permiso={currentPermission}
+                            error={errorPermission}
+                        />
+                    ) : (
+                        <>
+                            <MessagePermissions
+                                permiso={currentPermission}
+                            />
+                            
+                            <Button
+                                type="button"
+                                className="flex justify-center items-center"
+                                onClick={handleRequestPermissions}
+                            >
+                                { loading ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        "Solicitando..."
+                                    </>
+                                ) : "Continuar"}
+                            </Button>
+                        </>                        
                     )}
                 </div> 
             }        

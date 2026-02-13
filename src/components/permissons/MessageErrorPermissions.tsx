@@ -12,15 +12,22 @@ export default function MessageErrorPermissions({ permiso, error }: MessageError
                     permiso === "microphone" ? <MicOff /> : <MapPinOff />
 
     return (
-        <div className="space-y-3 p-3">
+        <div className="p-3">
             <div className="flex gap-3 items-center justify-center">
                 <div className="h-7 w-7">
                     {icono}
                 </div>
                 
-                <div>
+                <div className="space-y-1">
                     <p className="font-semibold text-foreground">{titulo}</p>
-                    <p className="text-xs font-semibold text-muted-foreground">{descripcion}</p>
+                    <p className="text-xs font-semibold text-muted-foreground">
+                        { descripcion.split("\n").map((linea, i) => (
+                            <span key={i}>
+                                {linea}
+                                <br />
+                            </span>
+                        ))}
+                    </p>
                 </div>
             </div>
         </div>
@@ -32,12 +39,14 @@ function getMessageError({ permiso, error }: MessageErrorPermissions): { titulo:
 
     switch(error) {
         case "PERMISSION_DENIED":
-            titulo = permiso === "camera" ? "Denegaste el uso de la cámara" : 
-                        permiso === "microphone" ? "Denegaste el uso del micrófono" : "Denegaste el uso de la ubicación";
+            titulo = permiso === "camera" ? "No tenemos permiso para usar la cámara" : 
+                        permiso === "microphone" ? "No tenemos permiso para usar el micrófono" : 
+                            "No tenemos permiso para usar la ubicación";
 
             return {
                 titulo,
-                descripcion: 'Para poder usar esta función, necesitamos tu permiso. Haz clic en el icono de la barra de navegación y selecciona "Permitir". Luego, recarga la página.'
+                descripcion: "Puedes habilitar el acceso desde el icono 🔒 de la barra del navegador y recargar la página. \n" +
+                "Si aún no funciona, verifica que tu navegador y tu dispositivo tengan permitido el uso de la cámara."
             }
         case "DEVICE_NOT_FOUND":
             titulo = permiso === "camera" ? 

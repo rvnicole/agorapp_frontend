@@ -12,6 +12,7 @@ export async function requestCamera(): Promise<ResultPermission> {
     }
     catch( error: any ) {
         console.log("Permissions Camera Error:", error);
+        console.log("Name", error.name);
 
         switch (error.name) {
             case "NotAllowedError":

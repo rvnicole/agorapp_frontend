@@ -29,13 +29,13 @@ export default function MessagePermissions({ permiso }: MessagePermissionsProps)
     const descripcion = permisos[permiso].descripcion;
 
     return (
-        <div className="space-y-3 p-3">
+        <div className="p-3">
             <div className="flex gap-3 items-center justify-center">
                 <div className="h-7 w-7">
                     {icono}
                 </div>
                 
-                <div>
+                <div className="space-y-1">
                     <p className="font-semibold text-foreground">{titulo}</p>
                     <p className="text-xs font-semibold text-muted-foreground">{descripcion}</p>
                 </div>
