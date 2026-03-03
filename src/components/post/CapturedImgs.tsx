@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAppStore } from "../../store/appStore";
 import { useCameraCapture } from "../../hooks/useCameraCapture";
+import { useCameraImagePreview } from "../../hooks/useCameraImagePreview";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/Button";
 import FullScreen from "../ui/FullScreen";
 import Spinner from "../ui/Spinner";
 import PreviewImg from "./PreviewImg";
 import { ArrowRight, Camera, ImagePlus } from "lucide-react";
-import type { ImagenPreview } from "../../types";
 
 type CapturedImgsProps = {
     next: (imgs: File[]) => void;
@@ -15,10 +15,9 @@ type CapturedImgsProps = {
 
 export default function CapturedImgs({ next }: CapturedImgsProps) {
     const { stream, videoRef, canvasRef, openCamera, capture } = useCameraCapture();
+    const { images, imagenes, addImage, removeImage } = useCameraImagePreview({max: 3});
 
-    const [ imgs, setImgs ] = useState<ImagenPreview []>([]);
     const [ view, setView ] = useState<"loading" | "camera" | "preview">("loading");
-
     const { showMessages } = useAppStore(state => state);
     const navigate = useNavigate();
 
@@ -33,6 +32,12 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
         videoRef.current.srcObject = stream.current;
         videoRef.current.play();
     }, [view]);
+
+    useEffect(() => {
+        if (images.length === 0 && view === "preview") {
+            startCamera();
+        }
+    }, [images]);
 
     const startCamera = async () => {
         setView("loading");
@@ -53,29 +58,8 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
             return;
         };
 
-        setImgs(i => ([ ...i, { 
-            imagen: file, 
-            url: URL.createObjectURL(file) 
-        }]));
-
+        addImage(file);
         setView("preview");
-    }
-
-    const handleRemoveImg = (id: string) => {
-        setImgs(prev => {
-            const img = prev.find(i => `${i.imagen.name}-${i.imagen.lastModified}` === id);
-
-            if( img ) {
-                URL.revokeObjectURL(img.url);
-            }
-          
-            return prev.filter(i => `${i.imagen.name}-${i.imagen.lastModified}` !== id);
-        });
-    }
-
-    const handleClick = () => {
-        const imagenes = imgs.map(img => img.imagen);
-        next(imagenes);
     }
 
     return (
@@ -107,21 +91,23 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
             }
 
             { view === "preview" && (
-                <div>
-                    <div className="flex flex-col md:flex-row gap-3 mb-5">
-                        { imgs.map((img, index) => 
-                            <div key={`foto-${index}`} className="w-52">
+                <div className="p-5">
+                    <div className={`grid gap-3 mb-7 ${images.length === 1 ? "grid-cols-1 place-items-center" : "grid-cols-2"}`}>
+                        {images.map((img, index) => (
+                            <div
+                                key={`foto-${index}`}
+                                className="w-full max-w-[260px]"
+                            >
                                 <PreviewImg
                                     img={img}
-                                    onRemove={handleRemoveImg}
-                                /> 
+                                    onRemove={removeImage}
+                                />
                             </div>
-                        )}
+                        ))}
                     </div>
-
                     
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-2 flex gap-2 flex-col w-full md:flex-row md:w-md">
-                        { imgs.length < 3 &&   
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-5 flex gap-2 flex-col w-full md:flex-row md:w-md">
+                        { images.length < 3 &&   
                             <Button
                                 type="button"
                                 variant="secondary"
@@ -136,7 +122,7 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
                         <Button
                             type="button"
                             className="flex items-center justify-center gap-1 w-full"
-                            onClick={handleClick}
+                            onClick={() => next(imagenes)}
                         >
                             Siguiente
                             <ArrowRight className="h-5 w-5"/>

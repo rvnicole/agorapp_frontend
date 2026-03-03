@@ -13,7 +13,7 @@ export default function PreviewImg({ img, onRemove }: PreviewImgProps ) {
     return (
         <div
             key={imgName}
-            className="relative"
+            className="relative animate-traslate"
         >
             <img
                 src={img.url} 
