@@ -58,8 +58,6 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
         images,
         imagenes,
         addImage,
-        removeImage,
-        isEmpty: images.length === 0,
-        canAdd: images.length < max,
+        removeImage
     };
 }

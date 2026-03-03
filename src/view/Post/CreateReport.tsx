@@ -9,6 +9,7 @@ import { createPost } from "../../api/PostAPI";
 
 export default function CreateReport() {
     const [ready, setReady] = useState(false);
+    const [section, setSection] = useState<"images"|"description"|"location"|"general">("images");
     const { showMessages } = useAppStore(state => state);
     const navigate = useNavigate();
 
@@ -37,11 +38,20 @@ export default function CreateReport() {
                 </CardHeader>
                 
                 <CardContent>
-                    <div id="CapturedImgs">
+                    { section === "images" && 
                         <CapturedImgs 
-                            next={(imgs) => console.log(imgs)}
+                            next={(imgs) =>{ 
+                                console.log(imgs);
+                                setSection("description");
+                            }}
                         /> 
-                    </div>
+                    }
+
+                    { section === "description" && 
+                        <>
+                            Holi
+                        </>
+                    }
                 </CardContent>                
             </Card>
         </div>
