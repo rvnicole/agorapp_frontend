@@ -15,13 +15,11 @@ export default function CreateReport() {
     const { mutate } = useMutation({
         mutationFn: createPost,
         onSuccess: (data) => {
-            //console.log("Success: ", data);
             showMessages("success", "Reporte creado");
             navigate(`/post/reporte/${data.id}?createdAt=${data.createdAt}`);
         },
         onError: (error) => {
             if("messages" in error && Array.isArray(error.messages)) {
-                //console.log(error.messages);
                 error.messages.forEach((error: string) => {
                     showMessages("error", error);
                 }); 

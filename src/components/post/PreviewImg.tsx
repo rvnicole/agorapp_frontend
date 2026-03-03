@@ -13,7 +13,7 @@ export default function PreviewImg({ img, onRemove }: PreviewImgProps ) {
     return (
         <div
             key={imgName}
-            className="relative aspect-square"
+            className="relative"
         >
             <img
                 src={img.url} 
