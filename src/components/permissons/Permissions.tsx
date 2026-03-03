@@ -78,7 +78,7 @@ export default function Permissions({ onGranted }: PermissionsProps) {
                 onClose={() => setRejectpermissions(true)}
             > 
                 { rejectPermissions ? 
-                    <div className="w-full transition-all duration-700 ease-out animate-traslate space-y-3">
+                    <div className="w-full transition-all animate-traslate space-y-3">
                         <p className="font-semibold text-foreground">¿Deseas continuar sin otorgar los permisos?</p>
                         <p className="text-sm font-semibold text-muted-foreground">
                             Para poder crear un reporte es necesario conceder estos permisos.
@@ -110,7 +110,7 @@ export default function Permissions({ onGranted }: PermissionsProps) {
                     :
                     <div 
                         key={currentPermission}
-                        className="flex flex-col gap-3 w-full transition-all duration-700 ease-out animate-traslate"
+                        className="flex flex-col gap-3 w-full transition-all animate-traslate"
                     >
                         { errorPermission ? (
                             <MessageErrorPermissions

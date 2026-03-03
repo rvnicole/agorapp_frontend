@@ -3,9 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useAppStore } from "../../store/appStore";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
+import Permissions from "../../components/permissons/Permissions";
 import CapturedImgs from "../../components/post/CapturedImgs";
 import { createPost } from "../../api/PostAPI";
-import Permissions from "../../components/permissons/Permissions";
 
 export default function CreateReport() {
     const [ready, setReady] = useState(false);
