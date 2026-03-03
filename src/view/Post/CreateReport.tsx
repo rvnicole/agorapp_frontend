@@ -38,7 +38,9 @@ export default function CreateReport() {
                 
                 <CardContent>
                     <div id="CapturedImgs">
-                        <CapturedImgs /> 
+                        <CapturedImgs 
+                            next={(imgs) => console.log(imgs)}
+                        /> 
                     </div>
                 </CardContent>                
             </Card>

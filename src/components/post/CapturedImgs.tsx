@@ -9,8 +9,12 @@ import PreviewImg from "./PreviewImg";
 import { ArrowRight, Camera, ImagePlus } from "lucide-react";
 import type { ImagenPreview } from "../../types";
 
-export default function CapturedImgs() {
-    const { stream, isOpen, videoRef, canvasRef, openCamera, capture, closeCamera } = useCameraCapture();
+type CapturedImgsProps = {
+    next: (imgs: File[]) => void;
+}
+
+export default function CapturedImgs({ next }: CapturedImgsProps) {
+    const { stream, videoRef, canvasRef, openCamera, capture } = useCameraCapture();
 
     const [ imgs, setImgs ] = useState<ImagenPreview []>([]);
     const [ view, setView ] = useState<"loading" | "camera" | "preview">("loading");
@@ -69,10 +73,15 @@ export default function CapturedImgs() {
         });
     }
 
+    const handleClick = () => {
+        const imagenes = imgs.map(img => img.imagen);
+        next(imagenes);
+    }
+
     return (
         <FullScreen
             open={true}
-            onClose={() => console.log("Cerrando")}
+            onClose={() => navigate("/")}
         >
             { view === "loading" && <Spinner /> }
 
@@ -99,7 +108,7 @@ export default function CapturedImgs() {
 
             { view === "preview" && (
                 <div>
-                    <div className="flex flex-col md:flex-row gap-3">
+                    <div className="flex flex-col md:flex-row gap-3 mb-5">
                         { imgs.map((img, index) => 
                             <div key={`foto-${index}`} className="w-52">
                                 <PreviewImg
@@ -127,7 +136,7 @@ export default function CapturedImgs() {
                         <Button
                             type="button"
                             className="flex items-center justify-center gap-1 w-full"
-                            onClick={() => console.log("siguiente")}
+                            onClick={handleClick}
                         >
                             Siguiente
                             <ArrowRight className="h-5 w-5"/>
