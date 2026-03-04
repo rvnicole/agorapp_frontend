@@ -2,8 +2,8 @@ import { useRef, useState } from "react";
 import { requestCamera } from "../services/permissions/requestPermissions";
 
 export function useCameraCapture() {
-    const [stream, setStream] = useState<MediaStream | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const stream = useRef<MediaStream | null>(null);
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -11,15 +11,9 @@ export function useCameraCapture() {
     const openCamera = async () => {
         try {
             const res = await requestCamera();
-            const mediaStream = res.data;
-        
-            if (videoRef.current) {
-                videoRef.current.hidden = false;
-                videoRef.current.srcObject = mediaStream;
-            }
-        
-            setStream(mediaStream);
+            stream.current = res.data;
             setIsOpen(true);
+
             return { success: true };
         }
         catch( error ) {
@@ -31,11 +25,8 @@ export function useCameraCapture() {
     const capture = async (): Promise<File | null> => {
         if( !canvasRef.current || !videoRef.current ) return null
         
-        const width = videoRef.current.videoWidth;
-        const height = videoRef.current.videoHeight;
-        
-        canvasRef.current.width = width;
-        canvasRef.current.height = height;
+        canvasRef.current.width = videoRef.current.videoWidth;
+        canvasRef.current.height = videoRef.current.videoHeight;
 
         const ctx = canvasRef.current.getContext("2d");
         if( !ctx ) return null;
@@ -54,21 +45,22 @@ export function useCameraCapture() {
     }
 
     const closeCamera = () => {
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
+        if (stream.current) {
+            stream.current.getTracks().forEach(track => track.stop());
+            stream.current = null;
         }
       
         if (videoRef.current) {
             videoRef.current.hidden = true;
             videoRef.current.srcObject = null;
         }
-      
-        setStream(null);
+
         setIsOpen(false);
     };
       
 
     return {
+        stream,
         isOpen,
         videoRef,
         canvasRef,

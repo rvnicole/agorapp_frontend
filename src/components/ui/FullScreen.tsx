@@ -27,7 +27,6 @@ export default function FullScreen({ open, onClose, children }: FullScreenProps)
         >
             <div
                 className="absolute inset-0 bg-background/50 backdrop-blur"
-                onClick={onClose}
             />
 
             <div>

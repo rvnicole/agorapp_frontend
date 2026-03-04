@@ -3,25 +3,25 @@ import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../../store/messageStore";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
+import Permissions from "../../components/permissons/Permissions";
 import CapturedImgs from "../../components/post/CapturedImgs";
 import { createPost } from "../../api/PostAPI";
-import Permissions from "../../components/permissons/Permissions";
+import RecordDescription from "../../components/post/RecordDescription";
 
 export default function CreateReport() {
     const [ready, setReady] = useState(false);
+    const [section, setSection] = useState<"images"|"description"|"location"|"general">("images");
     const { showMessages } = useMessageStore(state => state);
     const navigate = useNavigate();
 
     const { mutate } = useMutation({
         mutationFn: createPost,
         onSuccess: (data) => {
-            //console.log("Success: ", data);
             showMessages("success", "Reporte creado");
             navigate(`/post/reporte/${data.id}?createdAt=${data.createdAt}`);
         },
         onError: (error) => {
             if("messages" in error && Array.isArray(error.messages)) {
-                //console.log(error.messages);
                 error.messages.forEach((error: string) => {
                     showMessages("error", error);
                 }); 
@@ -39,9 +39,18 @@ export default function CreateReport() {
                 </CardHeader>
                 
                 <CardContent>
-                    <div id="CapturedImgs">
-                        <CapturedImgs /> 
-                    </div>
+                    { section === "images" && 
+                        <CapturedImgs 
+                            next={(imgs) =>{ 
+                                console.log(imgs);
+                                setSection("description");
+                            }}
+                        /> 
+                    }
+
+                    { section === "description" && 
+                        <RecordDescription />
+                    }
                 </CardContent>                
             </Card>
         </div>
