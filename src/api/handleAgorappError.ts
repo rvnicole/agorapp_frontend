@@ -1,9 +1,12 @@
-import { AxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import { APIAgorAppError } from "../errors/ApiError";
+import type { ZodError } from "zod";
 
-export function handleApiError(error: unknown): APIAgorAppError {
+type Errores = Error | APIAgorAppError | AxiosError | ZodError | unknown;
+
+export function handleApiError(error: Errores): APIAgorAppError {
     // Axios error 
-    if (error instanceof AxiosError) {
+    if (isAxiosError(error)) {
         // Errores de peticion devueltos por la API
         if( error.response?.data.errors ) {
             const apiErrors = error.response.data.errors.map((error: { msg: string }) => error.msg );
@@ -18,6 +21,8 @@ export function handleApiError(error: unknown): APIAgorAppError {
         throw error;
     }
 
-    // Error desconocido
-    throw new APIAgorAppError(["Ocurrió un error inesperado"]);
+    // Error estandar
+    if( error instanceof Error ) throw new APIAgorAppError([error.message]);
+
+    throw new APIAgorAppError(["Ocurrió un error inesperado", JSON.stringify(error)]);
 }

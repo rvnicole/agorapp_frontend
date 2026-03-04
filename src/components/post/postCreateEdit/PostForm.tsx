@@ -17,14 +17,14 @@ type PostFormProps = {
 
 export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const { usuarioId } = useAppStore(state => state);
+    //const { usuarioId } = useAppStore(state => state);
 
     const { register, handleSubmit, setValue, control, formState: { errors } } = useForm<Post>({
         mode: "onChange",
         defaultValues: {
             ...post,
             tipo,
-            usuarioId
+            //usuarioId
         }
     });
 

@@ -1,13 +1,17 @@
 import z from 'zod';
-import { AddressResultSchema, LoginSchema, MessageSchema, NewUbicacionSchema, PostRespuestaSchema, PostSchema, RegisterSchema, ReportSchema, RespuestaImagenSchema } from './../schemas/index';
+import { AddressResultSchema, googleAuthURL, LoginSchema, MessageSchema, NewUbicacionSchema, PostRespuestaSchema, PostSchema, RegisterSchema, ReportSchema, RespuestaImagenSchema, UserDataSchema } from './../schemas/index';
 
 /* ------------------ Proveedores de Servicio ------------------ */
 export type ProviderType = "google" | "microsoft" | "apple";
+
+/* ------------------ User ------------------ */
+export type UserData = z.infer<typeof UserDataSchema>;
 
 /* ------------------ Auth ------------------ */
 export type LoginType = z.infer<typeof LoginSchema>;
 export type RegisterType = z.infer<typeof RegisterSchema>;
 export type NewUbicacionType = z.infer<typeof NewUbicacionSchema>;
+export type GoogleAuthURL = z.infer<typeof googleAuthURL>;
 
 /* ------------------ Post ------------------ */
 export type Post = z.infer<typeof PostSchema>;

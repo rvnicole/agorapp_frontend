@@ -54,7 +54,7 @@ export async function searchAddress( query: string ): Promise<AddressResult []> 
     }
 }
 
-export function handleApiError(error: unknown): never {
+function handleApiError(error: unknown): never {
     // Axios error (network o timeout)
     if (error instanceof AxiosError) {
         throw new AddressError(["No se pudo conectar con el servicio"]);

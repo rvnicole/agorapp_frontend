@@ -1,5 +1,16 @@
 import z from "zod";
 
+/* ------------------ User ------------------ */
+export const UserDataSchema = z.object({
+    email: z.string(),
+    nombre: z.string(),
+    apellido: z.string(),
+    alias: z.string().nullable(),
+    createdAt: z.string(),
+    esp: z.string(),
+    url_img: z.string()
+});
+
 /* ------------------ Auth ------------------ */
 export const LoginSchema = z.object({
     email: z.string(),
@@ -19,6 +30,8 @@ export const RegisterSchema = z.object({
     lat: z.coerce.number().min(-90).max(90),
     lng: z.coerce.number().min(-180).max(180),
 });
+
+export const googleAuthURL = z.url();
 
 
 /* ------------------ Post ------------------ */

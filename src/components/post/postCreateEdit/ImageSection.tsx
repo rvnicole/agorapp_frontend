@@ -1,11 +1,11 @@
 import { useState, useRef, type ChangeEvent, useEffect } from "react";
+import { useMessageStore } from "../../../store/messageStore";
 import { useCameraCapture } from "../../../hooks/useCameraCapture";
 import useImagenes from "../../../hooks/useImagenes";
 import Modal from "../../ui/Modal";
 import { Button } from "../../ui/Button";
 import { Label } from "../../ui/Label";
 import { Camera, ImageIcon, Loader2, X } from "lucide-react";
-import { useAppStore } from "../../../store/appStore";
 
 type ImageSectionProps = {
     onChange: (imgs: File[]) => void;
@@ -15,7 +15,7 @@ export default function ImageSection({ onChange }: ImageSectionProps) {
     const [openModal, setOpenModal] = useState(false); // Abrir o Cerrar Modal
     const inputImgs = useRef<HTMLInputElement>(null);
 
-    const { showMessages } = useAppStore(state => state);
+    const { showMessages } = useMessageStore(state => state);
 
     // Gestionar las imagenes
     const { filesImagenes, imagenes, addImagen, addImagenes, removeImagen } = useImagenes({ max: 3});

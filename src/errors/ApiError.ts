@@ -3,7 +3,7 @@ export class ApiError extends Error {
         public messages: string[],
         public code?: string
     ) {
-        super("API Error");
+        super(`API Error`);
     }
 };
 

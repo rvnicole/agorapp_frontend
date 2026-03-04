@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { useMessageStore } from "../../../store/messageStore";
 import { useMutation } from "@tanstack/react-query";
-import { useAppStore } from "../../../store/appStore";
 import { searchAddress } from "../../../api/AddressAPI";
 import { Input } from "../../ui/Input";
 import type { AddressResult, NewUbicacionType } from "../../../types";
@@ -15,7 +15,7 @@ export default function AddressSearchInput({ value, onChange }: AddressSearchInp
     const [results, setResults] = useState<AddressResult []>([]);
     const [selected, setSelected] = useState(false);
 
-    const { showMessages } = useAppStore();
+    const { showMessages } = useMessageStore( state => state );
 
     const { mutate, isPending } = useMutation({
         mutationFn: searchAddress,

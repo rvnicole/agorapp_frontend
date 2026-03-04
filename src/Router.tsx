@@ -7,6 +7,8 @@ import LayoutApp from "./layout/LayoutApp";
 import Inicio from "./view/Inicio";
 import CreateReport from "./view/Post/CreateReport";
 import Post from "./view/Post/Post";
+import LoadUserProfile from "./view/auth/LoadUserProfile";
+import LayoutProtectedRoute from "./layout/auth/LayoutProtectedRoute";
 
 export default function Router() {
     return (
@@ -15,12 +17,16 @@ export default function Router() {
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
                 <Route path="confirm-account" element={<ConfirmAccount />} />
+                <Route path="google-callback" element={<LoadUserProfile />} />
             </Route>
 
-            <Route element={<LayoutApp />}>
-                <Route path="/" element={<Inicio />} />
-                <Route path="/create-report" element={<CreateReport />} />
-                <Route path="/post/:tipo/:id" element={<Post />} />
+           
+            <Route element={<LayoutProtectedRoute />}>
+                 <Route element={<LayoutApp />}>
+                    <Route path="/" element={<Inicio />} />
+                    <Route path="/create-report" element={<CreateReport />} />
+                    <Route path="/post/:tipo/:id" element={<Post />} />
+                </Route>
             </Route>
         </Routes>
     )

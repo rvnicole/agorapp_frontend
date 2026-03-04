@@ -1,17 +1,17 @@
-import type { StateCreator } from "zustand";
+import { create } from "zustand";
 import type { Message } from "../types";
 
-export interface IMessageSlice {
+export interface IMessageStore {
     messages: Message[];
     showMessages: (type: Message['type'], text: string) => void;
     removeMessages: (id: string) => void;
     clearMessages: () => void;
 }
 
-export const  MessageSlice: StateCreator<IMessageSlice> = (set) => ({
+export const  useMessageStore = create<IMessageStore>()( (set) => ({
     messages: [],
     showMessages: (type, text) => {
-        const id = crypto.randomUUID();
+        const id = Math.random().toString() ;
 
         set(m => ({
             messages: [
@@ -34,4 +34,4 @@ export const  MessageSlice: StateCreator<IMessageSlice> = (set) => ({
     clearMessages: () => {
         set({ messages: [] });
     }
-});
+}));

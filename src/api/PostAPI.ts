@@ -14,7 +14,7 @@ export async function createPost(post : Post) {
         formData.append("descripcion", post.descripcion);
         formData.append("tipo", post.tipo);
         formData.append("categoriaId", String(post.categoriaId));
-        formData.append("usuarioId", String(post.usuarioId));
+        //formData.append("usuarioId", String(post.usuarioId));
 
         // En reporte la ubicación es obligatoria
         if( post.tipo === "reporte" && !post.imgs.length ) {

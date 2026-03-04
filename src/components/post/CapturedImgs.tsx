@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppStore } from "../../store/appStore";
+import { useMessageStore } from "../../store/messageStore";
 import { useCameraCapture } from "../../hooks/useCameraCapture";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/Button";
@@ -12,7 +12,7 @@ import type { ImagenPreview } from "../../types";
 export default function CapturedImgs() {
     const [ imgs, setImgs ] = useState<ImagenPreview []>([]);
     const [ showPreview, setShowPreview ] = useState<boolean>(false);
-    const { showMessages } = useAppStore(state => state);
+    const { showMessages } = useMessageStore(state => state);
     const { isOpen, videoRef, canvasRef, openCamera, capture, closeCamera } = useCameraCapture();
     const navigate = useNavigate();
 

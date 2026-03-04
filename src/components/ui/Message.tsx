@@ -1,5 +1,5 @@
 import { CircleCheck, CircleX, Info, TriangleAlert, X } from "lucide-react";
-import { useAppStore } from "../../store/appStore";
+import { useMessageStore } from "../../store/messageStore";
 
 const iconos = {
     success: {
@@ -21,7 +21,7 @@ const iconos = {
 }
 
 export default function Message() {
-    const { messages, removeMessages } = useAppStore(state => state);
+    const { messages, removeMessages } = useMessageStore(state => state);
 
     return (
         <div className="fixed bottom-4 right-4 space-y-2 z-50">

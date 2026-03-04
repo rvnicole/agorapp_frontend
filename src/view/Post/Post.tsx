@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom"
 import { getPost } from "../../api/PostAPI";
-import { useAppStore } from "../../store/appStore";
+import { useMessageStore } from "../../store/messageStore";
 import Spinner from "../../components/ui/Spinner";
 import UbicacionPost from "../../components/post/postView/UbicacionPost";
 import InformationPost from "../../components/post/postView/InformationPost";
 import CarruselImgs from "../../components/post/CarruselImgs";
 
 export default function Post() {
-    const { showMessages } = useAppStore(state => state);
+    const { showMessages } = useMessageStore(state => state);
     const navigate = useNavigate();
 
     const params = useParams();
@@ -21,13 +21,14 @@ export default function Post() {
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["get-post", id, createdAt],
-        queryFn: async () => getPost({ id, createdAt })
+        queryFn: async () => getPost({ id, createdAt }),
+        retry: 2
     });
 
     console.log(data);
 
     if( isError ) {
-        //navigate("/");
+        navigate("/");
         showMessages("error", "No se encontro la publicación");
     }
     else if( isLoading ) return (

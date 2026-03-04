@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useAppStore } from "../../store/appStore";
+import { useMessageStore } from "../../store/messageStore";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
 import CapturedImgs from "../../components/post/CapturedImgs";
@@ -9,7 +9,7 @@ import Permissions from "../../components/permissons/Permissions";
 
 export default function CreateReport() {
     const [ready, setReady] = useState(false);
-    const { showMessages } = useAppStore(state => state);
+    const { showMessages } = useMessageStore(state => state);
     const navigate = useNavigate();
 
     const { mutate } = useMutation({
