@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../..
 import Permissions from "../../components/permissons/Permissions";
 import CapturedImgs from "../../components/post/CapturedImgs";
 import { createPost } from "../../api/PostAPI";
+import RecordDescription from "../../components/post/RecordDescription";
 
 export default function CreateReport() {
     const [ready, setReady] = useState(false);
@@ -48,9 +49,7 @@ export default function CreateReport() {
                     }
 
                     { section === "description" && 
-                        <>
-                            Holi
-                        </>
+                        <RecordDescription />
                     }
                 </CardContent>                
             </Card>
