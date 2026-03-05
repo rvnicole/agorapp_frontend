@@ -5,9 +5,9 @@ export const UserDataSchema = z.object({
     email: z.string(),
     nombre: z.string(),
     apellido: z.string(),
-    alias: z.string().nullable(),
+    alias: z.string().nullable().optional(),
     createdAt: z.string(),
-    esp: z.string(),
+    esp: z.string().optional(),
     url_img: z.string()
 });
 

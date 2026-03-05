@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
 import Permissions from "../../components/permissons/Permissions";
 import CapturedImgs from "../../components/post/CapturedImgs";
+import FullScreen from "../../components/ui/FullScreen";
 import { createPost } from "../../api/PostAPI";
 import RecordDescription from "../../components/post/RecordDescription";
 
@@ -39,18 +40,23 @@ export default function CreateReport() {
                 </CardHeader>
                 
                 <CardContent>
-                    { section === "images" && 
-                        <CapturedImgs 
-                            next={(imgs) =>{ 
-                                console.log(imgs);
-                                setSection("description");
-                            }}
-                        /> 
-                    }
+                    <FullScreen
+                        open={true}
+                        onClose={() => navigate("/")}
+                    >
+                        { section === "images" && 
+                            <CapturedImgs 
+                                next={(imgs) =>{ 
+                                    console.log(imgs);
+                                    setSection("description");
+                                }}
+                            /> 
+                        }
 
-                    { section === "description" && 
-                        <RecordDescription />
-                    }
+                        { section === "description" && 
+                            <RecordDescription />
+                        }
+                    </FullScreen>
                 </CardContent>                
             </Card>
         </div>

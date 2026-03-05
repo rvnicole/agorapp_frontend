@@ -12,25 +12,22 @@ export default function RecordDescription() {
     speech.current.continuous = true;
 
     speech.current.onresult = (e: any) => {
-        console.log(e.results);
+        if( !readyRecording) return;
         const resultados = e.results;
 
-        for(const result in resultados) {
-            console.log
-            const transcript = resultados[result].transcript;
+        for(let i = 0; i < resultados.length; i++) {
+            const transcript = resultados[i][0].transcript;
             setResultRecording(r => `${r} ${transcript}`);
         }
     };
 
     const startRecording = () => {
-        console.log("Grabando...");
         setReadyRecording(false);
         setIsRecording(true);
         speech.current.start();
     }
 
     const stopRecording = () => {
-        console.log("Termino");
         speech.current.stop();
         setIsRecording(false);
         setReadyRecording(true);
