@@ -4,7 +4,6 @@ import { useCameraCapture } from "../../hooks/useCameraCapture";
 import { useCameraImagePreview } from "../../hooks/useCameraImagePreview";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/Button";
-import FullScreen from "../ui/FullScreen";
 import Spinner from "../ui/Spinner";
 import PreviewImg from "./PreviewImg";
 import { ArrowRight, Camera, ImagePlus } from "lucide-react";
@@ -63,10 +62,7 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
     }
 
     return (
-        <FullScreen
-            open={true}
-            onClose={() => navigate("/")}
-        >
+        <>
             { view === "loading" && <Spinner /> }
 
             { view === "camera"  &&
@@ -130,6 +126,6 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
                     </div>
                 </div>
             )}
-        </FullScreen> 
+        </> 
     )
 }
