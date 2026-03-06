@@ -33,13 +33,13 @@ export default function FullScreen({ open, onClose, children }: FullScreenProps)
                 {children}
     
                 <button
-                    className="absolute top-3 right-3 text-foreground hover:text-foreground/50"
+                    className="absolute top-3 right-3 bg-primary rounded-full p-1 hover:text-foreground/50"
                     onClick={() => {
                         document.body.style.overflow = "";
                         onClose();
                     }}
                 >
-                    <X className="h-6 w-6 cursor-pointer"/>
+                    <X className="h-6 w-6 cursor-pointer text-primary-foreground"/>
                 </button>
             </div>
         </div>
