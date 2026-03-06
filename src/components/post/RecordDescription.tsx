@@ -78,11 +78,11 @@ export default function RecordDescription() {
 
                     <p className="font-semibold text-primary">Da click para iniciar</p>
 
-                    <div className="fixed bottom-4 px-5 flex justify-center items-center w-full md:flex-row md:w-xs">
+                    <div className="px-5 flex justify-center items-center w-full md:flex-row md:w-xs">
                         <Button
                             type="button"
                             variant="secondary"
-                            className="flex items-center justify-center gap-1 w-full"
+                            className="flex items-center justify-center gap-2 w-full"
                             onClick={resetRecording}
                         >
                             <Keyboard className="h-5 w-5"/>
