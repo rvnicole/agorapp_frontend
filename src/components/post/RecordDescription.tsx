@@ -59,7 +59,7 @@ export default function RecordDescription() {
                             className="relative z-10 flex justify-center items-center bg-destructive h-20 w-20 rounded-full cursor-pointer hover:scale-105"
                             onClick={stopRecording}
                         >
-                            <Mic className="h-10 w-10 text-white" />
+                            <Mic className="h-10 w-10 text-destructive-foreground" />
                         </button>
                     
                         <span className="absolute inset-0 bg-destructive h-20 w-20 rounded-full animate-ping opacity-50" />   
@@ -73,7 +73,7 @@ export default function RecordDescription() {
                         className="relative z-10 flex justify-center items-center bg-primary h-20 w-20 rounded-full cursor-pointer hover:scale-105"
                         onClick={startRecording}
                     >
-                        <Mic className="h-10 w-10 text-white" />
+                        <Mic className="h-10 w-10 text-primary-foreground" />
                     </button>
 
                     <p className="font-semibold text-primary">Da click para iniciar</p>
