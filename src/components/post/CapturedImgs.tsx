@@ -63,7 +63,7 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
 
     return (
         <>
-            { view === "loading" && <Spinner /> }
+            { view === "loading" && <Spinner  /> }
 
             { view === "camera"  &&
                 <>
@@ -102,7 +102,7 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
                         ))}
                     </div>
                     
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-5 flex gap-2 flex-col w-full md:flex-row md:w-md">
+                    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 px-5 flex gap-2 flex-col w-full md:flex-row md:w-md">
                         { images.length < 3 &&   
                             <Button
                                 type="button"
