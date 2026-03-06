@@ -59,7 +59,7 @@ export default function RecordDescription() {
                             className="relative z-10 flex justify-center items-center bg-destructive h-20 w-20 rounded-full cursor-pointer hover:scale-105"
                             onClick={stopRecording}
                         >
-                            <Mic className="h-10 w-10 text-destructive-foreground" />
+                            <Mic className="h-10 w-10 text-white" />
                         </button>
                     
                         <span className="absolute inset-0 bg-destructive h-20 w-20 rounded-full animate-ping opacity-50" />   
