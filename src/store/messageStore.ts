@@ -8,10 +8,10 @@ export interface IMessageStore {
     clearMessages: () => void;
 }
 
-export const  useMessageStore = create<IMessageStore>()( (set) => ({
+export const  useMessageStore = create<IMessageStore>()( (set, get) => ({
     messages: [],
     showMessages: (type, text) => {
-        const id = Math.random().toString() ;
+        const id = get().messages.length.toString();
 
         set(m => ({
             messages: [

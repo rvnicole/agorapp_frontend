@@ -38,6 +38,7 @@ export async function requestMicrophone(): Promise<ResultPermission> {
         const res = await navigator.mediaDevices.getUserMedia({
             audio: true
         });
+        res.getTracks().forEach(track => track.stop());
         
         return { success: true, data: res }
         
