@@ -26,6 +26,7 @@ export function useRecording() {
         speech.current.lang = "es-MX";
 
         speech.current.onresult = (e: any) => {
+            if( !readyRecording ) return;
             const resultados = e.results;
     
             for(let i = 0; i < resultados.length; i++) {
