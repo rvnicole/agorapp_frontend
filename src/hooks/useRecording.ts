@@ -37,12 +37,6 @@ export function useRecording() {
             setTranscript(texto);
         };
 
-        speech.current.onend = (e: any) => {
-            if (isRecording) {
-                speech.current.start();
-            }
-        };
-
         speech.current.onerror = (e: any) => {
             console.log("Error SpeechRecognition", e.error);
             setIsSupported(false);

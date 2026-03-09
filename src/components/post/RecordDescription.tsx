@@ -5,8 +5,18 @@ import { Button } from "../ui/Button";
 import { ArrowLeft, ArrowRight, Keyboard, Mic } from "lucide-react";
 
 export default function RecordDescription() {
-    const {transcript, isSupported, isRecording, readyRecording, startRecording, stopRecording, changeResult, resetRecording} = useRecording();
     const [preferText, setPreferText] = useState(false); 
+    
+    const {
+        transcript, 
+        isSupported, 
+        isRecording, 
+        readyRecording, 
+        startRecording, 
+        stopRecording, 
+        changeResult, 
+        resetRecording
+    } = useRecording();
 
     if( !isSupported || readyRecording || preferText ) {
         return (
@@ -14,7 +24,7 @@ export default function RecordDescription() {
                 <div className="text-center px-5">
                     <p className="text-2xl text-foreground font-bold">{!isSupported || preferText ? "¿Qué ocurrió?" : "Descripción del incidente"}</p>
                     <p className="text-lg text-foreground font-semibold">{!isSupported || preferText ? "Describe brevemente el incidente" : "Puedes modificarla si algo no se interpretó correctamente"}</p>
-                    {!isSupported && <p className="text-muted-foreground text-sm font-semibold">La función de descripción por voz no está disponible en este navegador, te recomendamos usar Chrome.</p>}
+                    {!isSupported && <p className="text-muted-foreground text-sm font-semibold">La función de descripción por voz no está disponible por el momento.</p>}
                 </div>
 
                 <div className="px-5 w-screen md:w-xl lg:w-2xl">
@@ -26,18 +36,20 @@ export default function RecordDescription() {
                 </div>
 
                 <div className="fixed bottom-4 px-5 flex gap-2 flex-col w-full md:flex-row md:w-md">
-                    <Button
-                        type="button"
-                        variant="secondary"
-                        className="flex items-center justify-center gap-1 w-full"
-                        onClick={ () => {
-                            setPreferText(false);
-                            resetRecording();
-                        }}
-                    >
-                        <ArrowLeft className="h-5 w-5"/>
-                        Volver a grabar
-                    </Button>
+                    { isSupported &&
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            className="flex items-center justify-center gap-1 w-full"
+                            onClick={ () => {
+                                setPreferText(false);
+                                resetRecording();
+                            }}
+                        >
+                            <ArrowLeft className="h-5 w-5"/>
+                            Volver a grabar
+                        </Button>
+                    }
 
                     <Button
                         type="button"
