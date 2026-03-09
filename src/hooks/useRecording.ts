@@ -38,11 +38,9 @@ export function useRecording() {
         };
 
         speech.current.onstop = (e: any) => {
-            speech.current.onend = () => {
-                if (isRecording) {
-                    speech.current.start();
-                }
-            };
+            if (isRecording) {
+                speech.current.start();
+            }
         };
 
         speech.current.onerror = (e: any) => {
