@@ -26,14 +26,15 @@ export function useRecording() {
         speech.current.lang = "es-MX";
 
         speech.current.onresult = (e: any) => {
-            if( !readyRecording ) return;
             const resultados = e.results;
+            let texto = "";
     
             for(let i = 0; i < resultados.length; i++) {
                 const transcript = resultados[i][0].transcript;
-                console.log(transcript)
-                setTranscript(r => `${r} ${transcript}`);
+                texto = `${texto} ${transcript}`;
             }
+
+            setTranscript(texto);
         };
 
         speech.current.onerror = (e: any) => {
