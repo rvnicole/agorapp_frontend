@@ -37,7 +37,7 @@ export function useRecording() {
             setTranscript(texto);
         };
 
-        speech.current.onstop = (e: any) => {
+        speech.current.onend = (e: any) => {
             if (isRecording) {
                 speech.current.start();
             }
