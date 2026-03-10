@@ -1,5 +1,23 @@
 import z from 'zod';
-import { AddressResultSchema, googleAuthURL, LoginSchema, MessageSchema, NewUbicacionSchema, PostRespuestaSchema, PostSchema, RegisterSchema, ReportSchema, RespuestaImagenSchema, UserDataSchema } from './../schemas/index';
+import { 
+    AddressResultSchema, 
+    DescriptionRespuestaSchema, 
+    googleAuthURL, LoginSchema, 
+    MessageSchema, 
+    NewUbicacionSchema, 
+    PostRespuestaSchema, 
+    PostSchema, 
+    RegisterSchema, 
+    ReportSchema, 
+    RespuestaImagenSchema, 
+    UserDataSchema 
+} from './../schemas/index';
+
+/* ------------------ Errores ------------------ */
+export type ApiErrorType = {
+    messages: string[];
+    code?: string;
+}
 
 /* ------------------ Proveedores de Servicio ------------------ */
 export type ProviderType = "google" | "microsoft" | "apple";
@@ -62,3 +80,4 @@ export type ResultPermission = {
 /* ------------------ API AgorApp Backend ------------------ */
 export type PostRespuesta = z.infer<typeof PostRespuestaSchema>;
 export type ImgsRespuesta = z.infer<typeof RespuestaImagenSchema>;
+export type DescriptionRespuesta = z.infer<typeof DescriptionRespuestaSchema>;

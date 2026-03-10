@@ -3,7 +3,7 @@ import { useMessageStore } from "../../../store/messageStore";
 import { useMutation } from "@tanstack/react-query";
 import { searchAddress } from "../../../api/AddressAPI";
 import { Input } from "../../ui/Input";
-import type { AddressResult, NewUbicacionType } from "../../../types";
+import type { AddressResult, ApiErrorType, NewUbicacionType } from "../../../types";
 
 type AddressSearchInputProps = {
     value: string;
@@ -22,13 +22,10 @@ export default function AddressSearchInput({ value, onChange }: AddressSearchInp
         onSuccess: (data) => {
             setResults(data);
         },
-        onError: (error) => {
-            if("messages" in error && Array.isArray(error.messages)) {
-                console.log(error.messages);
-                error.messages.forEach((error: string) => {
-                    showMessages("error", error);
-                }); 
-            }             
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => {
+                showMessages("error", error);
+            });      
         }
     });
 

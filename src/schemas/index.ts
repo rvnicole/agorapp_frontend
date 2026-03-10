@@ -103,6 +103,12 @@ export const PostRespuestaSchema = z.object({
     imagenes: z.array(RespuestaImagenSchema).nullable()
 });
 
+export const DescriptionRespuestaSchema = z.object({
+    categoriaId: z.number(),
+    titulo: z.string(),
+    descripcion: z.string(),
+});
+
 /* ------------------ nominatim ------------------ */
 export const AddressSchema = z.object({
     address: z.object({

@@ -3,7 +3,7 @@ import { Textarea } from "../ui/Textarea";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 type DescriptionEditorProps = {
-    transcript: string;
+    description: string;
     preferText: boolean;
     isSupported: boolean;
     onChange: (descripcion: string) => void;
@@ -11,7 +11,7 @@ type DescriptionEditorProps = {
     onRetry: () => void;
 }
 
-export default function DescriptionEditor({ transcript, preferText, isSupported, onChange, onNext, onRetry }: DescriptionEditorProps) {   
+export default function DescriptionEditor({ description, preferText, isSupported, onChange, onNext, onRetry }: DescriptionEditorProps) {   
     return (
         <div className="relative flex flex-col justify-center items-center gap-7 select-none animate-traslate">
             <div className="text-center px-5">
@@ -23,7 +23,7 @@ export default function DescriptionEditor({ transcript, preferText, isSupported,
             <div className="px-5 w-screen md:w-xl lg:w-2xl">
                 <Textarea
                     className="w-full min-h-[10vh] h-[20vh] max-h-[40vh]"
-                    value={transcript}
+                    value={description}
                     onChange={e => onChange(e.target.value)}
                 />
             </div>
@@ -44,8 +44,8 @@ export default function DescriptionEditor({ transcript, preferText, isSupported,
                 <Button
                     type="button"
                     className="flex items-center justify-center gap-1 w-full"
-                    disabled={transcript.length <= 0}
-                    onClick={() => onNext(transcript)}
+                    disabled={description.length <= 0}
+                    onClick={() => onNext(description)}
                 >
                     Siguiente
                     <ArrowRight className="h-5 w-5"/>

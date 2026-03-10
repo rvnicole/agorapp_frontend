@@ -1,7 +1,7 @@
 import { APIAgorAppError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
-import { PostRespuestaSchema } from "../schemas";
+import { DescriptionRespuestaSchema, PostRespuestaSchema } from "../schemas";
 import type { Post } from "../types";
 
 export async function createPost(post : Post) {
@@ -86,7 +86,6 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
 
         if( !result.success ) {
             const errors = result.error.issues.map(error => error.message);
-            console.log(errors);
             throw new APIAgorAppError(errors);
         }
 
@@ -98,8 +97,7 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
 };
 
 export async function getRefinedDescription(description: string) {
-    try {   
-        console.log("hola")
+    try {
         const res = await agorappApi.post("/llm-process-post", { description });
         const respuesta = res.data;
 
@@ -108,7 +106,14 @@ export async function getRefinedDescription(description: string) {
             throw new APIAgorAppError(apiErrors);
         }
 
-        console.log(respuesta);
+        const result = DescriptionRespuestaSchema.safeParse(respuesta.data);
+
+        if( !result.success ) {
+            const errors = result.error.issues.map(error => error.message);
+            throw new APIAgorAppError(errors);
+        }
+
+        return result.data;
     }
     catch( error ) {
         handleApiError( error );

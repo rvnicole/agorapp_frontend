@@ -5,6 +5,7 @@ import { useMessageStore } from "../../store/messageStore";
 import { loginOnAgorapp } from "../../api/authAPI";
 import { useEffect, useRef } from "react";
 import { useUserStore } from "../../store/userStore";
+import type { ApiErrorType } from "../../types";
 
 export default function LoadUserProfile(){
     const solicitud = useRef(false);
@@ -15,10 +16,8 @@ export default function LoadUserProfile(){
     
     const { mutate, isPending } = useMutation({
         mutationFn: loginOnAgorapp,
-        onError: (error) => {
-            if("messages" in error && Array.isArray(error.messages)) {
-                error.messages.forEach((error: string) => showMessages("error", error)); 
-            }
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => showMessages("error", error));
             navigate("/auth/login");
         },
         onSuccess: (userData) => {

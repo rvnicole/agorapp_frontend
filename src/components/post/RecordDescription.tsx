@@ -1,29 +1,31 @@
 import { useState } from "react";
 import { useRecording } from "../../hooks/useRecording";
 import { useMutation } from "@tanstack/react-query";
+import { useMessageStore } from "../../store/messageStore";
 import VoiceRecorder from "./VoiceRecorder";
 import DescriptionEditor from "./DescriptionEditor";
+import DescriptionComparison from "./DescriptionComparison";
 import { getRefinedDescription } from "../../api/PostAPI";
+import type { ApiErrorType, DescriptionRespuesta } from "../../types";
 
 type RecordDescriptionProps = {
-    next: (descripcion: string) => void;
+    next: (data: DescriptionRespuesta) => void;
 }
 
 export default function RecordDescription({ next }: RecordDescriptionProps) {
+    const [refinedDescription, setRefinedDescription] = useState<DescriptionRespuesta | null>();
     const [preferText, setPreferText] = useState(false);
+    const { showMessages } = useMessageStore(state => state);
     
     const { mutate } = useMutation({
         mutationFn: getRefinedDescription,
         onSuccess: (data) => {
-            console.log(data)
+            setRefinedDescription(data)
         },
-        onError: (error) => {
-            if("messages" in error && Array.isArray(error.messages)) {
-                error.messages.forEach((error: string) => {
-                    console.log(error);
-                    //showMessages("error", error);
-                }); 
-            }
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => {
+                showMessages("error", error);
+            }); 
         }
     });
     
@@ -38,10 +40,24 @@ export default function RecordDescription({ next }: RecordDescriptionProps) {
         resetRecording
     } = useRecording();
 
+    if( refinedDescription ) {
+        return (
+            <DescriptionComparison
+                original={transcript}
+                improved={refinedDescription.descripcion}
+                onSelect={(descripcion) => next({...refinedDescription, descripcion})}
+                onRetry={() => {
+                    setPreferText(false);
+                    resetRecording();
+                    setRefinedDescription(null);
+                }}
+            />
+        )
+    }
     if( !isSupported || readyRecording || preferText ) {
         return (
             <DescriptionEditor
-                transcript={transcript}
+                description={transcript}
                 preferText={preferText}
                 isSupported={isSupported}
                 onChange={changeResult}

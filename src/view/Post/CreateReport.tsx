@@ -8,6 +8,7 @@ import CapturedImgs from "../../components/post/CapturedImgs";
 import FullScreen from "../../components/ui/FullScreen";
 import { createPost } from "../../api/PostAPI";
 import RecordDescription from "../../components/post/RecordDescription";
+import type { ApiErrorType } from "../../types";
 
 export default function CreateReport() {
     const [ready, setReady] = useState(false);
@@ -21,12 +22,10 @@ export default function CreateReport() {
             showMessages("success", "Reporte creado");
             navigate(`/post/reporte/${data.id}?createdAt=${data.createdAt}`);
         },
-        onError: (error) => {
-            if("messages" in error && Array.isArray(error.messages)) {
-                error.messages.forEach((error: string) => {
-                    showMessages("error", error);
-                }); 
-            }
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => {
+                showMessages("error", error);
+            });
         }
     });
 
@@ -63,7 +62,7 @@ export default function CreateReport() {
                         }
                     </FullScreen>
 
-                    
+
                 </CardContent>                
             </Card>
         </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../store/messageStore";
 import { getAddress } from "../api/AddressAPI";
-import type { NewUbicacionType } from "../types";
+import type { ApiErrorType, NewUbicacionType } from "../types";
 
 type UseUbicacionProps = {
     onChange?: (coords: NewUbicacionType) => void;
@@ -22,13 +22,10 @@ export default function useUbicacion({ onChange }: UseUbicacionProps) {
             //console.log("Dirección: ", data);
             setAddress(data);
         },
-        onError: (error) => {
-            if("messages" in error && Array.isArray(error.messages)) {
-                //console.log(error.messages);
-                error.messages.forEach((error: string) => {
-                    showMessages("error", error);
-                }); 
-            }            
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => {
+                showMessages("error", error);
+            });          
         }
     });
 
