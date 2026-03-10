@@ -1,11 +1,31 @@
 import { useState } from "react";
 import { useRecording } from "../../hooks/useRecording";
-import { Textarea } from "../ui/Textarea";
-import { Button } from "../ui/Button";
-import { ArrowLeft, ArrowRight, Keyboard, Mic } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import VoiceRecorder from "./VoiceRecorder";
+import DescriptionEditor from "./DescriptionEditor";
+import { getRefinedDescription } from "../../api/PostAPI";
 
-export default function RecordDescription() {
-    const [preferText, setPreferText] = useState(false); 
+type RecordDescriptionProps = {
+    next: (descripcion: string) => void;
+}
+
+export default function RecordDescription({ next }: RecordDescriptionProps) {
+    const [preferText, setPreferText] = useState(false);
+    
+    const { mutate } = useMutation({
+        mutationFn: getRefinedDescription,
+        onSuccess: (data) => {
+            console.log(data)
+        },
+        onError: (error) => {
+            if("messages" in error && Array.isArray(error.messages)) {
+                error.messages.forEach((error: string) => {
+                    console.log(error);
+                    //showMessages("error", error);
+                }); 
+            }
+        }
+    });
     
     const {
         transcript, 
@@ -20,94 +40,25 @@ export default function RecordDescription() {
 
     if( !isSupported || readyRecording || preferText ) {
         return (
-            <div className="relative flex flex-col justify-center items-center gap-7 select-none animate-traslate">
-                <div className="text-center px-5">
-                    <p className="text-2xl text-foreground font-bold">{!isSupported || preferText ? "¿Qué ocurrió?" : "Descripción del incidente"}</p>
-                    <p className="text-lg text-foreground font-semibold">{!isSupported || preferText ? "Describe brevemente el incidente" : "Puedes modificarla si algo no se interpretó correctamente"}</p>
-                    {!isSupported && <p className="text-muted-foreground text-sm font-semibold">La función de descripción por voz no está disponible por el momento.</p>}
-                </div>
-
-                <div className="px-5 w-screen md:w-xl lg:w-2xl">
-                    <Textarea
-                        className="w-full min-h-[10vh] h-[20vh] max-h-[40vh]"
-                        value={transcript}
-                        onChange={e => changeResult(e.target.value)}
-                    />
-                </div>
-
-                <div className="fixed bottom-4 px-5 flex gap-2 flex-col w-full md:flex-row md:w-md">
-                    { isSupported &&
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            className="flex items-center justify-center gap-1 w-full"
-                            onClick={ () => {
-                                setPreferText(false);
-                                resetRecording();
-                            }}
-                        >
-                            <ArrowLeft className="h-5 w-5"/>
-                            Volver a grabar
-                        </Button>
-                    }
-
-                    <Button
-                        type="button"
-                        className="flex items-center justify-center gap-1 w-full"
-                    >
-                        Siguiente
-                        <ArrowRight className="h-5 w-5"/>
-                    </Button>
-                </div>
-            </div>
+            <DescriptionEditor
+                transcript={transcript}
+                preferText={preferText}
+                isSupported={isSupported}
+                onChange={changeResult}
+                onNext={(descripcion) => mutate(descripcion)}
+                onRetry={() => {
+                    setPreferText(false);
+                    resetRecording();
+                }}
+            />
         )
     }
     return (
-        <div className="relative flex flex-col justify-center items-center gap-7 select-none animate-traslate">
-            <div className="text-center">
-                <p className="text-2xl text-foreground font-bold">¿Qué ocurrió?</p>
-                <p className="text-lg text-foreground font-semibold">Describe brevemente el incidente</p>
-            </div>
-                    
-            { isRecording ?
-                <>
-                    <div className="relative">
-                        <button
-                            className="relative z-10 flex justify-center items-center bg-destructive h-20 w-20 rounded-full cursor-pointer hover:scale-105"
-                            onClick={stopRecording}
-                        >
-                            <Mic className="h-10 w-10 text-white" />
-                        </button>
-                    
-                        <span className="absolute inset-0 bg-destructive h-20 w-20 rounded-full animate-ping opacity-50" />   
-                    </div>             
-                            
-                    <p className="font-semibold text-destructive animate-pulse">Da click para detener</p>
-                </>
-                :
-                <>
-                    <button
-                        className="relative z-10 flex justify-center items-center bg-primary h-20 w-20 rounded-full cursor-pointer hover:scale-105"
-                        onClick={startRecording}
-                    >
-                        <Mic className="h-10 w-10 text-primary-foreground" />
-                    </button>
-
-                    <p className="font-semibold text-primary">Da click para iniciar</p>
-
-                    <div className="px-5 flex justify-center items-center w-full md:flex-row md:w-xs">
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            className="flex items-center justify-center gap-2 w-full"
-                            onClick={() => setPreferText(true)}
-                        >
-                            <Keyboard className="h-5 w-5"/>
-                            Prefiero escribir 
-                        </Button>
-                    </div>
-                </>
-            }
-        </div>
+        <VoiceRecorder 
+            isRecording={isRecording}
+            startRecording={startRecording}
+            stopRecording={stopRecording}
+            onPreferText={() => setPreferText(true)}
+        />
     )
 }

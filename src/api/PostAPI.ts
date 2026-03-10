@@ -96,3 +96,21 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
         handleApiError( error );
     }
 };
+
+export async function getRefinedDescription(description: string) {
+    try {   
+        console.log("hola")
+        const res = await agorappApi.post("/llm-process-post", { description });
+        const respuesta = res.data;
+
+        if( !respuesta.success ) {
+            const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
+            throw new APIAgorAppError(apiErrors);
+        }
+
+        console.log(respuesta);
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+};

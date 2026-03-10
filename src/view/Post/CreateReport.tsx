@@ -46,7 +46,7 @@ export default function CreateReport() {
                     >
                         { section === "images" && 
                             <CapturedImgs 
-                                next={(imgs) =>{ 
+                                next={(imgs) => { 
                                     console.log(imgs);
                                     setSection("description");
                                 }}
@@ -54,9 +54,16 @@ export default function CreateReport() {
                         }
 
                         { section === "description" && 
-                            <RecordDescription />
+                            <RecordDescription 
+                                next={(descripcion) => { 
+                                    console.log(descripcion);
+                                    setSection("description");
+                                }}
+                            />
                         }
                     </FullScreen>
+
+                    
                 </CardContent>                
             </Card>
         </div>
