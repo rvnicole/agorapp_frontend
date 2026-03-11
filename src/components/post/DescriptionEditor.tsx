@@ -47,7 +47,7 @@ export default function DescriptionEditor({ description, preferText, isSupported
                     disabled={description.length <= 0}
                     onClick={() => onNext(description)}
                 >
-                    Siguiente
+                    Continuar
                     <ArrowRight className="h-5 w-5"/>
                 </Button>
             </div>

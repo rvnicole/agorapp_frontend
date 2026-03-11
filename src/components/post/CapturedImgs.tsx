@@ -125,7 +125,7 @@ export default function CapturedImgs({ imgs, next }: CapturedImgsProps) {
                             className="flex items-center justify-center gap-1 w-full"
                             onClick={() => next(imagenes)}
                         >
-                            Siguiente
+                            Continuar
                             <ArrowRight className="h-5 w-5"/>
                         </Button>
                     </div>

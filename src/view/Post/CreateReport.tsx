@@ -47,7 +47,7 @@ export default function CreateReport() {
                 </CardHeader>
                 
                 <CardContent>
-                    { section === "general" || true ? 
+                    { section === "general" ? 
                         <PostForm
                             post={report}
                             tipo="reporte"
@@ -70,7 +70,7 @@ export default function CreateReport() {
                             { section === "description" && 
                                 <RecordDescription 
                                     next={(descripcion) => {
-                                        setSection("description");
+                                        setSection("general");
                                         setReport(r =>({...r, ...descripcion }));
                                     }}
                                 />
