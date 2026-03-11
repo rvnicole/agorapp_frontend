@@ -61,6 +61,7 @@ export default function CreateReport() {
                             { section === "images" && 
                                 <CapturedImgs 
                                     next={(imgs) => {
+                                        console.log("IMGS EN CREATE", imgs);
                                         setSection("description");
                                         setReport(r =>({...r, ...imgs }));
                                     }}

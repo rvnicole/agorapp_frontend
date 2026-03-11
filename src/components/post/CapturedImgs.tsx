@@ -123,7 +123,7 @@ export default function CapturedImgs({ imgs, next }: CapturedImgsProps) {
                         <Button
                             type="button"
                             className="flex items-center justify-center gap-1 w-full"
-                            onClick={() => next(imagenes)}
+                            onClick={() => {console.log("IMGSCapture", imagenes); next(imagenes);}}
                         >
                             Continuar
                             <ArrowRight className="h-5 w-5"/>
