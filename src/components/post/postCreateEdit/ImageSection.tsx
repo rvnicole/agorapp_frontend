@@ -18,6 +18,7 @@ export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
 
     useEffect(() => {
         if( imgs ) {
+            console.log("PRUEBA ",imgs);
             imgs.forEach(img => addImage(img));
         }
     }, []);

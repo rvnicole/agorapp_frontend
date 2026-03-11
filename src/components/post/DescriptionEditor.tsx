@@ -13,14 +13,14 @@ type DescriptionEditorProps = {
 
 export default function DescriptionEditor({ description, preferText, isSupported, onChange, onNext, onRetry }: DescriptionEditorProps) {   
     return (
-        <div className="relative flex flex-col justify-center items-center gap-7 select-none animate-traslate">
-            <div className="text-center px-5">
+        <div className="relative w-screen p-10 flex flex-col justify-center items-center gap-7 select-none animate-traslate">
+            <div className="text-center">
                 <p className="text-2xl text-foreground font-bold">{!isSupported || preferText ? "¿Qué ocurrió?" : "Descripción del incidente"}</p>
                 <p className="text-lg text-foreground font-semibold">{!isSupported || preferText ? "Describe brevemente el incidente" : "Puedes modificarla si algo no se interpretó correctamente"}</p>
                 {!isSupported && <p className="text-muted-foreground text-sm font-semibold">La función de descripción por voz no está disponible por el momento.</p>}
             </div>
 
-            <div className="px-5 w-screen md:w-xl lg:w-2xl">
+            <div className="w-full md:w-xl lg:w-2xl">
                 <Textarea
                     className="w-full min-h-[10vh] h-[20vh] max-h-[40vh]"
                     value={description}
