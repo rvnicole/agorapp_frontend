@@ -63,7 +63,7 @@ export default function CreateReport() {
                                     next={(imgs) => {
                                         console.log("IMGS EN CREATE", imgs);
                                         setSection("description");
-                                        setReport(r =>({...r, ...imgs }));
+                                        setReport(r =>({...r, imgs }));
                                     }}
                                 /> 
                             }
