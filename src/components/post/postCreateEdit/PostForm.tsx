@@ -15,6 +15,7 @@ type PostFormProps = {
 }
 
 export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
+    console.log("Post", post);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { register, handleSubmit, setValue, getValues, control, formState: { errors } } = useForm<Post>({
