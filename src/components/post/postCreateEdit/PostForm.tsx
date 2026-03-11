@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
 import { Button } from "../../ui/Button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import ImageSection from "./ImageSection";
 import InformationSection from "./InformationSection";
 import UbicacionSection from "./UbicacionSection";
@@ -78,16 +78,19 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
             <div className="space-y-3 pt-4">
                 <Button 
                     type="submit" 
-                    className="w-full h-12 flex items-center justify-center text-base" 
+                    className="w-full h-12 flex items-center justify-center gap-1 text-base" 
                     disabled={isSubmitting}
                 >
                     { isSubmitting ? (
                         <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <Loader2 className="h-4 w-4 animate-spin" />
                             Enviando...
                         </>
                     ) : (
-                        <>{post ? "Editar Reporte" : "Crear Reporte"}</>
+                        <>
+                            Enviar
+                            <Send className="h-4 w-4 mt-1" />
+                        </>
                     )}
                 </Button>
             </div>
