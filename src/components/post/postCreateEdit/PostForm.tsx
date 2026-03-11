@@ -1,30 +1,27 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
-import { useAppStore } from "../../../store/appStore";
 import { Button } from "../../ui/Button";
 import { Loader2 } from "lucide-react";
 import ImageSection from "./ImageSection";
 import InformationSection from "./InformationSection";
 import UbicacionSection from "./UbicacionSection";
 import MessageErrors from "../../ui/MessageErrors";
-import type { Post } from "../../../types";
+import type { NewReport, Post } from "../../../types";
 
 type PostFormProps = {
-    post?: Post;
+    post?: NewReport;
     tipo: Post["tipo"];
     onSubmit: (post: Post) => void;
 }
 
 export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
     const [isSubmitting, setIsSubmitting] = useState(false);
-    //const { usuarioId } = useAppStore(state => state);
 
-    const { register, handleSubmit, setValue, control, formState: { errors } } = useForm<Post>({
+    const { register, handleSubmit, setValue, getValues, control, formState: { errors } } = useForm<Post>({
         mode: "onChange",
         defaultValues: {
             ...post,
-            tipo,
-            //usuarioId
+            tipo
         }
     });
 
@@ -54,9 +51,12 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
 
     return (
         <form onSubmit={handleSubmit( handleOnSubmit )} className="space-y-6">
-            <ImageSection onChange={(imgs) => {
-                setValue("imgs", imgs);
-            }}/>
+            <ImageSection
+                imgs={getValues("imgs")}
+                onChange={(imgs) => {
+                    setValue("imgs", imgs);
+                }}
+            />
             { errors.imgs && <MessageErrors>{errors.imgs.message}</MessageErrors> }
 
             <InformationSection

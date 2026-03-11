@@ -1,172 +1,68 @@
-import { useState, useRef, type ChangeEvent, useEffect } from "react";
-import { useMessageStore } from "../../../store/messageStore";
-import { useCameraCapture } from "../../../hooks/useCameraCapture";
-import useImagenes from "../../../hooks/useImagenes";
-import Modal from "../../ui/Modal";
+import { useEffect, useState } from "react";
+import { useCameraImagePreview } from "../../../hooks/useCameraImagePreview";
+import FullScreen from "../../ui/FullScreen";
+import CapturedImgs from "../CapturedImgs";
+import PreviewImg from "../PreviewImg";
 import { Button } from "../../ui/Button";
 import { Label } from "../../ui/Label";
-import { Camera, ImageIcon, Loader2, X } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 
 type ImageSectionProps = {
+    imgs: File[];
     onChange: (imgs: File[]) => void;
 }
 
-export default function ImageSection({ onChange }: ImageSectionProps) {
-    const [openModal, setOpenModal] = useState(false); // Abrir o Cerrar Modal
-    const inputImgs = useRef<HTMLInputElement>(null);
-
-    const { showMessages } = useMessageStore(state => state);
-
-    // Gestionar las imagenes
-    const { filesImagenes, imagenes, addImagen, addImagenes, removeImagen } = useImagenes({ max: 3});
-
-    // Gestiona la camara
-    const { isOpen, videoRef, canvasRef, openCamera, capture, closeCamera } = useCameraCapture();
+export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
+    const { images, addImage, removeImage } = useCameraImagePreview({max: 3});
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        onChange(filesImagenes);
-    }, [filesImagenes, onChange]);
-
-    useEffect(() => {
-        if( !openModal ) return;
-
-        const startCamera = async () => {
-            const res = await openCamera();
-    
-            if (!res.success && res.error ) {
-                setOpenModal(false);
-                showMessages("error", res.error);
-            }
-        };
-    
-        startCamera();
-    }, [openModal]);
-
-    // Tomar foto desde la camara
-    const handleCaptureImg = async () => {
-        const file = await capture();
-        if( !file ) {
-            console.log("No se pudo capturar la imagen")
-            return;
-        };
-
-        addImagen( file );
-        setOpenModal( false );
-    }
-
-    // Agregar imagenes
-    const handleAddImgs = (e: ChangeEvent<HTMLInputElement>) => {
-        const inputFiles = e.target.files;
-        if( !inputFiles ) return;
-
-        const files = Object.values(inputFiles);
-        addImagenes( files );
-
-        e.target.value = "";
-    }
+        if( imgs ) {
+            imgs.forEach(img => addImage(img));
+        }
+    }, []);
     
     return (
         <div className="space-y-3">
             <Label htmlFor="imgs" className="text-base font-semibold">Fotos*</Label>
-            <p className="text-sm text-muted-foreground">Agrega fotos para ayudarnos a entender mejor el problema (3 máximo)</p>
+            <p className="text-sm text-muted-foreground">Las fotos nos ayudan a entender mejor el problema (3 máximo)</p>
                 
             <div className="grid grid-cols-3 gap-3">
-                { imagenes.length < 3 && (
-                    <>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            className="aspect-square h-auto flex flex-col items-center justify-center gap-2"
-                            onClick={() => setOpenModal(true)}
-                        >                            
-                            <Camera className="h-6 w-6" />
-                            <span className="text-sm font-semibold">Cámara</span>
-                        </Button>
-
-                        {/*
-                            <Button
-                                type="button"
-                                variant="outline"
-                                className="aspect-square h-auto flex flex-col items-center justify-center gap-2"
-                                onClick={() => inputImgs.current && inputImgs.current.click() }
-                            >
-                                <ImageIcon className="h-6 w-6" />
-                                <span className="text-sm font-semibold">Galería</span>
-                            </Button>
-                        */}
-                    </>
+                { images.length < 3 && (
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        className="flex items-center justify-center gap-1 w-16 h-16 rounded-full"
+                        onClick={() => setOpen(true)}
+                    >
+                        <ImagePlus className="h-6 w-6" />
+                    </Button>
                 )}
 
-                { imagenes.map((i, index) => (
+                { images.map((img, index) => (
                     <div
-                        key={`${i.imagen.name}-${i.imagen.lastModified}`}
-                        className="relative aspect-square"
+                        key={`foto-${index}`}
+                        className="w-full max-w-[260px]"
                     >
-                        <img
-                            src={i.url} 
-                            alt={`Foto ${index + 1}`}
-                            className="w-full h-full object-cover rounded-lg"
+                        <PreviewImg
+                            img={img}
+                            onRemove={removeImage}
                         />
-
-                        <Button
-                            aria-label="Eliminar imagen"
-                            type="button"
-                            variant="destructive"
-                            size="icon"
-                            data-img={`${i.imagen.name}-${i.imagen.lastModified}`}
-                            className="absolute -top-2 -right-2 flex justify-center items-center h-6 w-6 rounded-full"
-                            onClick={() => removeImagen(`${i.imagen.name}-${i.imagen.lastModified}`)}
-                        >
-                            <X className="h-4 w-4" />
-                        </Button>
-                    </div>  
+                    </div>
                 ))}
 
-                <Modal 
-                    open={openModal} 
-                    onClose={() => {
-                        closeCamera();
-                        setOpenModal(false);                            
-                    }}
+                <FullScreen
+                    open={open}
+                    onClose={() => setOpen(false)}
                 >
-                    <div className="relative p-2">
-                        <video 
-                            id="capture-imgs" 
-                            ref={videoRef} 
-                            className={`rounded-xl ${isOpen ? "block" : "hidden"}`}
-                            autoPlay 
-                        />
-
-                        <canvas ref={canvasRef} hidden />
-
-                        <Button
-                            type="button"
-                            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center h-12 w-12 rounded-full"
-                            onClick={handleCaptureImg}
-                            hidden={!isOpen} 
-                        >
-                            <Camera className="h-6 w-6"/>
-                        </Button>
-
-                        { !isOpen && 
-                            <div className="flex items-center justify-center gap-2">
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Accediendo a la cámara...
-                            </div>
-                        }
-                    </div> 
-                </Modal>
+                    <CapturedImgs 
+                        imgs={imgs}
+                        next={(imgs) => {
+                            onChange(imgs);
+                        }}
+                    />
+                </FullScreen>
             </div>
-                
-            <input 
-                id="imgs" 
-                type="file"
-                ref={inputImgs}
-                accept="image/png, image/jpeg"
-                onChange={handleAddImgs}
-                multiple 
-                hidden
-            />
         </div>
     )
 }

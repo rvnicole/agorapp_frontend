@@ -2,19 +2,28 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../../store/messageStore";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
 import Permissions from "../../components/permissons/Permissions";
 import CapturedImgs from "../../components/post/CapturedImgs";
 import FullScreen from "../../components/ui/FullScreen";
-import { createPost } from "../../api/PostAPI";
 import RecordDescription from "../../components/post/RecordDescription";
-import type { ApiErrorType } from "../../types";
+import PostForm from "../../components/post/postCreateEdit/PostForm";
+import { createPost } from "../../api/PostAPI";
+import type { ApiErrorType, NewReport } from "../../types";
 
 export default function CreateReport() {
     const [ready, setReady] = useState(false);
-    const [section, setSection] = useState<"images"|"description"|"location"|"general">("images");
+    const [section, setSection] = useState<"images"|"description"|"general">("images");
     const { showMessages } = useMessageStore(state => state);
     const navigate = useNavigate();
+
+    const [report, setReport] = useState<NewReport>({
+        titulo: "",
+        descripcion: "",
+        tipo: "reporte",
+        categoriaId: 0,
+        imgs: []
+    });
 
     const { mutate } = useMutation({
         mutationFn: createPost,
@@ -35,34 +44,39 @@ export default function CreateReport() {
             <Card className="border w-full md:w-3xl">
                 <CardHeader className="space-y-1">
                    <CardTitle className="text-2xl">Creá un Reporte</CardTitle>
-                   <CardDescription></CardDescription>
                 </CardHeader>
                 
                 <CardContent>
-                    <FullScreen
-                        open={true}
-                        onClose={() => navigate("/")}
-                    >
-                        { section === "images" && 
-                            <CapturedImgs 
-                                next={(imgs) => { 
-                                    console.log(imgs);
-                                    setSection("description");
-                                }}
-                            /> 
-                        }
+                    { section === "general" || true ? 
+                        <PostForm
+                            post={report}
+                            tipo="reporte"
+                            onSubmit={mutate}
+                        />
+                        :
+                        <FullScreen
+                            open={true}
+                            onClose={() => navigate("/")}
+                        >
+                            { section === "images" && 
+                                <CapturedImgs 
+                                    next={(imgs) => {
+                                        setSection("description");
+                                        setReport(r =>({...r, ...imgs }));
+                                    }}
+                                /> 
+                            }
 
-                        { section === "description" && 
-                            <RecordDescription 
-                                next={(descripcion) => { 
-                                    console.log(descripcion);
-                                    setSection("description");
-                                }}
-                            />
-                        }
-                    </FullScreen>
-
-
+                            { section === "description" && 
+                                <RecordDescription 
+                                    next={(descripcion) => {
+                                        setSection("description");
+                                        setReport(r =>({...r, ...descripcion }));
+                                    }}
+                                />
+                            }
+                        </FullScreen>
+                    }
                 </CardContent>                
             </Card>
         </div>

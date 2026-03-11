@@ -9,10 +9,11 @@ import PreviewImg from "./PreviewImg";
 import { ArrowRight, Camera, ImagePlus } from "lucide-react";
 
 type CapturedImgsProps = {
+    imgs?: File[];
     next: (imgs: File[]) => void;
 }
 
-export default function CapturedImgs({ next }: CapturedImgsProps) {
+export default function CapturedImgs({ imgs, next }: CapturedImgsProps) {
     const { stream, videoRef, canvasRef, openCamera, capture } = useCameraCapture();
     const { images, imagenes, addImage, removeImage } = useCameraImagePreview({max: 3});
 
@@ -22,6 +23,10 @@ export default function CapturedImgs({ next }: CapturedImgsProps) {
 
     useEffect(() => {   
         startCamera();
+
+        if( imgs ) {
+            imgs.forEach(img => addImage(img));
+        }
     }, []);
 
     useEffect(() => {

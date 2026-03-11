@@ -36,6 +36,8 @@ export type Post = z.infer<typeof PostSchema>;
 export type Report = z.infer<typeof ReportSchema>;
 export type AddressResult = z.infer<typeof AddressResultSchema>;
 
+export type NewReport = Omit<Report, "id"|"usuarioId">;
+
 export type ImagenPreview = {
     imagen: File;
     url: string;
