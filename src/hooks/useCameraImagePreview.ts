@@ -51,6 +51,16 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
         });
     };
 
+    // Imagenes iniciales
+    const setInitialImages = (files: File[]) => {
+        const previews = files.slice(0, max).map(file => ({
+            imagen: file,
+            url: URL.createObjectURL(file)
+        }));
+    
+        setImages(previews);
+    };
+
     //Imagenes para enviar al backend
     const imagenes = useMemo(() => images.map(i => i.imagen), [images]);
 
@@ -58,6 +68,7 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
         images,
         imagenes,
         addImage,
-        removeImage
+        removeImage,
+        setInitialImages
     };
 }

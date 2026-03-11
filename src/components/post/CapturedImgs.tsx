@@ -15,7 +15,7 @@ type CapturedImgsProps = {
 
 export default function CapturedImgs({ imgs, next }: CapturedImgsProps) {
     const { stream, videoRef, canvasRef, openCamera, capture } = useCameraCapture();
-    const { images, imagenes, addImage, removeImage } = useCameraImagePreview({max: 3});
+    const { images, imagenes, addImage, setInitialImages, removeImage } = useCameraImagePreview({max: 3});
 
     const [ view, setView ] = useState<"loading" | "camera" | "preview">("loading");
     const { showMessages } = useMessageStore(state => state);
@@ -24,8 +24,8 @@ export default function CapturedImgs({ imgs, next }: CapturedImgsProps) {
     useEffect(() => {   
         startCamera();
 
-        if( imgs ) {
-            imgs.forEach(img => addImage(img));
+        if (imgs?.length) {
+            setInitialImages(imgs);
         }
     }, []);
 
@@ -41,7 +41,7 @@ export default function CapturedImgs({ imgs, next }: CapturedImgsProps) {
         if (images.length === 0 && view === "preview") {
             startCamera();
         }
-    }, [images]);
+    }, [images, view]);
 
     const startCamera = async () => {
         setView("loading");
@@ -94,9 +94,9 @@ export default function CapturedImgs({ imgs, next }: CapturedImgsProps) {
             { view === "preview" && (
                 <div className="p-5">
                     <div className={`grid gap-3 mb-7 ${images.length === 1 ? "grid-cols-1 place-items-center" : "grid-cols-2"}`}>
-                        {images.map((img, index) => (
+                        {images.map(img => (
                             <div
-                                key={`foto-${index}`}
+                                key={`${img.imagen.name}-${img.imagen.lastModified}`}
                                 className="w-full max-w-[260px]"
                             >
                                 <PreviewImg
@@ -123,7 +123,7 @@ export default function CapturedImgs({ imgs, next }: CapturedImgsProps) {
                         <Button
                             type="button"
                             className="flex items-center justify-center gap-1 w-full"
-                            onClick={() => {console.log("IMGSCapture", imagenes); next(imagenes);}}
+                            onClick={() => next(imagenes)}
                         >
                             Continuar
                             <ArrowRight className="h-5 w-5"/>
