@@ -17,13 +17,15 @@ type PostFormProps = {
 export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { register, handleSubmit, setValue, getValues, control, formState: { errors } } = useForm<Post>({
+    const { register, handleSubmit, setValue, watch, control, formState: { errors } } = useForm<Post>({
         mode: "onChange",
         defaultValues: {
             ...post,
             tipo
         }
     });
+
+    const imgs = watch("imgs");
 
     useEffect(() => {
         register("imgs", {
@@ -52,7 +54,7 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
     return (
         <form onSubmit={handleSubmit( handleOnSubmit )} className="space-y-6">
             <ImageSection
-                imgs={getValues("imgs")}
+                imgs={imgs}
                 onChange={(imgs) => {
                     setValue("imgs", imgs);
                 }}

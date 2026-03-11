@@ -17,9 +17,7 @@ export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (imgs?.length) {
-            setInitialImages(imgs);
-        }
+        setInitialImages(imgs);
     }, [imgs]);
     
     return (
@@ -35,7 +33,11 @@ export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
                     >
                         <PreviewImg
                             img={img}
-                            onRemove={removeImage}
+                            onRemove={(id) => {
+                                removeImage(id)
+                                const nuevas = imagenes.filter(img => `${img.name}-${img.lastModified}` !== id);                           
+                                onChange(nuevas)
+                            }}
                         />
                     </div>
                 ))}
@@ -50,20 +52,22 @@ export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
                         <ImagePlus className="h-6 w-6" />
                     </Button>
                 )}
-
-                <FullScreen
-                    open={open}
-                    onClose={() => setOpen(false)}
-                >
-                    <CapturedImgs 
-                        imgs={imagenes}
-                        next={(imgs) => {
-                            onChange(imgs);
-                            setOpen(false);
-                        }}
-                    />
-                </FullScreen>
             </div>
+
+            { open && (
+                    <FullScreen
+                        open={open}
+                        onClose={() => setOpen(false)}
+                    >
+                        <CapturedImgs 
+                            imgs={imagenes}
+                            next={(imgs) => {
+                                onChange(imgs);
+                                setOpen(false);
+                            }}
+                        />
+                    </FullScreen>
+                )}
         </div>
     )
 }

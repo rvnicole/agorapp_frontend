@@ -5,6 +5,7 @@ import { useMessageStore } from "../../store/messageStore";
 import VoiceRecorder from "./VoiceRecorder";
 import DescriptionEditor from "./DescriptionEditor";
 import DescriptionComparison from "./DescriptionComparison";
+import Spinner from "../ui/Spinner";
 import { getRefinedDescription } from "../../api/PostAPI";
 import type { ApiErrorType, DescriptionRespuesta } from "../../types";
 
@@ -17,7 +18,7 @@ export default function RecordDescription({ next }: RecordDescriptionProps) {
     const [preferText, setPreferText] = useState(false);
     const { showMessages } = useMessageStore(state => state);
     
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: getRefinedDescription,
         onSuccess: (data) => {
             setRefinedDescription(data)
@@ -40,6 +41,7 @@ export default function RecordDescription({ next }: RecordDescriptionProps) {
         resetRecording
     } = useRecording();
 
+    if( isPending ) return <Spinner/>
     if( refinedDescription ) {
         return (
             <DescriptionComparison
