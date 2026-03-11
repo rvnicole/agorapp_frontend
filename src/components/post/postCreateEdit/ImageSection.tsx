@@ -59,6 +59,7 @@ export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
                         imgs={imagenes}
                         next={(imgs) => {
                             onChange(imgs);
+                            setOpen(false);
                         }}
                     />
                 </FullScreen>
