@@ -22,7 +22,6 @@ export async function createPost(post : Post) {
         }
 
         post.imgs.forEach(img => {
-            console.log("img", img);
             formData.append("imgs", img);
         });
 
@@ -55,7 +54,7 @@ export async function createPost(post : Post) {
             throw new APIAgorAppError(errors);
         }
 
-        const res = await agorappApi.post("/posts", formData);
+        const res = await agorappApi.post("/post", formData);
         const respuesta = res.data;
 
         if( !respuesta.success ) {

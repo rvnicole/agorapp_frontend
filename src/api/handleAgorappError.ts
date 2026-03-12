@@ -5,6 +5,8 @@ import type { ZodError } from "zod";
 type Errores = Error | APIAgorAppError | AxiosError | ZodError | unknown;
 
 export function handleApiError(error: Errores): APIAgorAppError {
+    console.log(error);
+    
     // Axios error 
     if (isAxiosError(error)) {
         // Errores de peticion devueltos por la API
