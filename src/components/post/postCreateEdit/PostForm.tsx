@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
 import { Button } from "../../ui/Button";
-import { Loader2, Send } from "lucide-react";
 import ImageSection from "./ImageSection";
 import InformationSection from "./InformationSection";
 import UbicacionSection from "./UbicacionSection";
 import MessageErrors from "../../ui/MessageErrors";
+import Map from "../../Map";
+import { Loader2, Send } from "lucide-react";
 import type { ImagenData, NewReport, Post } from "../../../types";
 
 type PostFormProps = {
@@ -76,11 +77,7 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
                 errors={ errors}
             /> 
             
-            <UbicacionSection onChange={({ lat, lng }) => {
-                console.log("Coords", {lat, lng});
-                setValue("lat", lat);
-                setValue("lng", lng);
-            }}/>
+            <Map position={{lat, lng}} />
             { (errors.lat || errors.lng ) && <MessageErrors>La ubicación es obligatoria</MessageErrors> }
 
             <div className="space-y-3 pt-4">
