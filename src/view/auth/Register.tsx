@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import useUbicacion from "../../hooks/useUbicacion";
+import { useUbicacion } from "../../hooks/useUbicacion";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/Card";
 import { Label } from "../../components/ui/Label";

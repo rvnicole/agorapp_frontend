@@ -1,4 +1,4 @@
-import useUbicacion from "../../../hooks/useUbicacion";
+import { useUbicacion } from "../../../hooks/useUbicacion";
 import { Label } from "../../ui/Label";
 import { Input } from "../../ui/Input";
 import { Toggle } from "../../ui/Toggle";

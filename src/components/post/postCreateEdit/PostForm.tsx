@@ -6,7 +6,7 @@ import ImageSection from "./ImageSection";
 import InformationSection from "./InformationSection";
 import UbicacionSection from "./UbicacionSection";
 import MessageErrors from "../../ui/MessageErrors";
-import type { NewReport, Post } from "../../../types";
+import type { ImagenData, NewReport, Post } from "../../../types";
 
 type PostFormProps = {
     post?: NewReport;
@@ -26,6 +26,8 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
     });
 
     const imgs = watch("imgs");
+    const lat = watch("lat") || 19.4326;
+    const lng = watch("lng") || -99.1332;
 
     useEffect(() => {
         register("imgs", {
@@ -55,8 +57,14 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
         <form onSubmit={handleSubmit( handleOnSubmit )} className="space-y-6">
             <ImageSection
                 imgs={imgs}
-                onChange={(imgs) => {
-                    setValue("imgs", imgs);
+                position={{ lat, lng }}
+                onChange={({ imagenes, positions } : ImagenData) => {
+                    const lat = positions[0].lat;
+                    const lng = positions[0].lng;
+
+                    setValue("imgs", imagenes);
+                    setValue("lat", lat);
+                    setValue("lng", lng);
                 }}
             />
             { errors.imgs && <MessageErrors>{errors.imgs.message}</MessageErrors> }

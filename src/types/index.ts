@@ -39,9 +39,17 @@ export type AddressResult = z.infer<typeof AddressResultSchema>;
 export type NewReport = Omit<Report, "id"|"usuarioId">;
 
 export type ImagenPreview = {
+    id: string;
     imagen: File;
     url: string;
+    position: NewUbicacionType;
 };
+
+export type ImagenData = {
+    images: ImagenPreview[];
+    imagenes: File[];
+    positions: NewUbicacionType[];
+}
 
 /* ------------------ Messages ------------------ */
 export type Message = z.infer<typeof MessageSchema>;

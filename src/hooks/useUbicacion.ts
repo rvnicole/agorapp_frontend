@@ -6,9 +6,9 @@ import type { ApiErrorType, NewUbicacionType } from "../types";
 
 type UseUbicacionProps = {
     onChange?: (coords: NewUbicacionType) => void;
-}
+};
 
-export default function useUbicacion({ onChange }: UseUbicacionProps) {
+export function useUbicacion({ onChange }: UseUbicacionProps) {
     const [mode, setMode] = useState(false); // true -> ubicación en tiempo real // false -> Manual
     const [position, setPosition] = useState<NewUbicacionType>({ lat: 19.4326, lng: -99.1332 });
     const [address, setAddress] = useState("");
@@ -41,25 +41,39 @@ export default function useUbicacion({ onChange }: UseUbicacionProps) {
         setloadingUbicacion(false);
     }
 
-    const getPosition = () => {
+    const getCurrentPosition = (): Promise<NewUbicacionType> => {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+    
+                    resolve({ lat, lng });
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+        });
+    };
+
+    const getPosition = async () => {
         setloadingUbicacion(true);
 
-        navigator.geolocation.getCurrentPosition(
-            async (pos) => {
-                setMode(true);
+        try {
+            const coords = await getCurrentPosition();
 
-                const lat = pos.coords.latitude;
-                const lng = pos.coords.longitude;
-
-                applyPosition({lat, lng});
-            },
-            (error) => {
-                setMode(false);
-                setloadingUbicacion(false);
-                console.error(error);
-                showMessages("error", "No se pudo obtener la ubicación.");
-            }
-        );
+            setMode(true);
+            applyPosition(coords);
+        }
+        catch(error) {
+            setMode(false);
+            console.error(error);
+            showMessages("error", "No se pudo obtener la ubicación.");
+        }
+        finally {
+            setloadingUbicacion(false);
+        }
     }
 
     const getManualPosition = async ({lat, lng}: NewUbicacionType) => {
@@ -74,6 +88,7 @@ export default function useUbicacion({ onChange }: UseUbicacionProps) {
         address,
         loadingAddress: isPending,
         loadingUbicacion,
+        getCurrentPosition,
         getPosition,
         getManualPosition
     })

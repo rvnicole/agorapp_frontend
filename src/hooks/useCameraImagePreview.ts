@@ -1,15 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { ImagenPreview } from "../types";
+import type { ImagenPreview, NewUbicacionType } from "../types";
 
 type UseCameraImagePreviewProps = {
     max: number;
 };
 
 export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
-    // Imagenes capturadas
     const [images, setImages] = useState<ImagenPreview[]>([]);
-
-    // Para limpiar la memoria cuando se desmonte el componente
     const imagesRef = useRef<ImagenPreview []>([]); 
 
     // Actualizar el Ref con el State actual
@@ -26,13 +23,15 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
     }, []);
 
     // Agregar Imagen
-    const addImage = (img: File) => {
+    const addImage = (img: File, position: NewUbicacionType) => {
         setImages(prev => {
             if (prev.length >= max) return prev;
 
             const preview: ImagenPreview = {
+                id: `${img.name}-${img.lastModified}`,
                 imagen: img,
-                url: URL.createObjectURL(img), // Crea una URL temporal que apunta a la imagen(blob) en memoria
+                url: URL.createObjectURL(img),
+                position
             };
 
             return [...prev, preview];
@@ -42,20 +41,24 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
     // Elimina una imagen
     const removeImage = (id: string) => {
         setImages(prev => {
-            const img = prev.find(i => `${i.imagen.name}-${i.imagen.lastModified}` === id);
+            const img = prev.find(i => i.id === id);
             
             // Libera memoria inmediatamente
             if (img) URL.revokeObjectURL(img.url);
 
-            return prev.filter(i => `${i.imagen.name}-${i.imagen.lastModified}` !== id);
+            return prev.filter(i => i.id !== id);
         });
     };
 
     // Imagenes iniciales
-    const setInitialImages = (files: File[]) => {
-        const previews = files.slice(0, max).map(file => ({
-            imagen: file,
-            url: URL.createObjectURL(file)
+    const setInitialImages = (imgs: File[], position: NewUbicacionType) => {
+        imagesRef.current.forEach(img => URL.revokeObjectURL(img.url));
+        
+        const previews = imgs.slice(0, max).map(img => ({
+            id: `${img.name}-${img.lastModified}`,
+            imagen: img,
+            url: URL.createObjectURL(img),
+            position
         }));
     
         setImages(previews);
@@ -64,9 +67,13 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
     //Imagenes para enviar al backend
     const imagenes = useMemo(() => images.map(i => i.imagen), [images]);
 
+    //Posiciones para enviar al backend
+    const positions = useMemo(() => images.map(i => i.position), [images]);
+
     return {
         images,
         imagenes,
+        positions,
         addImage,
         removeImage,
         setInitialImages

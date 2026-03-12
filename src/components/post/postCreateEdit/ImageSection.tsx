@@ -6,19 +6,35 @@ import PreviewImg from "../PreviewImg";
 import { Button } from "../../ui/Button";
 import { Label } from "../../ui/Label";
 import { ImagePlus } from "lucide-react";
+import type { ImagenData, NewUbicacionType } from "../../../types";
 
 type ImageSectionProps = {
     imgs: File[];
-    onChange: (imgs: File[]) => void;
+    position: NewUbicacionType;
+    onChange: (imgs: ImagenData) => void;
 }
 
-export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
-    const { images, imagenes, removeImage, setInitialImages } = useCameraImagePreview({max: 3});
+export default function ImageSection({ imgs, position, onChange }: ImageSectionProps) {
+    const { images, imagenes, positions, removeImage, setInitialImages } = useCameraImagePreview({max: 3});
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        setInitialImages(imgs);
-    }, [imgs]);
+        setInitialImages(imgs, position);
+    }, [imgs, position]);
+
+    const handleRemoveImage = (id: string) => {
+        removeImage(id);
+                                
+        const newImages = images.filter(img => img.id !== id);
+        const newImagenes = newImages.map(img => img.imagen);
+        const newPosition = newImages.map(img => img.position);
+        
+        onChange({ 
+            images: newImages, 
+            imagenes: newImagenes, 
+            positions: newPosition
+        });
+    }
     
     return (
         <div className="space-y-3">
@@ -28,16 +44,12 @@ export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
             <div className="grid grid-cols-3 gap-3 place-items-center">
                 { images.map(img => (
                     <div
-                        key={`${img.imagen.name}-${img.imagen.lastModified}`}
+                        key={img.id}
                         className="w-full max-w-[260px]"
                     >
                         <PreviewImg
                             img={img}
-                            onRemove={(id) => {
-                                removeImage(id)
-                                const nuevas = imagenes.filter(img => `${img.name}-${img.lastModified}` !== id);                           
-                                onChange(nuevas)
-                            }}
+                            onRemove={handleRemoveImage}
                         />
                     </div>
                 ))}
@@ -61,8 +73,12 @@ export default function ImageSection({ imgs, onChange }: ImageSectionProps) {
                     >
                         <CapturedImgs 
                             imgs={imagenes}
-                            next={(imgs) => {
-                                onChange(imgs);
+                            position={{
+                                lat: positions[0].lat,
+                                lng: positions[0].lng
+                            }}
+                            next={data => {
+                                onChange(data);
                                 setOpen(false);
                             }}
                         />

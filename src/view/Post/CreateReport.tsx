@@ -9,7 +9,7 @@ import FullScreen from "../../components/ui/FullScreen";
 import RecordDescription from "../../components/post/RecordDescription";
 import PostForm from "../../components/post/postCreateEdit/PostForm";
 import { createPost } from "../../api/PostAPI";
-import type { ApiErrorType, NewReport } from "../../types";
+import type { ApiErrorType, DescriptionRespuesta, ImagenData, NewReport } from "../../types";
 
 export default function CreateReport() {
     const [ready, setReady] = useState(false);
@@ -38,6 +38,22 @@ export default function CreateReport() {
         }
     });
 
+    const handleNextImgs = ({ imagenes, positions }: ImagenData) => {
+        setSection("description");
+        setReport(r =>({
+            ...r, 
+            imgs: imagenes,
+            lat: positions[0].lat,
+            lng: positions[0].lng
+        }));
+    }
+
+    const handleNextDescription = (description: DescriptionRespuesta) => {
+        setSection("general");
+        setReport(r =>({...r, ...description }));
+    }
+
+
     if( !ready ) return (<Permissions onGranted={() => setReady(true)} />);
     return (
         <div className="flex items-center justify-center w-full">
@@ -60,19 +76,13 @@ export default function CreateReport() {
                         >
                             { section === "images" && 
                                 <CapturedImgs 
-                                    next={(imgs) => {
-                                        setSection("description");
-                                        setReport(r =>({...r, imgs }));
-                                    }}
+                                    next={handleNextImgs}
                                 /> 
                             }
 
                             { section === "description" && 
                                 <RecordDescription 
-                                    next={(descripcion) => {
-                                        setSection("general");
-                                        setReport(r =>({...r, ...descripcion }));
-                                    }}
+                                    next={handleNextDescription}
                                 />
                             }
                         </FullScreen>
