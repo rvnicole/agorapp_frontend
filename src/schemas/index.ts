@@ -93,7 +93,7 @@ export const PostRespuestaSchema = z.object({
     created_at: z.string(),
     updated_at: z.string(),
     fk_categoria_id: z.coerce.number().nullable(),
-    alias: z.string(),
+    alias: z.string().nullable(),
     usuario_id: z.coerce.number(),
     estilos: z.string().nullable(),
     lon: z.coerce.number().nullable(),

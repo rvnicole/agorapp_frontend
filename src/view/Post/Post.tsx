@@ -6,6 +6,8 @@ import Spinner from "../../components/ui/Spinner";
 import UbicacionPost from "../../components/post/postView/UbicacionPost";
 import InformationPost from "../../components/post/postView/InformationPost";
 import CarruselImgs from "../../components/post/CarruselImgs";
+import type { Post } from "../../types";
+import { useEffect } from "react";
 
 export default function Post() {
     const { showMessages } = useMessageStore(state => state);
@@ -13,7 +15,6 @@ export default function Post() {
 
     const params = useParams();
     const id = Number( params.id );
-    const tipo = params.tipo; // Reporte, Aviso o Publicidad 
 
     const search = (location.search).replace("+", "%2B");
     const searchParams = new URLSearchParams( search );
@@ -25,13 +26,14 @@ export default function Post() {
         retry: 2
     });
 
-    console.log(data);
+    useEffect(() => {
+        if (isError) {
+            showMessages("error", "No se encontro la publicación");
+            navigate("/");
+        }
+    }, [isError]);
 
-    if( isError ) {
-        navigate("/");
-        showMessages("error", "No se encontro la publicación");
-    }
-    else if( isLoading ) return (
+    if( isLoading ) return (
         <div className="flex justify-center">
             <Spinner />
         </div>
@@ -49,4 +51,5 @@ export default function Post() {
             </div>
         </div>
     )
+    return null;
 }
