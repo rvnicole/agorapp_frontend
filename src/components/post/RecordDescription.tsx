@@ -41,8 +41,7 @@ export default function RecordDescription({ next }: RecordDescriptionProps) {
         resetRecording
     } = useRecording();
 
-    if( isPending ) return <Spinner/>
-    if( refinedDescription ) {
+    if( refinedDescription && !isPending ) {
         return (
             <DescriptionComparison
                 original={transcript}
@@ -62,6 +61,7 @@ export default function RecordDescription({ next }: RecordDescriptionProps) {
                 description={transcript}
                 preferText={preferText}
                 isSupported={isSupported}
+                isLoading={isPending}
                 onChange={changeResult}
                 onNext={(descripcion) => mutate(descripcion)}
                 onRetry={() => {

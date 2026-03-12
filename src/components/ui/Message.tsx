@@ -24,7 +24,7 @@ export default function Message() {
     const { messages, removeMessages } = useMessageStore(state => state);
 
     return (
-        <div className="fixed bottom-4 right-4 space-y-2 z-50">
+        <div className="fixed bottom-4 right-4 space-y-2 z-100">
             { messages.map((m) => {
                 const Icono = iconos[m.type].icono;
                 const color = iconos[m.type].color;

@@ -1,17 +1,18 @@
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/Textarea";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 
 type DescriptionEditorProps = {
     description: string;
     preferText: boolean;
     isSupported: boolean;
+    isLoading: boolean;
     onChange: (descripcion: string) => void;
     onNext: (descripcion: string) => void;
     onRetry: () => void;
 }
 
-export default function DescriptionEditor({ description, preferText, isSupported, onChange, onNext, onRetry }: DescriptionEditorProps) {   
+export default function DescriptionEditor({ description, preferText, isSupported, isLoading, onChange, onNext, onRetry }: DescriptionEditorProps) {   
     return (
         <div className="relative w-screen p-10 flex flex-col justify-center items-center gap-7 select-none animate-traslate">
             <div className="text-center">
@@ -47,8 +48,17 @@ export default function DescriptionEditor({ description, preferText, isSupported
                     disabled={description.length <= 0}
                     onClick={() => onNext(description)}
                 >
-                    Continuar
-                    <ArrowRight className="h-5 w-5"/>
+                    { isLoading ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Cargando...
+                        </>
+                    ) : (
+                        <>
+                            Continuar
+                            <ArrowRight className="h-5 w-5"/>
+                        </>                        
+                    )}
                 </Button>
             </div>
         </div>
