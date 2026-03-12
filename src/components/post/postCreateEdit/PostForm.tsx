@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
 import { Button } from "../../ui/Button";
-import ImageSection from "./ImageSection";
 import InformationSection from "./InformationSection";
-import UbicacionSection from "./UbicacionSection";
 import MessageErrors from "../../ui/MessageErrors";
+import ImageSection from "./ImageSection";
 import Map from "../../Map";
 import { Loader2, Send } from "lucide-react";
 import type { ImagenData, NewReport, Post } from "../../../types";
