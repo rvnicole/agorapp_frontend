@@ -47,9 +47,7 @@ export function useCameraCapture() {
 
         return new Promise(resolve => {
             canvasRef.current!.toBlob( blob => {
-                if (!blob) return resolve(null);
-
-                
+                if (!blob) return resolve(null);                
 
                 resolve(new File([blob], `foto-${Date.now()}.png`, { type: blob.type }));
             }, "image/png");
