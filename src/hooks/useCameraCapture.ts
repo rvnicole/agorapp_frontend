@@ -1,12 +1,23 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { requestCamera } from "../services/permissions/requestPermissions";
 
 export function useCameraCapture() {
     const [isOpen, setIsOpen] = useState(false);
-    const stream = useRef<MediaStream | null>(null);
 
+    const stream = useRef<MediaStream | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    useEffect(() => {
+        return () => closeCamera();
+    }, []);
+
+    useEffect(() => {
+        if (isOpen && videoRef.current && stream.current) {
+            videoRef.current.srcObject = stream.current;
+            videoRef.current.play().catch(() => {});
+        }
+    }, [isOpen]);
 
     const openCamera = async () => {
         try {
@@ -30,14 +41,15 @@ export function useCameraCapture() {
 
         const ctx = canvasRef.current.getContext("2d");
         if( !ctx ) return null;
-
         ctx.drawImage(videoRef.current, 0, 0);
+
+        closeCamera();
 
         return new Promise(resolve => {
             canvasRef.current!.toBlob( blob => {
                 if (!blob) return resolve(null);
 
-                closeCamera();
+                
 
                 resolve(new File([blob], `foto-${Date.now()}.png`, { type: blob.type }));
             }, "image/png");
@@ -45,14 +57,16 @@ export function useCameraCapture() {
     }
 
     const closeCamera = () => {
+        if (videoRef.current) {
+            const tracks = videoRef.current.srcObject as MediaStream;
+            tracks.getTracks().forEach(track => track.stop());
+            videoRef.current.srcObject = null;
+            videoRef.current.pause();
+        }
+        
         if (stream.current) {
             stream.current.getTracks().forEach(track => track.stop());
             stream.current = null;
-        }
-      
-        if (videoRef.current) {
-            videoRef.current.hidden = true;
-            videoRef.current.srcObject = null;
         }
 
         setIsOpen(false);

@@ -17,7 +17,7 @@ type CapturedImgsProps = {
 }
 
 export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps) {
-    const { stream, videoRef, canvasRef, openCamera, capture } = useCameraCapture();
+    const { videoRef, canvasRef, openCamera, capture } = useCameraCapture();
     const { images, imagenes, addImage, setInitialImages, removeImage } = useCameraImagePreview({max: 3});
     const { getCurrentPosition } = useUbicacion({});
 
@@ -36,24 +36,14 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
     }, []);
 
     useEffect(() => {
-        if (view !== "camera") return;
-        if (!videoRef.current) return;
-      
-        videoRef.current.srcObject = stream.current;
-        videoRef.current.play();
-    }, [view]);
-
-    useEffect(() => {
         if (images.length === 0 && view === "preview") {
             startCamera();
             setImgPosition(null);
         }
 
         if( images.length === 1 && imgPosition === null ) {
-            console.log("Entro")
             const getPosition = async () => {
                 const pos = await getCurrentPosition();
-                console.log("Entro", pos)
                 setImgPosition(pos);
             };
 
@@ -102,8 +92,7 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
                     <video 
                         id="capture-imgs" 
                         ref={videoRef}
-                        className="absolute top-0 left-1/2 -translate-x-1/2 h-full object-cover" 
-                        autoPlay 
+                        className="absolute top-0 left-1/2 -translate-x-1/2 h-full object-cover"
                     />
 
                     <Button
