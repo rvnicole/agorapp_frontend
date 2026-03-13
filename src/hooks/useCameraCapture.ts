@@ -15,7 +15,7 @@ export function useCameraCapture() {
     useEffect(() => {
         if (isOpen && videoRef.current && stream.current) {
             videoRef.current.srcObject = stream.current;
-            videoRef.current.play().catch(() => {});
+            videoRef.current.play();
         }
     }, [isOpen]);
 
