@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { ImagenPreview, NewUbicacionType } from "../types";
+import type { ImagenPreview } from "../types";
 
 type UseCameraImagePreviewProps = {
     max: number;
@@ -23,15 +23,14 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
     }, []);
 
     // Agregar Imagen
-    const addImage = (img: File, position: NewUbicacionType) => {
+    const addImage = (img: File) => {
         setImages(prev => {
             if (prev.length >= max) return prev;
 
             const preview: ImagenPreview = {
                 id: `${img.name}-${img.lastModified}`,
                 imagen: img,
-                url: URL.createObjectURL(img),
-                position
+                url: URL.createObjectURL(img)
             };
 
             return [...prev, preview];
@@ -51,14 +50,13 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
     };
 
     // Imagenes iniciales
-    const setInitialImages = (imgs: File[], position: NewUbicacionType) => {
+    const setInitialImages = (imgs: File[]) => {
         imagesRef.current.forEach(img => URL.revokeObjectURL(img.url));
         
         const previews = imgs.slice(0, max).map(img => ({
             id: `${img.name}-${img.lastModified}`,
             imagen: img,
             url: URL.createObjectURL(img),
-            position
         }));
     
         setImages(previews);
@@ -67,13 +65,9 @@ export function useCameraImagePreview({ max }: UseCameraImagePreviewProps) {
     //Imagenes para enviar al backend
     const imagenes = useMemo(() => images.map(i => i.imagen), [images]);
 
-    //Posiciones para enviar al backend
-    const positions = useMemo(() => images.map(i => i.position), [images]);
-
     return {
         images,
         imagenes,
-        positions,
         addImage,
         removeImage,
         setInitialImages

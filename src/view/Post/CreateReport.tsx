@@ -38,13 +38,13 @@ export default function CreateReport() {
         }
     });
 
-    const handleNextImgs = ({ imagenes, positions }: ImagenData) => {
+    const handleNextImgs = ({ imagenes, position }: ImagenData) => {
         setSection("description");
         setReport(r =>({
             ...r, 
             imgs: imagenes,
-            lat: positions[0].lat,
-            lng: positions[0].lng
+            lat: position.lat,
+            lng: position.lng
         }));
     }
 

@@ -18,10 +18,12 @@ type CapturedImgsProps = {
 
 export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps) {
     const { stream, videoRef, canvasRef, openCamera, capture } = useCameraCapture();
-    const { images, imagenes, positions, addImage, setInitialImages, removeImage } = useCameraImagePreview({max: 3});
+    const { images, imagenes, addImage, setInitialImages, removeImage } = useCameraImagePreview({max: 3});
     const { getCurrentPosition } = useUbicacion({});
 
     const [ view, setView ] = useState<"loading" | "camera" | "preview">("loading");
+    const [ imgPosition, setImgPosition ] = useState<NewUbicacionType | null>(position ? position : null);
+
     const { showMessages } = useMessageStore(state => state);
     const navigate = useNavigate();
 
@@ -29,7 +31,7 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
         startCamera();
         
         if (imgs?.length && position) {
-            setInitialImages(imgs, position);
+            setInitialImages(imgs);
         }
     }, []);
 
@@ -44,6 +46,18 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
     useEffect(() => {
         if (images.length === 0 && view === "preview") {
             startCamera();
+            setImgPosition(null);
+        }
+
+        if( images.length === 1 && imgPosition === null ) {
+            console.log("Entro")
+            const getPosition = async () => {
+                const pos = await getCurrentPosition();
+                console.log("Entro", pos)
+                setImgPosition(pos);
+            };
+
+            getPosition();
         }
     }, [images, view]);
 
@@ -69,8 +83,7 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
                 return;
             };
 
-            const position = await getCurrentPosition();
-            addImage(file, position);
+            addImage(file);
             setView("preview");
         }
         catch( error ) {
@@ -135,7 +148,8 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
                         <Button
                             type="button"
                             className="flex items-center justify-center gap-1 w-full"
-                            onClick={() => next({ images, imagenes, positions})}
+                            onClick={() => next({ images, imagenes, position: imgPosition! })}
+                            disabled={!Boolean(imgPosition)}
                         >
                             Continuar
                             <ArrowRight className="h-5 w-5"/>

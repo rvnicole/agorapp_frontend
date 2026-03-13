@@ -15,24 +15,23 @@ type ImageSectionProps = {
 }
 
 export default function ImageSection({ imgs, position, onChange }: ImageSectionProps) {
-    const { images, imagenes, positions, removeImage, setInitialImages } = useCameraImagePreview({max: 3});
+    const { images, imagenes, removeImage, setInitialImages } = useCameraImagePreview({max: 3});
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        setInitialImages(imgs, position);
-    }, [imgs, position]);
+        setInitialImages(imgs);
+    }, [imgs]);
 
     const handleRemoveImage = (id: string) => {
         removeImage(id);
                                 
         const newImages = images.filter(img => img.id !== id);
         const newImagenes = newImages.map(img => img.imagen);
-        const newPosition = newImages.map(img => img.position);
         
         onChange({ 
             images: newImages, 
-            imagenes: newImagenes, 
-            positions: newPosition
+            imagenes: newImagenes,
+            position
         });
     }
     
@@ -73,10 +72,7 @@ export default function ImageSection({ imgs, position, onChange }: ImageSectionP
                     >
                         <CapturedImgs 
                             imgs={imagenes}
-                            position={{
-                                lat: positions[0].lat,
-                                lng: positions[0].lng
-                            }}
+                            position={position}
                             next={data => {
                                 onChange(data);
                                 setOpen(false);

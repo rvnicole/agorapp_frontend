@@ -26,8 +26,8 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
     });
 
     const imgs = watch("imgs");
-    const lat = watch("lat") || 19.4326;
-    const lng = watch("lng") || -99.1332;
+    const lat = watch("lat")!;
+    const lng = watch("lng")!;
 
     useEffect(() => {
         register("imgs", {
@@ -58,9 +58,9 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
             <ImageSection
                 imgs={imgs}
                 position={{ lat, lng }}
-                onChange={({ imagenes, positions } : ImagenData) => {
-                    const lat = positions[0].lat;
-                    const lng = positions[0].lng;
+                onChange={({ imagenes, position } : ImagenData) => {
+                    const lat = position.lat;
+                    const lng = position.lng;
 
                     setValue("imgs", imagenes);
                     setValue("lat", lat);

@@ -42,13 +42,12 @@ export type ImagenPreview = {
     id: string;
     imagen: File;
     url: string;
-    position: NewUbicacionType;
 };
 
 export type ImagenData = {
     images: ImagenPreview[];
     imagenes: File[];
-    positions: NewUbicacionType[];
+    position: NewUbicacionType;
 }
 
 /* ------------------ Messages ------------------ */
