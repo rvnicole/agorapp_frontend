@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/Button";
 import Spinner from "../ui/Spinner";
 import PreviewImg from "./PreviewImg";
-import { ArrowRight, Camera, ImagePlus } from "lucide-react";
+import { ArrowRight, Camera, ImagePlus, Loader2 } from "lucide-react";
 import type { ImagenData, NewUbicacionType } from "../../types";
 
 type CapturedImgsProps = {
@@ -140,8 +140,17 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
                             onClick={() => next({ images, imagenes, position: imgPosition! })}
                             disabled={!Boolean(imgPosition)}
                         >
-                            Continuar
-                            <ArrowRight className="h-5 w-5"/>
+                            { Boolean(imgPosition) ? (
+                                <>
+                                    Continuar
+                                    <ArrowRight className="h-5 w-5"/>
+                                </>
+                            ) : (
+                                <>
+                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                    Localizando...
+                                </>
+                            )}
                         </Button>
                     </div>
                 </div>

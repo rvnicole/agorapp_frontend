@@ -41,7 +41,7 @@ export default function Post() {
     else if( data ) return (
         <div className="flex items-center justify-center">
             <div className="flex flex-col gap-5 items-center justify-center w-3xl">
-                {data[0].imagenes && <CarruselImgs imgs={data[0].imagenes} />}
+                { data[0].imagenes && <CarruselImgs imgs={data[0].imagenes} /> }
 
                 <InformationPost post={data[0]} />
 

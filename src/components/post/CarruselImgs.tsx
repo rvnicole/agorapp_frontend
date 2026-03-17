@@ -22,7 +22,7 @@ export default function CarruselImgs({ imgs }: CarruselImgs) {
 
     return (
         <div 
-            className="relative w-full h-96 rounded-xl overflow-hidden bg-cover bg-center"
+            className="relative w-full h-96 overflow-hidden bg-cover bg-center md:rounded-xl"
             style={{ backgroundImage: `url(${url})` }}
         >
             <div className="absolute w-full h-full bg-primary/10 backdrop-blur"/>
@@ -31,7 +31,7 @@ export default function CarruselImgs({ imgs }: CarruselImgs) {
                 id="carrusel-img"
                 src={url}
                 alt="imagen"
-                className="relative z-10 cursor-pointer object-cover h-full m-auto fadeIn"
+                className="relative z-10 cursor-pointer object-cover h-full m-auto"
                 onClick={() => setFullScreen(true)}
             />
 
@@ -47,6 +47,8 @@ export default function CarruselImgs({ imgs }: CarruselImgs) {
                 open={fullScreen}
                 onClose={() => setFullScreen(false)}
             >
+                <p className="absolute top-3 left-1/2 -translate-x-1/2">{current + 1}/{imgs.length}</p>
+
                 <img
                     id="full-screen-img"
                     src={url}
@@ -77,19 +79,23 @@ type CarruselControlsProps = {
 function CarruselControls({total, current, onPrev, onNext, onSelect}: CarruselControlsProps) {
     return (
         <>
-            <button
-                className="absolute z-20 left-3 top-1/2 -translate-y-1/2 h-10 w-10 text-white bg-primary/60 hover:bg-primary/70 rounded-full cursor-pointer"
-                onClick={onPrev}
-            >
-                <ChevronLeft className="h-6 w-6 m-auto"/>
-            </button>
+            { current !== 0 &&
+                <button
+                    className="absolute z-20 left-3 top-1/2 -translate-y-1/2 h-10 w-10 text-white bg-primary/60 hover:bg-primary/70 rounded-full cursor-pointer"
+                    onClick={onPrev}
+                >
+                    <ChevronLeft className="h-6 w-6 m-auto mr-2.5"/>
+                </button>
+            }
 
-            <button
-                className="absolute z-20 right-3 top-1/2 -translate-y-1/2 h-10 w-10 text-white bg-primary/60 hover:bg-primary/70 rounded-full cursor-pointer"
-                onClick={onNext}
-            >
-                <ChevronRight className="h-6 w-6 m-auto"/>
-            </button>
+            { current !== (total - 1) &&
+                <button
+                    className="absolute z-20 right-3 top-1/2 -translate-y-1/2 h-10 w-10 text-white bg-primary/60 hover:bg-primary/70 rounded-full cursor-pointer"
+                    onClick={onNext}
+                >
+                    <ChevronRight className="h-6 w-6 m-auto ml-2.5"/>
+                </button>
+            }
 
             <div
                 className="absolute z-20 bottom-3 left-1/2 -translate-x-1/2 flex gap-1"
