@@ -11,7 +11,7 @@ export default function LayoutApp() {
         <div>
             <Header />
 
-            <main  className="w-full m-auto md:px-4 py-6">
+            <main  className="w-full m-auto md:px-4 md:py-6">
                 <div className="h-full bg-background pb-20 md:pb-8">
                     <Outlet />
                     <ButtonCreate 
