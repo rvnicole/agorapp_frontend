@@ -121,7 +121,7 @@ export async function getRefinedDescription(description: string) {
     }
 };
 
-export async function updateLikeStatus({ id, liked, createdAt }: Pick<Post, "id"|"liked"|"createdAt">) {
+export async function updateLikeStatus({ id, liked, createdAt, alias }: Pick<Post, "id"|"liked"|"createdAt"> & Pick<UserData, "alias">) {
     try {
         if( liked ) {
             const url = (`/like?postId=${id}&postCreatedAt=${createdAt}`).replace("+", "%2B");
@@ -130,9 +130,12 @@ export async function updateLikeStatus({ id, liked, createdAt }: Pick<Post, "id"
             return res;
         }
         else {
+            console.log({ id, liked, createdAt, alias });
+            
             const res = await agorappApi.post("/like", {
                 postId: id,
-                postCreatedAt: createdAt
+                postCreatedAt: createdAt,
+                alias
             });
 
             return res;
