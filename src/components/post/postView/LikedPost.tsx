@@ -4,7 +4,7 @@ import { useMessageStore } from "../../../store/messageStore";
 import { useUserStore } from "../../../store/userStore";
 import { Button } from "../../ui/Button";
 import { updateLikeStatus } from "../../../api/PostAPI";
-import { Loader2, ThumbsUp } from "lucide-react";
+import { ThumbsUp } from "lucide-react";
 import type { ApiErrorType, Post } from "../../../types";
 
 type LikedPost = {
