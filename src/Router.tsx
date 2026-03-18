@@ -22,7 +22,7 @@ export default function Router() {
 
            
             <Route element={<LayoutProtectedRoute />}>
-                 <Route element={<LayoutApp />}>
+                <Route element={<LayoutApp />}>
                     <Route path="/" element={<Inicio />} />
                     <Route path="/create-report" element={<CreateReport />} />
                     <Route path="/post/:tipo/:id" element={<Post />} />

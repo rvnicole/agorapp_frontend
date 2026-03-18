@@ -6,7 +6,7 @@ import { formatDate } from "../../../utils/date";
 import Avatar from "../../ui/Avatar";
 import LikedPost from "./LikedPost";
 import { BadgeCategoria } from "../../ui/Badge";
-import { Calendar, MapPin, UsersRound } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import type { PostRespuesta } from "../../../types";
 
 type InformationPostProps = {
@@ -32,23 +32,13 @@ export default function InformationPost({ post }: InformationPostProps) {
 
                 <h1 className="text-2xl font-bold leading-tight">{post.titulo}</h1>
                 <p className="text-muted-foreground leading-relaxed">{post.descripcion}</p>
-
-                <div className="flex flex-col md:flex-row items-center gap-4">
-                    <LikedPost
-                        id={post.id}
-                        createdAt={post.created_at}
-                        like={post.liked || false}
-                    />
-
-                    <div className="flex flex-row md:flex-col gap-1 items-center justify-center">
-                        <div className="flex items-center justify-center gap-1">
-                            <UsersRound  className="h-5 w-5"/>
-                            <p className="text-2xl font-bold">{post.total_likes}</p>
-                        </div>
-                        
-                        <p className="text-center text-xs text-muted-foreground">Personas de acuerdo</p>
-                    </div>
-                </div>
+                
+                <LikedPost
+                    id={post.id}
+                    createdAt={post.created_at}
+                    like={post.liked || false}
+                    totalLikes={post.total_likes}
+                />
             </div>
 
             <SeparatorHorizontal />
