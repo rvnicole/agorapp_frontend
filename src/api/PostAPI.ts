@@ -10,7 +10,7 @@ export async function createPost(post : Post) {
         const errors = [];
 
         const formData = new FormData();
-        //formData.append("titulo", post.titulo);
+        formData.append("titulo", post.titulo);
         formData.append("descripcion", post.descripcion);
         formData.append("tipo", post.tipo);
         formData.append("categoriaId", String(post.categoriaId));
@@ -118,3 +118,25 @@ export async function getRefinedDescription(description: string) {
         handleApiError( error );
     }
 };
+
+export async function updateLikeStatus({ id, liked, createdAt }: Pick<Post, "id"|"liked"|"createdAt">) {
+    try {
+        if( liked ) {
+            const url = `/like?postId=${id}&postCreatedAt=${createdAt}`;
+            const res = await agorappApi.delete(url);
+
+            return res;
+        }
+        else {
+            const res = await agorappApi.post("/like", {
+                postId: id,
+                postCreatedAt: createdAt
+            });
+
+            return res;
+        }
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+}
