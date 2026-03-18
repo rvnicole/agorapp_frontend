@@ -76,8 +76,6 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
         const res = await agorappApi.get(url);
         const respuesta = res.data;
 
-        
-
         if( !respuesta.success ) {
             const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
             throw new APIAgorAppError(apiErrors);

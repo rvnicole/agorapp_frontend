@@ -8,6 +8,7 @@ import InformationPost from "../../components/post/postView/InformationPost";
 import CarruselImgs from "../../components/post/CarruselImgs";
 import type { Post } from "../../types";
 import { useEffect } from "react";
+import EstadoPost from "../../components/post/postView/EstadoPost";
 
 export default function Post() {
     const { showMessages } = useMessageStore(state => state);
@@ -48,6 +49,8 @@ export default function Post() {
                 { data[0].lat != null && data[0].lon != null && (
                     <UbicacionPost position={{ lat: data[0].lat, lng: data[0].lon }}/>
                 )}
+
+                <EstadoPost estados={data[0].estados}/>
             </div>
         </div>
     )

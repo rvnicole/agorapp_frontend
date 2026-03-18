@@ -42,6 +42,19 @@ export const NewUbicacionSchema = z.object({
 
 const ImagenSchema = z.instanceof(File);
 
+const EstadoSchema = z.object({
+    estadoId: z.number(),
+    estado: z.literal(["asignado","pendiente", "en progreso", "resuelto"]),
+    descripcion: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    alias: z.object({
+        usuarioOrganizacionId: z.number(),
+        alias: z.string(),
+    }),
+    editado: z.boolean()
+});
+
 export const PostSchema = z.object({
     id: z.number(),
     titulo: z.string(),
@@ -61,7 +74,8 @@ export const PostSchema = z.object({
     activo: z.boolean(),
     createdAt: z.string(),
     updatedAt: z.string(),
-    imgs: z.array( ImagenSchema ).max(3, "Máximo 3 imágenes")
+    imgs: z.array( ImagenSchema ).max(3, "Máximo 3 imágenes"),
+    estados: z.array( EstadoSchema ).optional()
 });
 
 export const ReportSchema = PostSchema.pick({
@@ -102,7 +116,8 @@ export const PostRespuestaSchema = z.object({
     lat: z.coerce.number().nullable(),
     ubicacion_id: z.coerce.number().nullable(),
     nombre: z.string().nullable(),
-    imagenes: z.array(RespuestaImagenSchema).nullable()
+    imagenes: z.array(RespuestaImagenSchema).nullable(),
+    estados: z.array( EstadoSchema ).optional()
 });
 
 export const DescriptionRespuestaSchema = z.object({
