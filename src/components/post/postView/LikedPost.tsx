@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../../../store/messageStore";
-import { useUserStore } from "../../../store/userStore";
 import { Button } from "../../ui/Button";
 import { updateLikeStatus } from "../../../api/PostAPI";
 import { Loader2, ThumbsUp } from "lucide-react";
@@ -14,11 +13,8 @@ type LikedPost = {
 }
 
 export default function LikedPost({ id, like, createdAt }: LikedPost) {
-    const [liked, setLiked] = useState<boolean>(like);
-
     const { showMessages } = useMessageStore( state => state );
-    const { user: { alias } } = useUserStore( state => state );
-    console.log("user-alias", alias);
+    const [liked, setLiked] = useState<boolean>(like);
 
     const { mutate, isPending } = useMutation({
         mutationFn: updateLikeStatus,
@@ -35,7 +31,7 @@ export default function LikedPost({ id, like, createdAt }: LikedPost) {
     return (
         <Button
             className="flex justify-center items-center gap-2 w-full"
-            onClick={() => mutate({ id, liked, createdAt, alias })}
+            onClick={() => mutate({ id, liked, createdAt })}
         >
             { isPending ? 
                 <>
