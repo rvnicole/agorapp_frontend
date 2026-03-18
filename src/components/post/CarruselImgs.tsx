@@ -101,17 +101,21 @@ type CarruselControlsProps = {
 }
 
 function CarruselControls({total, current, onPrev, onNext, onSelect}: CarruselControlsProps) {
+    const isTouchDevice = 'ontouchstart' in window;
+
     return (
         <>
             <button
-                className="absolute z-20 left-3 top-1/2 -translate-y-1/2 h-10 w-10 text-background bg-foreground/40 hover:bg-foreground/70 rounded-full cursor-pointer hidden md:block"
+                className="absolute z-20 left-3 top-1/2 -translate-y-1/2 h-10 w-10 text-background bg-foreground/40 hover:bg-foreground/70 rounded-full cursor-pointer"
+                hidden={isTouchDevice}
                 onClick={onPrev}
             >
                 <ChevronLeft className="h-6 w-6 m-auto mr-2.5"/>
             </button>
 
             <button
-                className="absolute z-20 right-3 top-1/2 -translate-y-1/2 h-10 w-10 text-background bg-foreground/40 hover:bg-foreground/70 rounded-full cursor-pointer hidden md:block"
+                className="absolute z-20 right-3 top-1/2 -translate-y-1/2 h-10 w-10 text-background bg-foreground/40 hover:bg-foreground/70 rounded-full cursor-pointer"
+                hidden={isTouchDevice}
                 onClick={onNext}
             >
                 <ChevronRight className="h-6 w-6 m-auto ml-2.5"/>
