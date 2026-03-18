@@ -5,7 +5,6 @@ import { useMessageStore } from "../../store/messageStore";
 import VoiceRecorder from "./VoiceRecorder";
 import DescriptionEditor from "./DescriptionEditor";
 import DescriptionComparison from "./DescriptionComparison";
-import Spinner from "../ui/Spinner";
 import { getRefinedDescription } from "../../api/PostAPI";
 import type { ApiErrorType, DescriptionRespuesta } from "../../types";
 
