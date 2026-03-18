@@ -130,8 +130,6 @@ export async function updateLikeStatus({ id, liked, createdAt, alias }: Pick<Pos
             return res;
         }
         else {
-            console.log({ id, liked, createdAt, alias });
-            
             const res = await agorappApi.post("/like", {
                 postId: id,
                 postCreatedAt: createdAt,

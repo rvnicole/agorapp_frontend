@@ -18,15 +18,11 @@ export default function LikedPost({ id, like, createdAt }: LikedPost) {
 
     const { showMessages } = useMessageStore( state => state );
     const { user } = useUserStore( state => state );
-    console.log("user-alias", user);
 
-    const { mutate, isPending } = useMutation({
+    const { mutate } = useMutation({
         mutationFn: updateLikeStatus,
         onSuccess: (data) => {
             console.log(data);
-            if( data && data.data.success ) {
-                setLiked(l => !l);
-            }
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => {
@@ -38,24 +34,21 @@ export default function LikedPost({ id, like, createdAt }: LikedPost) {
     return (
         <Button
             className="flex justify-center items-center gap-2 w-full"
-            onClick={() => mutate({ id, liked, createdAt, alias: user.alias })}
+            onClick={() => {
+                mutate({ id, liked, createdAt, alias: user.alias });
+                setLiked(l => !l);
+            }}
         >
-            { isPending ? 
+            { liked ?
                 <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Cargando...
+                    <ThumbsUp className="h-5 w-5 fill-primary-foreground" />
+                    Apoyando
                 </>
                 :
-                liked ?
-                    <>
-                        <ThumbsUp className="h-5 w-5 fill-primary-foreground" />
-                        Apoyando
-                    </>
-                    :
-                    <>
-                        <ThumbsUp className="h-5 w-5" />
-                        Apoyar
-                    </>
+                <>
+                    <ThumbsUp className="h-5 w-5" />
+                    Apoyar
+                </>
             }
         </Button>
     )
