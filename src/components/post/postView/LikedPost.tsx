@@ -17,8 +17,8 @@ export default function LikedPost({ id, like, createdAt }: LikedPost) {
     const [liked, setLiked] = useState<boolean>(like);
 
     const { showMessages } = useMessageStore( state => state );
-    const { user: { alias } } = useUserStore( state => state );
-    console.log("user-alias", alias);
+    const { user } = useUserStore( state => state );
+    console.log("user-alias", user);
 
     const { mutate, isPending } = useMutation({
         mutationFn: updateLikeStatus,
@@ -35,7 +35,7 @@ export default function LikedPost({ id, like, createdAt }: LikedPost) {
     return (
         <Button
             className="flex justify-center items-center gap-2 w-full"
-            onClick={() => mutate({ id, liked, createdAt, alias })}
+            onClick={() => mutate({ id, liked, createdAt, alias: user.alias })}
         >
             { isPending ? 
                 <>
