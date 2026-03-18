@@ -24,6 +24,9 @@ export default function LikedPost({ id, like, createdAt }: LikedPost) {
         mutationFn: updateLikeStatus,
         onSuccess: (data) => {
             console.log(data);
+            if( data && data.data.success ) {
+                setLiked(l => !l);
+            }
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => {
