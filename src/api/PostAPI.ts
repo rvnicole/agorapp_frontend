@@ -2,7 +2,7 @@ import { APIAgorAppError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
 import { DescriptionRespuestaSchema, PostRespuestaSchema } from "../schemas";
-import type { Post } from "../types";
+import type { Post, UserData } from "../types";
 
 export async function createPost(post : Post) {
     try {
@@ -121,10 +121,10 @@ export async function getRefinedDescription(description: string) {
     }
 };
 
-export async function updateLikeStatus({ id, liked, createdAt }: Pick<Post, "id"|"liked"|"createdAt">) {
+export async function updateLikeStatus({ id, liked, createdAt, alias }: Pick<Post, "id"|"liked"|"createdAt"> & Pick<UserData, "alias">) {
     try {
         if( liked ) {
-            const url = `/like?postId=${id}&postCreatedAt=${createdAt}`;
+            const url = (`/like?postId=${id}&postCreatedAt=${createdAt}`).replace("+", "%2B");
             const res = await agorappApi.delete(url);
 
             return res;
@@ -133,7 +133,7 @@ export async function updateLikeStatus({ id, liked, createdAt }: Pick<Post, "id"
             const res = await agorappApi.post("/like", {
                 postId: id,
                 postCreatedAt: createdAt,
-                alias: "Fulanita_RR"
+                alias
             });
 
             return res;

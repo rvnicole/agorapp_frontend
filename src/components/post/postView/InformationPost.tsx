@@ -37,7 +37,7 @@ export default function InformationPost({ post }: InformationPostProps) {
                     <LikedPost
                         id={post.id}
                         createdAt={post.created_at}
-                        liked={post.liked}
+                        like={post.liked || false}
                     />
 
                     <div className="flex flex-row md:flex-col gap-1 items-center justify-center">
