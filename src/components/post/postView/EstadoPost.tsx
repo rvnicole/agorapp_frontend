@@ -26,7 +26,7 @@ const estadosDetails = {
 }
 
 export default function EstadoPost({ estados }: EstadoPostProps) {
-    if( !estados ) return null;
+    if( !estados || !estados.length ) return null;
 
     const { estado, descripcion, createdAt, updatedAt, editado, alias: { alias } } = estados[ estados.length - 1];
     
@@ -35,7 +35,7 @@ export default function EstadoPost({ estados }: EstadoPostProps) {
 
     return (
         <Card className="border p-5 w-full">
-            <div className="flex items-start gap-3">
+            <div className="w-full flex items-start gap-3">
                 <div className={`flex items-center justify-center h-7 w-7 rounded-full ${estadoDetail.color}`}>
                     <div className="h-3 w-3 bg-card rounded-full"/>
                 </div>
