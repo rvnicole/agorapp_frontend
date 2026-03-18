@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "../../ui/Card";
-import { Button } from "../../ui/Button";
 import { SeparatorHorizontal } from "../../ui/Separator";
 import { getAddress } from "../../../api/AddressAPI";
 import { formatDate } from "../../../utils/date";
 import Avatar from "../../ui/Avatar";
+import LikedPost from "./LikedPost";
 import { BadgeCategoria } from "../../ui/Badge";
-import { Calendar, MapPin, ThumbsUp, UsersRound } from "lucide-react";
+import { Calendar, MapPin, UsersRound } from "lucide-react";
 import type { PostRespuesta } from "../../../types";
 
 type InformationPostProps = {
@@ -34,12 +34,11 @@ export default function InformationPost({ post }: InformationPostProps) {
                 <p className="text-muted-foreground leading-relaxed">{post.descripcion}</p>
 
                 <div className="flex flex-col md:flex-row items-center gap-4">
-                    <Button
-                        className="flex justify-center items-center gap-3 w-full"
-                    >
-                        <ThumbsUp className={`h-5 w-5`} />
-                        Apoyar
-                    </Button>
+                    <LikedPost
+                        id={post.id}
+                        createdAt={post.created_at}
+                        liked={post.liked}
+                    />
 
                     <div className="flex flex-row md:flex-col gap-1 items-center justify-center">
                         <div className="flex items-center justify-center gap-1">
