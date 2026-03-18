@@ -33,7 +33,7 @@ export default function FullScreen({ open, onClose, children }: FullScreenProps)
                 {children}
     
                 <button
-                    className="absolute top-3 right-3 bg-primary rounded-full p-1 hover:text-foreground/50"
+                    className="absolute top-3 right-3 bg-primary rounded-full p-1 hover:text-foreground/50 z-100"
                     onClick={() => {
                         document.body.style.overflow = "";
                         onClose();
