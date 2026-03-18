@@ -18,6 +18,7 @@ export default function LikedPost({ id, like, createdAt }: LikedPost) {
 
     const { showMessages } = useMessageStore( state => state );
     const { user: { alias } } = useUserStore( state => state );
+    console.log("user-alias", alias);
 
     const { mutate, isPending } = useMutation({
         mutationFn: updateLikeStatus,
