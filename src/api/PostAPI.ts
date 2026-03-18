@@ -76,6 +76,8 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
         const res = await agorappApi.get(url);
         const respuesta = res.data;
 
+        
+
         if( !respuesta.success ) {
             const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
             throw new APIAgorAppError(apiErrors);
@@ -130,7 +132,8 @@ export async function updateLikeStatus({ id, liked, createdAt }: Pick<Post, "id"
         else {
             const res = await agorappApi.post("/like", {
                 postId: id,
-                postCreatedAt: createdAt
+                postCreatedAt: createdAt,
+                alias: "Fulanita_RR"
             });
 
             return res;

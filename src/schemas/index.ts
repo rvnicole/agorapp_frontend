@@ -87,7 +87,7 @@ export const PostRespuestaSchema = z.object({
     tipo: z.string(),
     titulo: z.string().nullable(),
     descripcion: z.string(),
-    liked: z.boolean(),
+    liked: z.boolean().nullable(),
     total_comentarios: z.coerce.number(),
     total_likes: z.coerce.number(),
     total_compartidos: z.coerce.number(),
