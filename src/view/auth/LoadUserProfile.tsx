@@ -6,6 +6,8 @@ import { loginOnAgorapp } from "../../api/authAPI";
 import { useEffect, useRef } from "react";
 import { useUserStore } from "../../store/userStore";
 import type { ApiErrorType } from "../../types";
+import { createPushToken } from "../../api/notificationsAPI";
+import { getNotificationToken } from "../../api/firebase";
 
 export default function LoadUserProfile(){
     const solicitud = useRef(false);
@@ -29,7 +31,27 @@ export default function LoadUserProfile(){
         retry: false
     });
 
+    const { mutate: mutatePushToken } = useMutation({
+        mutationFn: createPushToken,
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => showMessages("error", error));
+            showMessages("error", "Error al registrar el push token");
+        },
+        onSuccess: () => {
+            showMessages("success", "Notificaciones activadas");
+        }
+    });
+
     useEffect(()=>{
+        const requestNotificationPermission = async () => {
+            if( Notification.permission === "granted" ){
+                console.log("Solicitar token a firebase porque ya se dio permiso desde antes");
+                const pushToken = await getNotificationToken();
+                if( pushToken ) mutatePushToken({pushToken, platform: "firebase"});
+                console.log("proceso terminado porque ya se habia dado permiso desde antes", { pushToken });
+            };
+        };
+        requestNotificationPermission();
         const searchParams = new URLSearchParams(location.search);
         const code = searchParams.get("code") || "";
         const deviceInfo = window.navigator.userAgent;

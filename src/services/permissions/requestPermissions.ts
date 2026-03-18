@@ -98,4 +98,4 @@ export async function requestLocation(): Promise<ResultPermission> {
             }
         )
     });
-}
+};

@@ -133,3 +133,9 @@ export const MessageSchema = z.object({
     type: z.literal(["success", "error", "info", "warning"]),
     text: z.string()
 });
+
+/* ------------------ Notifications ------------------ */
+export const ResponseCreatePushToken = z.object({
+    push_token_id: z.coerce.number(),
+    push_token: z.string()
+});

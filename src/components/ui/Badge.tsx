@@ -22,7 +22,7 @@ export function BadgeCategoria({ categoria }: { categoria: number }) {
         <Badge
             data-slot="etiqueta-categoria"
             className="bg-accent text-accent-foreground"
-            text={categorias[categoria].categoria}
+            text={categorias[categoria - 1].categoria}
         />
     )
 }

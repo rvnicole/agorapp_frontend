@@ -4,7 +4,7 @@ import type { UserData } from "../types";
 export interface IUserStore {
     user: UserData;
     setUserData: (userData: UserData) => void;
-}
+};
 
 export const useUserStore = create<IUserStore>()((set) => ({
     user: {

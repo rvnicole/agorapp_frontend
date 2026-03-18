@@ -23,5 +23,10 @@ export function useUser(){
         return userData ? JSON.parse(userData) : null;
     };
 
-    return { getUserFromServer, getUserFromStore, getUserFromStorage };
+    const getUserPreferences = () => {
+        const preferencias = localStorage.getItem("preferencias");
+        return preferencias ? JSON.parse(preferencias) : null;
+    };
+
+    return { getUserFromServer, getUserFromStore, getUserFromStorage, getUserPreferences };
 };

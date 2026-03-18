@@ -10,12 +10,12 @@ import Message from './components/ui/Message.tsx'
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  
     <QueryClientProvider client={queryClient} >
       <BrowserRouter>
         <Router />
         <Message />
       </BrowserRouter>
     </QueryClientProvider>
-  </StrictMode>,
+  
 )

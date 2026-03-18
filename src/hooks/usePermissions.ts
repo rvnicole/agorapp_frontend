@@ -14,7 +14,6 @@ export function usePermissions() {
     const check = async () => {
         setIsChecking(true);
         const res = await permissionsStatus();
-        console.log(res);
         setStatus(res);
         setIsChecking(false);
         return res;
@@ -32,7 +31,7 @@ export function usePermissions() {
         } 
         else if(permiso === "location") {
             res = await requestLocation();
-        }
+        };
 
         setLoading(false);
         await check();

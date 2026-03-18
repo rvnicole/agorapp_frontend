@@ -48,6 +48,6 @@ export async function permissionsStatus(): Promise<Permissions> {
     return {
         camera: await getStatusCamera(), 
         microphone: await getStatusMicrophone(),
-        location: await getStatusLocation(),
+        location: await getStatusLocation()
     };
 }

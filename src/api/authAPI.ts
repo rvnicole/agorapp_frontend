@@ -22,7 +22,6 @@ export async function loginOnAgorapp({ code, deviceInfo }: { code: string, devic
     try{
         const url = "/auth-receiver/google-callback";
         const res = await agorappApi.post(url, { code, deviceInfo });
-        console.log({res});
         const { success, data, error } = UserDataSchema.safeParse(res.data.data);
         if( !success ){
             console.log({ error });

@@ -37,7 +37,7 @@ export default function Permissions({ onGranted }: PermissionsProps) {
     }, [step, status]);
 
     useEffect(() => {
-        if (!isChecking && hasAllGranted) {
+        if ( !isChecking && hasAllGranted) {
             onGranted();
         }
     }, [isChecking, hasAllGranted]);
@@ -55,8 +55,8 @@ export default function Permissions({ onGranted }: PermissionsProps) {
     const handleRequestPermissions = async () => {
         const res = await request(currentPermission);
 
-        if( res?.error) {
-            setErrorpermission(res?.error);
+        if( res?.error ) {
+            setErrorpermission(res.error as PermissionsError);
             return;
         }
 
