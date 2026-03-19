@@ -5,7 +5,8 @@ import { getAddress } from "../../../api/AddressAPI";
 import { formatDate } from "../../../utils/date";
 import Avatar from "../../ui/Avatar";
 import LikedPost from "./LikedPost";
-import { BadgeCategoria } from "../../ui/Badge";
+import BadgeCategoria from "../BadgeCategoria";
+import BadgeEstado from "../BadgeEstado";
 import { Calendar, MapPin } from "lucide-react";
 import type { PostRespuesta } from "../../../types";
 
@@ -27,7 +28,8 @@ export default function InformationPost({ post }: InformationPostProps) {
         <Card className="border p-5 w-full">
             <div className="space-y-3">
                 <div className="flex gap-2">
-                    { post.fk_categoria_id != null && <BadgeCategoria categoria={post.fk_categoria_id} />}
+                    { post.estados && <BadgeEstado estado={post.estados[post.estados.length - 1].estado} />}
+                    { post.fk_categoria_id != null && <BadgeCategoria categoria={post.fk_categoria_id} />}                    
                 </div>
 
                 <h1 className="text-2xl font-bold leading-tight">{post.titulo}</h1>

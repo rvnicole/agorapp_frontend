@@ -1,28 +1,10 @@
 import { Card } from "../../ui/Card";
 import { formatDate } from "../../../utils/date";
+import { estadosDetails } from "../../../data/estados";
 import type { Post } from "../../../types";
 
 type EstadoPostProps = {
     estados: Post['estados'];
-}
-
-const estadosDetails = {
-    "asignado": {
-        color: "bg-indigo-400",
-        titulo: "Asignado"
-    },
-    "pendiente": {
-        color: "bg-yellow-400",
-        titulo: "Pendiente"
-    },
-    "en progreso": {
-        color: "bg-sky-400",
-        titulo: "En Progreso"
-    },
-    "resuelto": {
-        color: "bg-green-500",
-        titulo: "Resuelto"
-    }
 }
 
 export default function EstadoPost({ estados }: EstadoPostProps) {

@@ -2,6 +2,7 @@ import z from 'zod';
 import { 
     AddressResultSchema, 
     DescriptionRespuestaSchema, 
+    EstadoStrSchema, 
     googleAuthURL, LoginSchema, 
     MessageSchema, 
     NewUbicacionSchema, 
@@ -37,6 +38,8 @@ export type Report = z.infer<typeof ReportSchema>;
 export type AddressResult = z.infer<typeof AddressResultSchema>;
 
 export type NewReport = Omit<Report, "id"|"usuarioId">;
+
+export type EstadoStr = z.infer<typeof EstadoStrSchema>;
 
 export type ImagenPreview = {
     id: string;

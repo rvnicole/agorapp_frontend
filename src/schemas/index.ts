@@ -42,9 +42,10 @@ export const NewUbicacionSchema = z.object({
 
 const ImagenSchema = z.instanceof(File);
 
-const EstadoSchema = z.object({
+export const EstadoStrSchema = z.literal(["asignado","pendiente", "en progreso", "resuelto"]);
+export const EstadoSchema = z.object({
     estadoId: z.number(),
-    estado: z.literal(["asignado","pendiente", "en progreso", "resuelto"]),
+    estado: EstadoStrSchema,
     descripcion: z.string(),
     createdAt: z.string(),
     updatedAt: z.string(),
