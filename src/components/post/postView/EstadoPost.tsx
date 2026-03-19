@@ -36,7 +36,7 @@ export default function EstadoPost({ estados }: EstadoPostProps) {
     return (
         <Card className="border p-5 w-full">
             <div className="w-full flex items-start gap-3">
-                <div className={`flex items-center justify-center h-7 w-7 rounded-full ${estadoDetail.color}`}>
+                <div className={`flex items-center justify-center h-7 w-7 shrink-0 rounded-full ${estadoDetail.color}`}>
                     <div className="h-3 w-3 bg-card rounded-full"/>
                 </div>
 
