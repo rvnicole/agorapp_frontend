@@ -45,10 +45,20 @@ export default function LoadUserProfile(){
     useEffect(()=>{
         const requestNotificationPermission = async () => {
             if( Notification.permission === "granted" ){
-                console.log("Solicitar token a firebase porque ya se dio permiso desde antes");
+                const tokenStorage = localStorage.getItem("fb_token");
                 const pushToken = await getNotificationToken();
-                if( pushToken ) mutatePushToken({pushToken, platform: "firebase"});
-                console.log("proceso terminado porque ya se habia dado permiso desde antes", { pushToken });
+                if( !tokenStorage && pushToken ){
+                    console.log("No hay token, requiere pedirlo");
+                    localStorage.setItem("fb_token", pushToken);
+                    mutatePushToken({pushToken, platform: "firebase"});
+                } 
+                else if( tokenStorage && pushToken && tokenStorage !== pushToken ){
+                    console.log("El token ha caducado");
+                    mutatePushToken({pushToken, platform: "firebase"});
+                }
+                else{
+                    console.log("El token sigue vigentes");
+                }
             };
         };
         requestNotificationPermission();
