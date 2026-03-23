@@ -3,38 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { agorappApi } from "../lib/agorappApi";
 import { useUserStore } from "../store/userStore";
 import { deleteToken } from "firebase/messaging";
-import { getNotificationToken, messaging } from "../api/firebase";
-import { useMutation } from "@tanstack/react-query";
-import { createPushToken } from "../api/notificationsAPI";
-import type { ApiErrorType } from "../types";
-import { useMessageStore } from "../store/messageStore";
+import { messaging } from "../api/firebase";
 import { useEffect } from "react";
 
 export default function Inicio() {
     const { setUserData } =  useUserStore();
-    const { showMessages } = useMessageStore( state => state );
-    const { mutate: mutatePushToken } = useMutation({
-        mutationFn: createPushToken,
-        onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => showMessages("error", error));
-            showMessages("error", "Error al registrar el push token");
-        },
-        onSuccess: () => {
-            showMessages("success", "Notificaciones activadas");
-        }
-    });
+    
 
     useEffect(()=> {
-        const requestNotificationPermission = async () => {
-            if( Notification.permission === "default" ) {
-                const notificationPermission = await Notification.requestPermission();
-                if( notificationPermission === "granted" ){
-                    const pushToken = await getNotificationToken();
-                    if( pushToken ) mutatePushToken({pushToken, platform: "firebase"});
-                };
-            };
-        };
-        requestNotificationPermission();
+        
     }, []);
 
     // ESTO ES UNA PRUEBA PARA CONTROLAR EL CIERRE DE SESION 

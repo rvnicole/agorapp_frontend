@@ -44,21 +44,14 @@ export default function LoadUserProfile(){
 
     useEffect(()=>{
         const requestNotificationPermission = async () => {
-            if( Notification.permission === "granted" ){
-                const tokenStorage = localStorage.getItem("fb_token");
-                const pushToken = await getNotificationToken();
-                if( !tokenStorage && pushToken ){
-                    console.log("No hay token, requiere pedirlo");
-                    localStorage.setItem("fb_token", pushToken);
-                    mutatePushToken({pushToken, platform: "firebase"});
-                } 
-                else if( tokenStorage && pushToken && tokenStorage !== pushToken ){
-                    console.log("El token ha caducado");
-                    mutatePushToken({pushToken, platform: "firebase"});
-                }
-                else{
-                    console.log("El token sigue vigentes");
-                }
+            if( Notification.permission === "default" ) {
+                alert("Permiso en default");
+                const notificationPermission = await Notification.requestPermission();
+                alert("Se solicita permiso " + notificationPermission);
+                checkNotificationPermission(notificationPermission);
+            }
+            else if( Notification.permission === "granted" ){
+                checkNotificationPermission(Notification.permission);
             };
         };
         requestNotificationPermission();
@@ -70,6 +63,20 @@ export default function LoadUserProfile(){
         mutate({ code, deviceInfo });
     },[]);
 
+    const checkNotificationPermission = async (notificationPermission: string) => {
+        if( notificationPermission === "granted" ){
+            const tokenStorage = localStorage.getItem("fb_token");
+            const pushToken = await getNotificationToken();
+            if( !tokenStorage && pushToken ){
+                localStorage.setItem("fb_token", pushToken);
+                mutatePushToken({pushToken, platform: "firebase"});
+            } 
+            else if( tokenStorage && pushToken && tokenStorage !== pushToken ){
+                mutatePushToken({pushToken, platform: "firebase"});
+            };
+        };
+    };
+
     if( isPending ) return (
         <>
             <div className="text-center">
@@ -78,4 +85,4 @@ export default function LoadUserProfile(){
             </div>
         </>
     )
-}
+};

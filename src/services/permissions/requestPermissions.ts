@@ -4,7 +4,10 @@ export async function requestCamera(): Promise<ResultPermission> {
     try {
         const res = await navigator.mediaDevices.getUserMedia({
             video: {
-                facingMode: "environment"
+                facingMode: "environment",
+                width: { min: 640, ideal: 4096 },
+                height: { min: 480, ideal: 2160 },
+                frameRate: { min: 24, ideal: 30 }
             }
         });
         
