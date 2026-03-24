@@ -19,7 +19,7 @@ type CreateCommentProps = {
 export default function CreateComment({ id, createdAt, usuarioId, replyCommentId, onSuccess }: CreateCommentProps) {
     const [comentario, setComentario] = useState("");
     const { showMessages } = useMessageStore( state => state );
-    const { user: { alias } } = useUserStore( state => state )
+    const { user: { alias } } = useUserStore( state => state );
 
     const { mutate, isPending } = useMutation({
         mutationFn: createComment,
