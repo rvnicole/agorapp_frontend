@@ -2,7 +2,7 @@ import { APIAgorAppError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
 import { DescriptionRespuestaSchema, PostRespuestaSchema } from "../schemas";
-import type { Comentario, Post, UserData } from "../types";
+import type { Post, UserData } from "../types";
 
 export async function createPost(post : Post) {
     try {
@@ -106,7 +106,7 @@ export async function getRefinedDescription(description: string) {
         }
 
         const result = DescriptionRespuestaSchema.safeParse(respuesta.data);
-
+        console.log(result)
         if( !result.success ) {
             const errors = result.error.issues.map(error => error.message);
             throw new APIAgorAppError(errors);
@@ -141,31 +141,3 @@ export async function updateLikeStatus({ id, liked, createdAt, alias }: Pick<Pos
         handleApiError( error );
     }
 }
-
-export async function createComment({ id, createdAt, usuarioId, comentario, replyCommentId }: Pick<Post, "id"|"createdAt"|"usuarioId"> & Pick<Comentario, "comentario"|"replyCommentId">) {
-    try {
-        const url = (`/post/${id}/${createdAt}/comentario`).replace("+", "%2B");
-        const res = await agorappApi.post(url, { 
-            comentario, 
-            replyCommentId,
-            postOwnerId: usuarioId
-        });
-        const respuesta = res.data;
-        return respuesta;
-    }
-    catch( error ) {
-        handleApiError( error );
-    }
-};
-
-export async function getComments({ id, createdAt }: Pick<Post, "id"|"createdAt"> ) {
-    try {
-        const url = (`/post/${id}/${createdAt}/comentarios`).replace("+", "%2B");
-        const res = await agorappApi.get(url);
-        const respuesta = res.data;
-        return respuesta;
-    }
-    catch( error ) {
-        handleApiError( error );
-    }
-};

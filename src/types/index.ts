@@ -1,6 +1,7 @@
 import z from 'zod';
 import { 
     AddressResultSchema, 
+    ComentarioRespuestaSchema, 
     ComentarioSchema, 
     DescriptionRespuestaSchema, 
     EstadoStrSchema, 
@@ -96,3 +97,4 @@ export type ResultPermission = {
 export type PostRespuesta = z.infer<typeof PostRespuestaSchema>;
 export type ImgsRespuesta = z.infer<typeof RespuestaImagenSchema>;
 export type DescriptionRespuesta = z.infer<typeof DescriptionRespuestaSchema>;
+export type ComentarioRespuesta = z.infer<typeof ComentarioRespuestaSchema>;

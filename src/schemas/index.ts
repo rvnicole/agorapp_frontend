@@ -58,11 +58,11 @@ export const EstadoSchema = z.object({
 });
 
 export const ComentarioSchema = z.object({
-    comentId: z.number(),
-    comentario: z.string(),
-    fecha: z.string(),
-    replyCommentId: z.number().optional(),
-    usuario: z.string()
+    id: z.number(),
+    comentario: z.string(), 
+    alias: z.string(),
+    created_at: z.string(),
+    url_img: z.string().optional(),
 });
 
 export const PostSchema = z.object({
@@ -106,6 +106,14 @@ export const RespuestaImagenSchema = z.object({
     urlImg: z.string()
 });
 
+export const ComentarioRespuestaSchema = z.object({
+    comentId: z.number(),
+    comentario: z.string(),
+    fecha: z.string(),
+    usuario: z.string(),
+    replyCommentId: z.number().optional(),
+});
+
 export const PostRespuestaSchema = z.object({
     id: z.coerce.number(),
     tipo: z.string(),
@@ -128,7 +136,7 @@ export const PostRespuestaSchema = z.object({
     nombre: z.string().nullable(),
     imagenes: z.array(RespuestaImagenSchema).nullable(),
     estados: z.array( EstadoSchema ).optional(),
-    comentarios: z.array( ComentarioSchema ).optional()
+    comentarios: z.array( ComentarioRespuestaSchema ).optional()
 });
 
 export const DescriptionRespuestaSchema = z.object({

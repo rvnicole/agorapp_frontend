@@ -4,20 +4,19 @@ import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../../store/messageStore";
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/Textarea";
-import { createComment } from "../../api/PostAPI";
+import { createComment } from "../../api/CommentAPI";
 import { Loader2, Send, Undo2 } from "lucide-react";
-import type { ApiErrorType, Comentario, Post } from "../../types";
+import type { ApiErrorType, ComentarioRespuesta, Post } from "../../types";
 
 type CreateCommentProps = {
     id: Post["id"],
     createdAt: Post["createdAt"],
     usuarioId: Post["usuarioId"]
-    replyCommentId?: Comentario["replyCommentId"];
-    reply?: boolean;
-    onSuccess?: (comentario: Comentario) => void;
+    replyCommentId?: ComentarioRespuesta["replyCommentId"];
+    onSuccess?: (comentario: ComentarioRespuesta) => void;
 }
 
-export default function CreateComment({ id, createdAt, usuarioId, replyCommentId, reply, onSuccess }: CreateCommentProps) {
+export default function CreateComment({ id, createdAt, usuarioId, replyCommentId, onSuccess }: CreateCommentProps) {
     const [comentario, setComentario] = useState("");
     const { showMessages } = useMessageStore( state => state );
     const { user: { alias } } = useUserStore( state => state );
@@ -45,7 +44,7 @@ export default function CreateComment({ id, createdAt, usuarioId, replyCommentId
         setComentario(e.target.value);
     }
 
-    if( reply ) {
+    if( replyCommentId ) {
         return (
             <div className="flex gap-3 items-start mt-5">
                 <Textarea 
