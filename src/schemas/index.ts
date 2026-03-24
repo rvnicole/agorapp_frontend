@@ -6,6 +6,7 @@ export const UserDataSchema = z.object({
     nombre: z.string(),
     apellido: z.string(),
     alias: z.string().nullable().optional(),
+    rol: z.literal(['usuario','propietario','admin','supervisor','operador']).optional(),
     createdAt: z.string(),
     esp: z.string().optional(),
     url_img: z.string()

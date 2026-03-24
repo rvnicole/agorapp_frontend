@@ -1,36 +1,36 @@
-type ToggleProps = {
-    enabled: boolean,
-    setModeTrue: () => void,
-    setModeFalse: () => void
-}
+import { useState } from "react";
 
-export function Toggle({enabled, setModeTrue, setModeFalse}: ToggleProps) { 
+type ToggleProps = {
+    setModeTrue: () => void,
+    setModeFalse: () => void,
+};
+
+export function Toggle({setModeTrue, setModeFalse}: ToggleProps) { 
+    const [enabled, setEnable] = useState(false);
     
+    const switchToggle = () => {
+        setEnable((state) => {
+            if(!state){
+                setModeTrue();
+            }
+            else{
+                setModeFalse();
+            };
+            return !state;
+        });
+    };
+
     return (
         <div 
             data-slot="toggle"
-            className="relative w-[82px] h-6 bg-primary/20 rounded-full flex items-center"
+            className="relative w-[82px] h-6 bg-primary/20 rounded-full flex items-center cursor-pointer"
+            onClick={switchToggle}
         >
             <div
-                className={`absolute h-5 rounded-full shadow transition-transform
-                    ${enabled ? "translate-x-0.5 w-10 bg-primary" : "translate-x-10 w-10 bg-primary/30"}
+                className={`absolute h-5 rounded-full shadow transition-all duration-300 ease-in-out
+                    ${enabled ? "translate-x-10 w-10 bg-primary" : "translate-x-0.5 w-10 bg-primary/30"}
                 `}
             />
-            
-            <div className="flex justify-between w-full px-3 relative z-10 text-sm text-white">
-                <div
-                    className={`w-full cursor-pointer ${enabled ? "font-semibold" : "text-muted-foreground"}`}
-                    onClick={setModeTrue}
-                >
-                    <span className="text-transparent select-none">True</span>
-                </div>
-                <div
-                    className={`w-full cursor-pointer ${!enabled ? "font-semibold" : "text-muted-foreground"}`}
-                    onClick={setModeFalse}
-                >
-                    <span className="text-transparent select-none">False</span>
-                </div>
-            </div>
         </div>
     )
 }

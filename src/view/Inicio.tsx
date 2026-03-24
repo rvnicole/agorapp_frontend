@@ -60,6 +60,9 @@ export default function Inicio() {
             <div>
                 <button onClick={deleteUser} className="text-xl">Eliminar usuario</button>
             </div>
+            <div>
+                <button onClick={() => navigate("/profile")} className="text-xl">Profile</button>
+            </div>
         </div>
     )
 }

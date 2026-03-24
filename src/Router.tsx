@@ -9,6 +9,7 @@ import CreateReport from "./view/Post/CreateReport";
 import Post from "./view/Post/Post";
 import LoadUserProfile from "./view/auth/LoadUserProfile";
 import LayoutProtectedRoute from "./layout/auth/LayoutProtectedRoute";
+import { Profile } from "./view/profile/Profile";
 
 export default function Router() {
     return (
@@ -26,6 +27,7 @@ export default function Router() {
                     <Route path="/" element={<Inicio />} />
                     <Route path="/create-report" element={<CreateReport />} />
                     <Route path="/post/:tipo/:id" element={<Post />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Route>
             </Route>
         </Routes>

@@ -45,9 +45,7 @@ export default function LoadUserProfile(){
     useEffect(()=>{
         const requestNotificationPermission = async () => {
             if( Notification.permission === "default" ) {
-                alert("Permiso en default");
                 const notificationPermission = await Notification.requestPermission();
-                alert("Se solicita permiso " + notificationPermission);
                 checkNotificationPermission(notificationPermission);
             }
             else if( Notification.permission === "granted" ){
