@@ -19,11 +19,11 @@ export function Profile(){
                         alt="user-image" 
                     />
                 </Avatar>
-                <CardTitle className="text-2xl text-center">{user.nombre}</CardTitle>
+                <CardTitle className="text-2xl text-center font-bold">{user.nombre}</CardTitle>
             </CardHeader>
             <CardContent className="flex justify-center">
                 <Badge className="bg-secondary w-fit">
-                    <h3 className="text-center">{user.rol && roles.esp[user.rol]}</h3>
+                    {user.rol && roles.esp[user.rol]}
                 </Badge>
             </CardContent>
         </Card>
