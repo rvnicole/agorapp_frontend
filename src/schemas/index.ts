@@ -56,6 +56,14 @@ export const EstadoSchema = z.object({
     editado: z.boolean()
 });
 
+export const ComentarioSchema = z.object({
+    comentId: z.number(),
+    comentario: z.string(),
+    fecha: z.string(),
+    replyCommentId: z.number().optional(),
+    usuario: z.string()
+});
+
 export const PostSchema = z.object({
     id: z.number(),
     titulo: z.string(),
@@ -118,7 +126,8 @@ export const PostRespuestaSchema = z.object({
     ubicacion_id: z.coerce.number().nullable(),
     nombre: z.string().nullable(),
     imagenes: z.array(RespuestaImagenSchema).nullable(),
-    estados: z.array( EstadoSchema ).optional()
+    estados: z.array( EstadoSchema ).optional(),
+    comentarios: z.array( ComentarioSchema ).optional()
 });
 
 export const DescriptionRespuestaSchema = z.object({

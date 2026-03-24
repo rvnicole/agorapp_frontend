@@ -9,6 +9,7 @@ import CarruselImgs from "../../components/post/CarruselImgs";
 import type { Post } from "../../types";
 import { useEffect } from "react";
 import EstadoPost from "../../components/post/postView/EstadoPost";
+import CommentsPost from "../../components/post/postView/CommentsPost";
 
 export default function Post() {
     const { showMessages } = useMessageStore(state => state);
@@ -51,6 +52,12 @@ export default function Post() {
                 )}
 
                 <EstadoPost estados={data[0].estados}/>
+
+                <CommentsPost 
+                    id={data[0].id} 
+                    createdAt={data[0].created_at} 
+                    usuarioId={data[0].usuario_id}
+                />
             </div>
         </div>
     )
