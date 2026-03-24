@@ -1,31 +1,56 @@
-import { useState } from "react";
-import { useUserStore } from "../../../store/userStore";
+import { useEffect, useRef, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { Card } from "../../ui/Card";
 import CreateComment from "../CreateComment";
-import Modal from "../../ui/Modal";
+import Spinner from "../../ui/Spinner";
 import { formatDate } from "../../../utils/date";
-import { MessageCircle, Undo2 } from "lucide-react";
-import type { Comentario, Post } from "../../../types";
+import { MessageCircle } from "lucide-react";
+import type { ApiErrorType, Post } from "../../../types";
+import { getComments } from "../../../api/PostAPI";
+import { useMessageStore } from "../../../store/messageStore";
 
 type CommentsPostProps = {
     id: Post["id"],
     createdAt: Post["createdAt"]
     usuarioId: Post["usuarioId"],
-    comentarios?: Comentario[]
 }
 
-type Comments = Comentario & { comentarios?: Comentario[] };
+export default function CommentsPost({ id, createdAt, usuarioId }: CommentsPostProps) {
+    const [comments, setComments] = useState([]);
+    const spinner = useRef<HTMLDivElement>(null);
 
-const sortComments = (comentarios: Comentario[]) => {
-    
-}
+    const { showMessages } = useMessageStore( state => state );
 
+    const { mutate, isPending } = useMutation({
+        mutationFn: getComments,
+        onSuccess: (data) => {
+            console.log(data);
+        },
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => {
+                showMessages("error", error);
+            }); 
+        }
+    });
 
-export default function CommentsPost({ id, createdAt, usuarioId, comentarios }: CommentsPostProps) {
-    const [comments, setComments] = useState(comentarios || []);
-    const [replyTo, setReplyTo] = useState<string | null>();
+    useEffect(() => {
+        const observador = new IntersectionObserver(arreglo => {
+            if( arreglo[0].isIntersecting && !isPending ) {
+                console.log("Cargar...");
+                mutate({ id, createdAt });
+            }
+        });
 
-    const { user: { alias } } = useUserStore( state => state );
+        if(spinner.current) {
+            observador.observe( spinner.current );
+        }
+
+        return () => {
+            if (spinner.current) {
+                observador.unobserve(spinner.current);
+            }
+        };
+    }, [spinner]);
 
     return (
         <div className="w-full space-y-3">
@@ -39,14 +64,16 @@ export default function CommentsPost({ id, createdAt, usuarioId, comentarios }: 
                     id={id}
                     createdAt={createdAt}
                     usuarioId={usuarioId}
-                    onSuccess={(comentario) => {
-                        setComments(c => [comentario, ...c]);
-                    }}
+                    onSuccess={(comentario) => {}}
                 />
             </Card>
+            
+            <div ref={spinner} className="flex justify-center">
+                <Spinner />
+            </div> 
 
             { comments.map(comment => {
-                const { comentId, usuario, comentario, fecha } = comment;
+                const { comentId, usuario, comentario, fecha, replyCommentId } = comment;
 
                 return (
                     <Card
@@ -61,38 +88,18 @@ export default function CommentsPost({ id, createdAt, usuarioId, comentarios }: 
 
                             <p className="text-sm text-muted-foreground">{comentario}</p>
 
-                            <div 
-                                className="flex items-center gap-1 py-1 w-fit cursor-pointer group"
-                                onClick={() => setReplyTo(usuario)}
-                            >
-                                <Undo2 className="w-3 h-3 text-muted-foreground" />
-                                <p className="text-xs font-semibold text-muted-foreground group-hover:underline">Responder</p>
-                            </div>
+                            <CreateComment 
+                                id={id}
+                                createdAt={createdAt}
+                                usuarioId={usuarioId}
+                                replyCommentId={replyCommentId}
+                                reply={true}
+                                onSuccess={(comentario) => {}}
+                            />
                         </div>                        
                     </Card>
                 )
             })}
-
-            <Modal 
-                open={Boolean(replyTo)}
-                onClose={() => setReplyTo(null)}
-            >
-                <div className="space-y-2">
-                    <div className="flex items-center gap-1">
-                        <Undo2 className="w-5 h-5 text-muted-foreground" />
-                        <p className="font-semibold text-muted-foreground">Responder a {replyTo} { alias === replyTo && "(Tú)"}</p>
-                    </div>
-
-                    <CreateComment 
-                        id={id}
-                        createdAt={createdAt}
-                        usuarioId={usuarioId}
-                        onSuccess={(comentario) => {
-                            setComments(c => [comentario, ...c]);
-                        }}
-                    />
-                </div>                
-            </Modal>
         </div>        
     )
 }

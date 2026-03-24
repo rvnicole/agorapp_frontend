@@ -157,3 +157,15 @@ export async function createComment({ id, createdAt, usuarioId, comentario, repl
         handleApiError( error );
     }
 };
+
+export async function getComments({ id, createdAt }: Pick<Post, "id"|"createdAt"> ) {
+    try {
+        const url = (`/post/${id}/${createdAt}/comentarios`).replace("+", "%2B");
+        const res = await agorappApi.get(url);
+        const respuesta = res.data;
+        return respuesta;
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+};
