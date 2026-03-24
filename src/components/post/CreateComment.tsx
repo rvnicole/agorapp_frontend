@@ -9,14 +9,14 @@ import { Loader2, Send, Undo2 } from "lucide-react";
 import type { ApiErrorType, ComentarioRespuesta, Post } from "../../types";
 
 type CreateCommentProps = {
-    id: Post["id"],
+    postId: Post["id"],
     createdAt: Post["createdAt"],
     usuarioId: Post["usuarioId"]
     replyCommentId?: ComentarioRespuesta["replyCommentId"];
     onSuccess?: (comentario: ComentarioRespuesta) => void;
 }
 
-export default function CreateComment({ id, createdAt, usuarioId, replyCommentId, onSuccess }: CreateCommentProps) {
+export default function CreateComment({ postId, createdAt, usuarioId, replyCommentId, onSuccess }: CreateCommentProps) {
     const [comentario, setComentario] = useState("");
     const { showMessages } = useMessageStore( state => state );
     const { user: { alias } } = useUserStore( state => state );
@@ -48,7 +48,7 @@ export default function CreateComment({ id, createdAt, usuarioId, replyCommentId
         return (
             <div className="flex gap-3 items-start mt-5">
                 <Textarea 
-                    className="min-h-min"
+                    className="text-sm min-h-min"
                     placeholder="Escribe un comentario..."
                     onChange={OnChangeComment}
                     value={comentario}
@@ -86,7 +86,7 @@ export default function CreateComment({ id, createdAt, usuarioId, replyCommentId
             <Button
                 className="flex justify-center items-center gap-2 w-fit"
                 disabled={!Boolean(comentario) || isPending}
-                onClick={() => mutate({ id, createdAt, usuarioId, comentario, replyCommentId })}
+                onClick={() => mutate({ id: postId, createdAt, usuarioId, comentario, replyCommentId })}
             >
                 { isPending ? (
                     <>
