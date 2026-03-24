@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent } from "react";
+import { useUserStore } from "../../store/userStore";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../../store/messageStore";
 import { Button } from "../ui/Button";
@@ -12,19 +13,25 @@ type CreateCommentProps = {
     createdAt: Post["createdAt"],
     usuarioId: Post["usuarioId"]
     replyCommentId?: Comentario["replyCommentId"];
-    onSuccess?: () => void;
+    onSuccess?: (comentario: Comentario) => void;
 }
 
 export default function CreateComment({ id, createdAt, usuarioId, replyCommentId, onSuccess }: CreateCommentProps) {
     const [comentario, setComentario] = useState("");
-    const { showMessages } = useMessageStore();
+    const { showMessages } = useMessageStore( state => state );
+    const { user: { alias } } = useUserStore( state => state )
 
     const { mutate, isPending } = useMutation({
         mutationFn: createComment,
         onSuccess: (data) => {
-            console.log(data);
-            if( !onSuccess ) return;
-            onSuccess();
+            if( onSuccess && data && data.success ) {
+                onSuccess({
+                    ...data.data,
+                    usuario: alias
+                });
+
+                setComentario("");
+            }
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => {

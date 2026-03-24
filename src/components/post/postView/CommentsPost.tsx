@@ -27,6 +27,9 @@ export default function CommentsPost({ id, createdAt, usuarioId, comentarios }: 
                     id={id}
                     createdAt={createdAt}
                     usuarioId={usuarioId}
+                    onSuccess={(comentario) => {
+                        setComments(c => [...c, comentario]);
+                    }}
                 />
             </Card>
 

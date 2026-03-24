@@ -151,8 +151,7 @@ export async function createComment({ id, createdAt, usuarioId, comentario, repl
             postOwnerId: usuarioId
         });
         const respuesta = res.data;
-
-        console.log(respuesta);
+        return respuesta;
     }
     catch( error ) {
         handleApiError( error );
