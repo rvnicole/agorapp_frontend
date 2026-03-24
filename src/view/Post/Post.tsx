@@ -57,6 +57,7 @@ export default function Post() {
                     id={data[0].id} 
                     createdAt={data[0].created_at} 
                     usuarioId={data[0].usuario_id}
+                    comentarios={data[0].comentarios}
                 />
             </div>
         </div>

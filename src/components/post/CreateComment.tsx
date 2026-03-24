@@ -12,9 +12,10 @@ type CreateCommentProps = {
     createdAt: Post["createdAt"],
     usuarioId: Post["usuarioId"]
     replyCommentId?: Comentario["replyCommentId"];
+    onSuccess?: () => void;
 }
 
-export default function CreateComment({ id, createdAt, usuarioId, replyCommentId }: CreateCommentProps) {
+export default function CreateComment({ id, createdAt, usuarioId, replyCommentId, onSuccess }: CreateCommentProps) {
     const [comentario, setComentario] = useState("");
     const { showMessages } = useMessageStore();
 
@@ -22,6 +23,8 @@ export default function CreateComment({ id, createdAt, usuarioId, replyCommentId
         mutationFn: createComment,
         onSuccess: (data) => {
             console.log(data);
+            if( !onSuccess ) return;
+            onSuccess();
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => {
