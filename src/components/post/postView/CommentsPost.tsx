@@ -27,7 +27,6 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
         onSuccess: (data: Comentario[] | undefined ) => {
             if( !data ) return;
             setComments(data);
-            console.log(data);
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => {
