@@ -17,8 +17,8 @@ type CommentsPostProps = {
 
 export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsPostProps) {
     const [comments, setComments] = useState<Comentario []>([]);
+    const [lastId, setLastId] = useState(0);
     const spinner = useRef<HTMLDivElement>(null);
-    const hasFetched = useRef<boolean>(false);
 
     const { showMessages } = useMessageStore( state => state );
 
@@ -26,7 +26,9 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
         mutationFn: getComments,
         onSuccess: (data: Comentario[] | undefined ) => {
             if( !data ) return;
+            
             setComments(data);
+            setLastId(data[data.length - 1].id);
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => {
@@ -37,9 +39,8 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
 
     useEffect(() => {
         const observador = new IntersectionObserver(arreglo => {
-            if( arreglo[0].isIntersecting && !isPending && !hasFetched.current ) {
-                hasFetched.current = true; 
-                mutate({ id: postId, createdAt });
+            if( arreglo[0].isIntersecting && !isPending ) {
+                mutate({ id: postId, createdAt, lastId });
             }
         });
 
@@ -69,14 +70,8 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
                     onSuccess={comentario => setComments(c => ([ comentario, ...c ]))}
                 />
             </Card>
-            
-            { !hasFetched.current &&
-                <div ref={spinner} className="flex justify-center">
-                    <Spinner />
-                </div>
-            }
 
-            { !comments.length && hasFetched.current &&
+            { !comments.length &&
                 <div className="flex justify-center py-5">
                     <p className="text-sm text-muted-foreground">Sé el primero en comentar</p>
                 </div> 
@@ -95,6 +90,10 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
                     />                                          
                 </Card>
             ))}
+
+            <div ref={spinner} className="flex justify-center">
+                <Spinner />
+            </div>
         </div>        
     )
 }
