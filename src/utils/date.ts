@@ -3,6 +3,5 @@ export function formatDate(date: string) {
 
     return new Intl.DateTimeFormat('es-ES', {
         dateStyle: 'long',
-        timeZone: 'UTC'
     }).format(fecha);
 }

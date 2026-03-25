@@ -101,6 +101,15 @@ export const ReportSchema = PostSchema.pick({
     imgs: true
 });
 
+export const RequestListPostSchema = ReportSchema.pick({
+    lat: true,
+    lng: true,
+}).extend({
+    distancia: z.literal(["3000"]),
+    lastId: z.number(),
+    lastPostDate: z.string()
+});
+
 /* ------------------ API AgorApp Backend ------------------ */
 export const RespuestaImagenSchema = z.object({
     imgId: z.number(),

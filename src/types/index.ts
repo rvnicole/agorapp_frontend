@@ -12,6 +12,7 @@ import {
     PostSchema, 
     RegisterSchema, 
     ReportSchema, 
+    RequestListPostSchema, 
     RespuestaImagenSchema, 
     UserDataSchema 
 } from './../schemas/index';
@@ -56,6 +57,8 @@ export type ImagenData = {
     imagenes: File[];
     position: NewUbicacionType;
 }
+
+export type RequestListPost = z.infer<typeof RequestListPostSchema>
 
 /* ------------------ Messages ------------------ */
 export type Message = z.infer<typeof MessageSchema>;

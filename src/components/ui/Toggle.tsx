@@ -23,12 +23,12 @@ export function Toggle({setModeTrue, setModeFalse}: ToggleProps) {
     return (
         <div 
             data-slot="toggle"
-            className="relative w-[82px] h-6 bg-primary/20 rounded-full flex items-center cursor-pointer"
+            className="relative w-[50px] h-6 bg-primary/20 rounded-full flex items-center cursor-pointer"
             onClick={switchToggle}
         >
             <div
                 className={`absolute h-5 rounded-full shadow transition-all duration-300 ease-in-out
-                    ${enabled ? "translate-x-10 w-10 bg-primary" : "translate-x-0.5 w-10 bg-primary/30"}
+                    ${enabled ? "translate-x-7 w-5 bg-primary" : "translate-x-0.5 w-5 bg-primary/30"}
                 `}
             />
         </div>

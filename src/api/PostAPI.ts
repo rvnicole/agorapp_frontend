@@ -2,7 +2,7 @@ import { APIAgorAppError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
 import { DescriptionRespuestaSchema, PostRespuestaSchema } from "../schemas";
-import type { Post, UserData } from "../types";
+import type { Post, RequestListPost, UserData } from "../types";
 
 export async function createPost(post : Post) {
     try {
@@ -82,6 +82,60 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
         }
 
         const result = PostRespuestaSchema.array().safeParse(respuesta.data);
+
+        if( !result.success ) {
+            const errors = result.error.issues.map(error => error.message);
+            throw new APIAgorAppError(errors);
+        }
+
+        return result.data;
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+};
+
+export async function getPosts({ lat, lng, distancia, lastId, lastPostDate }: RequestListPost) {
+    try {
+        const url = `/post/?lat=${lat}&lon=${lng}&distancia=${"3000"}`;
+        if( lastId && lastPostDate ) url.concat(`&lastId=${lastId}&lastPostDate=${lastPostDate}`);
+    
+        const res = await agorappApi.get(url);
+        const respuesta = res.data;
+
+        if( !respuesta.success ) {
+            const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
+            throw new APIAgorAppError(apiErrors);
+        }
+
+        const result = PostRespuestaSchema.array().safeParse(respuesta.data);
+
+        if( !result.success ) {
+            const errors = result.error.issues.map(error => error.message);
+            throw new APIAgorAppError(errors);
+        }
+
+        return result.data;
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+};
+
+export async function getUserPosts( lastPostDate?: RequestListPost["lastPostDate"] ) {
+    try {
+        const url = `/user-post?lastPostDate=${lastPostDate}`;
+    
+        const res = await agorappApi.get(url);
+        const respuesta = res.data;
+
+        if( !respuesta.success ) {
+            const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
+            throw new APIAgorAppError(apiErrors);
+        }
+        console.log("Llamada desde el profile", respuesta.data);
+        return respuesta.data;
+        //const result = PostRespuestaSchema.array().safeParse(respuesta.data);
 
         if( !result.success ) {
             const errors = result.error.issues.map(error => error.message);
