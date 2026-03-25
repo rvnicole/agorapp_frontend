@@ -13,12 +13,15 @@ type CommentsPostProps = {
     postId: Post["id"],
     createdAt: Post["createdAt"]
     usuarioId: Post["usuarioId"],
+    totalComentarios: Post["totalComentarios"]
 }
 
-export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsPostProps) {
+export default function CommentsPost({ postId, createdAt, usuarioId, totalComentarios }: CommentsPostProps) {
     const [comments, setComments] = useState<Comentario []>([]);
     const [lastId, setLastId] = useState(0);
+    const [lastResult, setLastResult] = useState(false);
     const spinner = useRef<HTMLDivElement>(null);
+    console.log({totalComentarios, comments: comments.length});
 
     const { showMessages } = useMessageStore( state => state );
 
@@ -34,9 +37,11 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
 
                 const newLastId = newComments[newComments.length - 1].id;
                 setLastId(newLastId);
-
-                console.log(newLastId);
             }
+
+            if( data.length === 0 ){
+                setLastResult(true);
+            };
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => {
@@ -48,7 +53,6 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
     useEffect(() => {
         const observador = new IntersectionObserver(arreglo => {
             if( arreglo[0].isIntersecting && !isPending ) {
-                console.log("Cargando mas:", { id: postId, createdAt, lastId });
                 mutate({ id: postId, createdAt, lastId });
             }
         });
@@ -56,13 +60,15 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
         if(spinner.current) {
             observador.observe( spinner.current );
         }
+        
+        if( lastResult ) {
+            observador.disconnect();
+        }
 
         return () => {
-            if (spinner.current) {
-                observador.unobserve(spinner.current);
-            }
+                observador.disconnect();
         };
-    }, [spinner, lastId]);
+    }, [spinner, isPending]);
 
     return (
         <div className="w-full space-y-3">
@@ -99,10 +105,12 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
                     />                                          
                 </Card>
             ))}
-
-            <div ref={spinner} className="flex justify-center">
-                <Spinner />
-            </div>
+            {
+                !lastResult &&
+                <div ref={spinner} className="flex justify-center">
+                    <Spinner />
+                </div>
+            }
         </div>        
     )
 }
