@@ -1,7 +1,7 @@
 import { agorappApi } from "../lib/agorappApi";
 import { APIAgorAppError } from "../errors/ApiError";
 import { handleApiError } from "./handleAgorappError";
-import { ComentarioSchema } from "../schemas";
+import { ComentarioRespuestaSchema, ComentarioSchema } from "../schemas";
 import type { ComentarioRespuesta, Post } from "../types";
 
 export async function createComment({ id, createdAt, usuarioId, comentario, replyCommentId }: Pick<Post, "id"|"createdAt"|"usuarioId"> & Pick<ComentarioRespuesta, "comentario"|"replyCommentId">) {
@@ -13,7 +13,20 @@ export async function createComment({ id, createdAt, usuarioId, comentario, repl
             postOwnerId: usuarioId
         });
         const respuesta = res.data;
-        return respuesta;
+
+        if( !respuesta.success ) {
+            const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
+            throw new APIAgorAppError(apiErrors);
+        }
+        
+        const result = ComentarioRespuestaSchema.safeParse(respuesta.data);
+
+        if( !result.success ) {
+            const errors = result.error.issues.map(error => error.message);
+            throw new APIAgorAppError(errors);
+        }
+
+        return result.data;
     }
     catch( error ) {
         handleApiError( error );

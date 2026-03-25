@@ -66,6 +66,7 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
                     postId={postId}
                     createdAt={createdAt}
                     usuarioId={usuarioId}
+                    onSuccess={comentario => setComments(c => ({ comentario, ...c }))}
                 />
             </Card>
             
