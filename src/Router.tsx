@@ -22,14 +22,14 @@ export default function Router() {
             </Route>
 
            
-            {/*<Route element={<LayoutProtectedRoute />}>*/}
+            <Route element={<LayoutProtectedRoute />}>
                 <Route element={<LayoutApp />}>
                     <Route path="/" element={<Inicio />} />
                     <Route path="/create-report" element={<CreateReport />} />
                     <Route path="/post/:tipo/:id" element={<Post />} />
                     <Route path="/profile" element={<Profile />} />
                 </Route>
-            {/*</Route>*/}
+            </Route>
         </Routes>
     )
 }

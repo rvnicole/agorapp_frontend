@@ -129,7 +129,7 @@ export const PostRespuestaSchema = z.object({
     tipo: z.string(),
     titulo: z.string().nullable(),
     descripcion: z.string(),
-    liked: z.boolean().nullable(),
+    liked: z.coerce.boolean().nullable(),
     total_comentarios: z.coerce.number(),
     total_likes: z.coerce.number(),
     total_compartidos: z.coerce.number(),
@@ -147,6 +147,30 @@ export const PostRespuestaSchema = z.object({
     imagenes: z.array(RespuestaImagenSchema).nullable(),
     estados: z.array( EstadoSchema ).optional(),
     comentarios: z.array( ComentarioRespuestaSchema ).optional()
+});
+
+export const PostsUsuarioRespuestaSchema = PostRespuestaSchema.pick({
+    alias: true,
+    created_at: true,
+    descripcion: true,
+    estilos: true,
+    fk_categoria_id: true,
+    id: true,
+    imagenes: true,
+    lat: true,
+    lon: true,
+    liked: true,
+    link: true,
+    nombre: true,
+    tipo: true,
+    titulo: true,
+    total_comentarios: true,
+    total_compartidos: true,
+    total_likes: true,
+    updated_at: true,
+    usuario_id: true
+}).extend({
+    url_img: z.url()
 });
 
 export const DescriptionRespuestaSchema = z.object({

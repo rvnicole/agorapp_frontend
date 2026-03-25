@@ -8,8 +8,11 @@ import Badge from "../../components/ui/Badge";
 import { roles } from "../../data/roles";
 import { formatDate } from "../../utils/date";
 import PostResume from "../../components/post/postResume/PostResume";
-import { useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { getUserPosts } from "../../api/PostAPI";
+import { useMessageStore } from "../../store/messageStore";
+import { Button } from "../../components/ui/Button";
+import Spinner from "../../components/ui/Spinner";
 
 const preferenciasNotificaciones = [
     { titulo: "Notificaciones", descripcion: "Recibe notificaciones en tu dispositivo", estilos: "pb-5 border-b" },
@@ -20,15 +23,28 @@ const preferenciasNotificaciones = [
 
 export function Profile(){
     const ref = useRef(null);
+    const [shouldFetch, setShouldFetch] = useState(false);
     const { user } = useUserStore( state => state );
+    const showMessage = useMessageStore(state => state.showMessages);
+    const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+        queryKey: ["getUserPosts"],
+        queryFn: ({ pageParam }) => getUserPosts(pageParam),
+        initialPageParam: new Date().toISOString(),
+        getNextPageParam: (lastPage) => {
+            const lastItem = lastPage ? lastPage.at(-1) : undefined;
+            return lastItem ? lastItem.created_at : undefined;
+        },
+        enabled: shouldFetch
+    });
     
 
     useEffect(() => {
-        let isFirstLoad = true;
         const observador = new IntersectionObserver((elementos) => {
-            if(elementos[0].isIntersecting && isFirstLoad){
+            if(elementos[0].isIntersecting){
                 console.log("Se esta viendo");
-                isFirstLoad = false;
+                setShouldFetch(true);
+                observador.disconnect();
+                console.log({data});
             }
         });
         if(ref.current) observador.observe(ref.current);
@@ -92,13 +108,19 @@ export function Profile(){
         </div>
         <div 
             ref={ref}
-            className="md:w-3xl w-full"
+            className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center"
         >
-            <div className="flex space-x-2 px-2 pb-3">
+            <div className="w-full flex justify-items-start space-x-2 px-2 pb-3">
                 <Megaphone className="size-6 text-base"/>
-                <p className="text-muted-foreground font-semibold">MIS ÚLTIMOS REPORTES</p>
+                <p ref={ref} className="text-muted-foreground font-semibold">MIS ÚLTIMOS REPORTES</p>
             </div>
-            <PostResume />
+            {
+                isPending && <Spinner />
+            }
+            {
+                data?.pages && data.pages[0] !== undefined && 
+                data.pages[0].map( userPost => <PostResume key={userPost.id} postResumeData={userPost}/>)
+            }
         </div>
     </div>
 }

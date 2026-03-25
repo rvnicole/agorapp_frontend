@@ -1,7 +1,7 @@
 import { APIAgorAppError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
-import { DescriptionRespuestaSchema, PostRespuestaSchema } from "../schemas";
+import { DescriptionRespuestaSchema, PostRespuestaSchema, PostsUsuarioRespuestaSchema } from "../schemas";
 import type { Post, RequestListPost, UserData } from "../types";
 
 export async function createPost(post : Post) {
@@ -133,11 +133,11 @@ export async function getUserPosts( lastPostDate?: RequestListPost["lastPostDate
             const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
             throw new APIAgorAppError(apiErrors);
         }
-        console.log("Llamada desde el profile", respuesta.data);
-        return respuesta.data;
-        //const result = PostRespuestaSchema.array().safeParse(respuesta.data);
+
+        const result = PostsUsuarioRespuestaSchema.array().safeParse(respuesta.data);
 
         if( !result.success ) {
+            console.log("Error zod", result.error.message);
             const errors = result.error.issues.map(error => error.message);
             throw new APIAgorAppError(errors);
         }
