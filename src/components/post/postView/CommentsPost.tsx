@@ -27,9 +27,12 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
         onSuccess: (data: Comentario[] | undefined ) => {
             if( !data ) return;
 
-            setComments(c => ([...c, ...data]));
-            console.log(data[data.length - 1].id);
-            setLastId(data[data.length - 1].id);
+            const newComments = data.filter(comment => !comments.find(c => c.id === comment.id));
+            setComments(c => ([...c, ...newComments]));
+
+            const newLastId = newComments[newComments.length - 1].id;
+            console.log(newLastId);
+            setLastId(newLastId);
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => {
@@ -54,7 +57,7 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
                 observador.unobserve(spinner.current);
             }
         };
-    }, [spinner]);
+    }, [spinner, lastId]);
 
     return (
         <div className="w-full space-y-3">
