@@ -71,7 +71,9 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
     }, [spinner, isPending]);
 
     return (
-        <div className="w-full space-y-3">
+        <div 
+            className="w-full space-y-3"
+        >
             <div className="flex items-center gap-2 ml-4 md:ml-0">
                 <MessageCircle className="h-5 w-5" />
                 <h3 className="text-lg font-semibold">Comentarios ({comments.length})</h3>

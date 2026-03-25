@@ -8,11 +8,11 @@ import Badge from "../../components/ui/Badge";
 import { roles } from "../../data/roles";
 import { formatDate } from "../../utils/date";
 import PostResume from "../../components/post/postResume/PostResume";
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getUserPosts } from "../../api/PostAPI";
 import { useMessageStore } from "../../store/messageStore";
-import { Button } from "../../components/ui/Button";
 import Spinner from "../../components/ui/Spinner";
+import type { PostsUsuarioRespuesta } from "../../types";
 
 const preferenciasNotificaciones = [
     { titulo: "Notificaciones", descripcion: "Recibe notificaciones en tu dispositivo", estilos: "pb-5 border-b" },
@@ -24,31 +24,45 @@ const preferenciasNotificaciones = [
 export function Profile(){
     const ref = useRef(null);
     const [shouldFetch, setShouldFetch] = useState(false);
+    const [postResume, setPostResume] = useState<PostsUsuarioRespuesta[]>([]);
     const { user } = useUserStore( state => state );
-    const showMessage = useMessageStore(state => state.showMessages);
+    
     const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ["getUserPosts"],
         queryFn: ({ pageParam }) => getUserPosts(pageParam),
         initialPageParam: new Date().toISOString(),
         getNextPageParam: (lastPage) => {
-            const lastItem = lastPage ? lastPage.at(-1) : undefined;
-            return lastItem ? lastItem.created_at : undefined;
+            if( !lastPage?.length ) return undefined;
+            return lastPage[lastPage.length - 1].created_at;
         },
         enabled: shouldFetch
     });
-    
 
     useEffect(() => {
         const observador = new IntersectionObserver((elementos) => {
             if(elementos[0].isIntersecting){
                 console.log("Se esta viendo");
-                setShouldFetch(true);
-                observador.disconnect();
-                console.log({data});
-            }
+                console.log({ data, hasNextPage, isFetchingNextPage, isPending, postResume })
+                if( !data ) {
+                    console.log("Primera peticion");
+                    setShouldFetch(true);
+                    return;
+                }
+                else{
+                    let postCacheados: PostsUsuarioRespuesta[] = [];
+                        for( let i = 0; i < data.pageParams.length; i++ ){
+                            if(data.pages){
+                                postCacheados = [...postCacheados, ...(data.pages[i] || [])]
+                            }
+                        }
+                        if(postCacheados) setPostResume(postCacheados);
+                }
+            };
         });
         if(ref.current) observador.observe(ref.current);
-    },[]);
+
+        return () => observador.disconnect();
+    },[isPending, isFetchingNextPage]);
     
     return <div className="space-y-7 flex flex-col justify-center items-center">
         <Card className="border w-full md:w-3xl">
@@ -106,21 +120,19 @@ export function Profile(){
                 </CardContent>
             </Card>
         </div>
-        <div 
-            ref={ref}
-            className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center"
-        >
+        <div className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center">
             <div className="w-full flex justify-items-start space-x-2 px-2 pb-3">
                 <Megaphone className="size-6 text-base"/>
-                <p ref={ref} className="text-muted-foreground font-semibold">MIS ÚLTIMOS REPORTES</p>
+                <p className="text-muted-foreground font-semibold">MIS ÚLTIMOS REPORTES</p>
             </div>
             {
-                isPending && <Spinner />
+                postResume && postResume.map( userPost => <PostResume key={userPost.id} postResumeData={userPost}/>)
             }
-            {
-                data?.pages && data.pages[0] !== undefined && 
-                data.pages[0].map( userPost => <PostResume key={userPost.id} postResumeData={userPost}/>)
-            }
+            <div ref={ref}>
+                {
+                    (isPending || hasNextPage) && <Spinner />
+                }
+            </div>
         </div>
     </div>
 }

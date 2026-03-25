@@ -124,7 +124,7 @@ export async function getPosts({ lat, lng, distancia, lastId, lastPostDate }: Re
 
 export async function getUserPosts( lastPostDate?: RequestListPost["lastPostDate"] ) {
     try {
-        const url = `/user-post?lastPostDate=${lastPostDate}`;
+        const url = `/user-post?lastPostDate=${lastPostDate}`.replace("+", "%2B");
     
         const res = await agorappApi.get(url);
         const respuesta = res.data;

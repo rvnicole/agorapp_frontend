@@ -10,6 +10,7 @@ import {
     NewUbicacionSchema, 
     PostRespuestaSchema, 
     PostSchema, 
+    PostsUsuarioRespuestaSchema, 
     RegisterSchema, 
     ReportSchema, 
     RequestListPostSchema, 
@@ -101,3 +102,4 @@ export type PostRespuesta = z.infer<typeof PostRespuestaSchema>;
 export type ImgsRespuesta = z.infer<typeof RespuestaImagenSchema>;
 export type DescriptionRespuesta = z.infer<typeof DescriptionRespuestaSchema>;
 export type ComentarioRespuesta = z.infer<typeof ComentarioRespuestaSchema>;
+export type PostsUsuarioRespuesta = z.infer<typeof PostsUsuarioRespuestaSchema>;
