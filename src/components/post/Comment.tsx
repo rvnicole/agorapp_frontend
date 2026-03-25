@@ -43,7 +43,7 @@ export default function Comment({ postId, createdAt, usuarioId, comment }: Comme
                 <img className="w-full" src={comment.url_img || "/public/user-avar-default.jpg"} />
             </Avatar>
 
-            <div className="w-full space-y-4">
+            <div className="w-full">
                 <CommentContent comment={comment}/>
 
                 <CreateComment 
@@ -53,7 +53,7 @@ export default function Comment({ postId, createdAt, usuarioId, comment }: Comme
                     replyCommentId={comment.id}
                 />
 
-                { comment.answered && !hasFetched &&
+                { comment.answered && !hasFetched.current &&
                     <Button
                         variant="link"
                         className="flex items-center text-xs"
@@ -71,15 +71,18 @@ export default function Comment({ postId, createdAt, usuarioId, comment }: Comme
                     </div> 
                 }
 
-                { comments.map(comentario => (
-                    <div className="flex items-start gap-2">
-                        <Avatar className="h-7 w-7 mt-1">
-                            <img className="w-full" src={comentario.url_img || "/public/user-avar-default.jpg"} />
-                        </Avatar>
+                <div className="space-y-5 mt-5">
+                    { comments.map(comentario => (
+                        <div className="flex items-start gap-2">
+                            <Avatar className="h-7 w-7 mt-1">
+                                <img className="w-full" src={comentario.url_img || "/public/user-avar-default.jpg"} />
+                            </Avatar>
 
-                        <CommentContent comment={comentario}/>
-                    </div>
-                ))}
+                            <CommentContent comment={comentario}/>
+                        </div>
+                    ))}
+                </div>
+                
             </div>
         </div> 
     )
@@ -92,7 +95,7 @@ function CommentContent({ comment }: { comment: Comentario }) {
     return (
         <div className="w-full">
             <div className="flex items-center justify-between">
-                <p className="font-semibold">{alias} { alias === user.alias && "(Tú)" }</p>
+                <p className="font-semibold">{alias} <span className="font-normal text-muted-foreground">{ alias === user.alias && "(Tú)" }</span></p>
                 <p className="text-xs text-muted-foreground">{formatDate(created_at)}</p> 
             </div> 
 

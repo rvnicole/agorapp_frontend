@@ -46,7 +46,7 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
 
     if( replyCommentId ) {
         return (
-            <div className="flex gap-3 items-start mt-5">
+            <div className="flex gap-1 items-start mt-5">
                 <Textarea 
                     className="text-sm min-h-min"
                     placeholder="Escribe un comentario..."
@@ -55,21 +55,15 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
                 />
 
                 <Button 
-                    className="flex items-center gap-1 py-1"
+                    className="flex items-center bg-transparent"
                     variant="secondary"
                     onClick={() => {}}
                 >
-                    { isPending ? (
-                        <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Cargando...
-                        </>
-                    ) : (
-                        <>
-                            <Undo2 className="w-3 h-3" />
-                            <p className="text-xs">Responder</p>
-                        </>                        
-                    )}
+                    { isPending ?
+                        <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                        : 
+                        <Send className="h-5 w-5 text-primary"/> 
+                    }
                 </Button>
             </div>
         )
