@@ -5,9 +5,9 @@ import { Card } from "../../ui/Card";
 import CreateComment from "../CreateComment";
 import Comment from "../Comment";
 import Spinner from "../../ui/Spinner";
-import { getComments } from "../../../api/CommentAPI";
-import { MessageCircle } from "lucide-react";
-import type { ApiErrorType, Comentario, Post } from "../../../types";
+import { getComments, getCommentsAnswered } from "../../../api/CommentAPI";
+import { MessageCircle, Undo2, X } from "lucide-react";
+import type { Answer, ApiErrorType, Comentario, Post } from "../../../types";
 
 type CommentsPostProps = {
     postId: Post["id"],
@@ -18,10 +18,11 @@ type CommentsPostProps = {
 
 export default function CommentsPost({ postId, createdAt, usuarioId, totalComentarios }: CommentsPostProps) {
     const [comments, setComments] = useState<Comentario []>([]);
+    const [answer, setAnswer] = useState<number | null>(null);
+
     const [lastId, setLastId] = useState(0);
     const [lastResult, setLastResult] = useState(false);
     const spinner = useRef<HTMLDivElement>(null);
-    console.log({totalComentarios, comments: comments.length});
 
     const { showMessages } = useMessageStore( state => state );
 
@@ -44,9 +45,32 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
             };
         },
         onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => {
-                showMessages("error", error);
-            }); 
+            error.messages.forEach((error: string) => showMessages("error", error));  
+        }
+    });
+
+    const { mutate: mutateAnswer, isPending: isPendingAnswer } = useMutation({
+        mutationFn: getCommentsAnswered,
+        onSuccess: (data: Answer[] | undefined ) => {
+            if( !data ) return;
+            
+            const commentId = data[0].answerTo;
+            const comment = comments.find(c => c.id === commentId);
+            if( !comment ) return;
+
+            const newComments = comments.map(c => {
+                if( c.id === comment.id ) {
+                    c.answers = data;
+                    c.answered = true;
+                }
+
+                return c;
+            });
+
+            setComments(newComments);
+        },
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => showMessages("error", error));
         }
     });
 
@@ -57,26 +81,24 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
             }
         });
 
-        if(spinner.current) {
-            observador.observe( spinner.current );
-        }
-        
-        if( lastResult ) {
-            observador.disconnect();
-        }
+        if(spinner.current) observador.observe( spinner.current );
 
-        return () => {
-                observador.disconnect();
-        };
+        if( lastResult ) observador.disconnect();
+
+        return () => observador.disconnect();
     }, [spinner, isPending]);
 
     return (
+<<<<<<< HEAD
         <div 
             className="w-full space-y-3"
         >
+=======
+        <div id="comentarios" className="w-full space-y-3">
+>>>>>>> e3a5b335c0c88893c8d6ebfa3dbb309e66c7bae0
             <div className="flex items-center gap-2 ml-4 md:ml-0">
                 <MessageCircle className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">Comentarios ({comments.length})</h3>
+                <h3 className="text-lg font-semibold">Comentarios ({totalComentarios})</h3>
             </div>
 
             <Card className="border p-5 w-full">
@@ -99,19 +121,65 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
                     key={comment.id}
                     className="border p-5 w-full"
                 >
-                    <Comment 
-                        postId={postId}
-                        createdAt={createdAt}
-                        usuarioId={usuarioId}
-                        comentario={comment}
+                    <Comment
+                        comment={comment}
+                        isLoadingAnswers={isPendingAnswer}
+                        onAnswer={id => setAnswer(id)}
+                        onLoadAnswers={id => mutateAnswer({ id: postId, createdAt, replyCommentId: id })}
                     />                                          
                 </Card>
             ))}
-            {
-                !lastResult &&
+
+            { !lastResult &&
                 <div ref={spinner} className="flex justify-center">
                     <Spinner />
                 </div>
+            }
+
+            { answer &&
+                <>
+                    <div className="h-20" />
+
+                    <div 
+                        className="fixed bottom-8 left-4 w-2/3 right-20 p-1 md:p-2 md:left-1/2 md:right-auto md:-translate-x-1/2 
+                        lg:w-full lg:max-w-2xl bg-card/10 backdrop-blur-md rounded-xl"
+                    >
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1 py-1 text-primary">
+                                <Undo2 className="h-3.5 w-3.5"/>
+                                Responder a {comments.find(c => c.id === answer)?.alias}
+                            </div>
+
+                            <button
+                                className="text-primary p-2 mb-2 rounded-full hover:bg-muted"
+                                onClick={() => setAnswer(null)}
+                            >
+                                <X className="h-4 w-4 cursor-pointer"/>
+                            </button>
+                        </div>
+
+                        <CreateComment 
+                            postId={postId}
+                            createdAt={createdAt}
+                            usuarioId={usuarioId}
+                            replyCommentId={answer}
+                            onSuccess={ comentario => {
+                                const comment: Answer = { ...comentario, answerTo: answer };
+
+                                const newComments = comments.map(c => {
+                                    if( c.id === answer ) {
+                                        c.answers = c.answers ? [...c.answers, comment] : [comment];
+                                        c.answered = true;
+                                    }
+                    
+                                    return c;
+                                });
+
+                                setComments(newComments);
+                            }}
+                        />
+                    </div>
+                </>
             }
         </div>        
     )

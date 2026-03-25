@@ -48,15 +48,6 @@ export function Profile(){
                     setShouldFetch(true);
                     return;
                 }
-                else{
-                    let postCacheados: PostsUsuarioRespuesta[] = [];
-                        for( let i = 0; i < data.pageParams.length; i++ ){
-                            if(data.pages){
-                                postCacheados = [...postCacheados, ...(data.pages[i] || [])]
-                            }
-                        }
-                        if(postCacheados) setPostResume(postCacheados);
-                }
             };
         });
         if(ref.current) observador.observe(ref.current);

@@ -27,9 +27,7 @@ export default function LikedPost({ id, like, createdAt, totalLikes }: LikedPost
             console.log(data);
         },
         onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => {
-                showMessages("error", error);
-            }); 
+            error.messages.forEach((error: string) => showMessages("error", error)); 
         }
     })
     
