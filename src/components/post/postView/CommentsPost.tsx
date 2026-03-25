@@ -35,6 +35,7 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
             setLastId(newLastId);
         },
         onError: (error: ApiErrorType) => {
+            console.log("Desde CommentsPost:", error);
             error.messages.forEach((error: string) => {
                 showMessages("error", error);
             }); 
@@ -44,6 +45,7 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
     useEffect(() => {
         const observador = new IntersectionObserver(arreglo => {
             if( arreglo[0].isIntersecting && !isPending ) {
+                console.log("Cargando mas:", { id: postId, createdAt, lastId });
                 mutate({ id: postId, createdAt, lastId });
             }
         });
