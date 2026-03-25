@@ -28,14 +28,17 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
             if( !data ) return;
 
             const newComments = data.filter(comment => !comments.find(c => c.id === comment.id));
-            setComments(c => ([...c, ...newComments]));
+            
+            if( newComments.length > 0 ) {
+                setComments(c => ([...c, ...newComments]));
 
-            const newLastId = newComments[newComments.length - 1].id;
-            console.log(newLastId);
-            setLastId(newLastId);
+                const newLastId = newComments[newComments.length - 1].id;
+                setLastId(newLastId);
+
+                console.log(newLastId);
+            }
         },
         onError: (error: ApiErrorType) => {
-            console.log("Desde CommentsPost:", error);
             error.messages.forEach((error: string) => {
                 showMessages("error", error);
             }); 
