@@ -29,6 +29,7 @@ export async function createComment({ id, createdAt, usuarioId, comentario, repl
 export async function getComments({ id, createdAt, lastId }: Pick<Post, "id"|"createdAt"> & { lastId: number }) {
     try {
         const url = (`/post/${id}/${createdAt}/comentarios?lastId=${lastId}`).replace("+", "%2B");
+        console.log("URL", url);
         const res = await agorappApi.get(url);
         const respuesta = res.data;
 

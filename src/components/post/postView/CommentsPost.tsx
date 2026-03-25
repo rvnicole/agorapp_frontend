@@ -28,6 +28,7 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
             if( !data ) return;
 
             setComments(c => ([...c, ...data]));
+            console.log(data[data.length - 1].id);
             setLastId(data[data.length - 1].id);
         },
         onError: (error: ApiErrorType) => {
