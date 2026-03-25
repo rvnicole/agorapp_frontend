@@ -41,7 +41,7 @@ export default function Comment({ postId, createdAt, usuarioId, comentario }: Co
     return (
         <div className="flex items-start gap-2">
             <Avatar>
-                <img className="w-full" src={comment.url_img || "/public/user-avar-default.jpg"} />
+                <img className="w-full h-fit" src={comment.url_img || "/public/user-avar-default.jpg"} />
             </Avatar>
 
             <div className="w-full">
@@ -84,7 +84,7 @@ export default function Comment({ postId, createdAt, usuarioId, comentario }: Co
                 { comments.map(comentario => (
                     <div key={comentario.id} className="flex items-start gap-2 mt-5">
                         <Avatar className="h-7 w-7 mt-1">
-                            <img className="w-full" src={comentario.url_img || "/public/user-avar-default.jpg"} />
+                            <img className="w-full h-fit" src={comentario.url_img || "/public/user-avar-default.jpg"} />
                         </Avatar>
 
                         <CommentContent comment={comentario}/>

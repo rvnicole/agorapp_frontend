@@ -26,8 +26,8 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
         mutationFn: getComments,
         onSuccess: (data: Comentario[] | undefined ) => {
             if( !data ) return;
-            
-            setComments(data);
+
+            setComments(c => ([...c, ...data]));
             setLastId(data[data.length - 1].id);
         },
         onError: (error: ApiErrorType) => {
