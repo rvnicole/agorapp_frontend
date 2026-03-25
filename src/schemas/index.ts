@@ -57,13 +57,23 @@ export const EstadoSchema = z.object({
     editado: z.boolean()
 });
 
+export const AnswerSchema = z.object({
+    id: z.number(),
+    comentario: z.string(), 
+    alias: z.string(),
+    created_at: z.string(),
+    url_img: z.string().optional(),
+    answerTo: z.number().optional()
+});
+
 export const ComentarioSchema = z.object({
     id: z.number(),
     comentario: z.string(), 
     alias: z.string(),
     created_at: z.string(),
     url_img: z.string().optional(),
-    answered: z.boolean().optional()
+    answered: z.boolean().optional(),
+    answers: z.array(AnswerSchema).optional()
 });
 
 export const PostSchema = z.object({

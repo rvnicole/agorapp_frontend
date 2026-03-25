@@ -23,9 +23,7 @@ export default function RecordDescription({ next }: RecordDescriptionProps) {
             setRefinedDescription(data)
         },
         onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => {
-                showMessages("error", error);
-            }); 
+            error.messages.forEach((error: string) => showMessages("error", error)); 
         }
     });
     

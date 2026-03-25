@@ -32,9 +32,7 @@ export default function CreateReport() {
             navigate(`/post/reporte/${data.id}?createdAt=${data.createdAt}`);
         },
         onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => {
-                showMessages("error", error);
-            });
+            error.messages.forEach((error: string) => showMessages("error", error)); 
         }
     });
 

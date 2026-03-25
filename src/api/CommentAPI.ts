@@ -1,7 +1,7 @@
 import { agorappApi } from "../lib/agorappApi";
 import { APIAgorAppError } from "../errors/ApiError";
 import { handleApiError } from "./handleAgorappError";
-import { ComentarioSchema } from "../schemas";
+import { AnswerSchema, ComentarioSchema } from "../schemas";
 import type { ComentarioRespuesta, Post } from "../types";
 
 export async function createComment({ id, createdAt, usuarioId, comentario, replyCommentId }: Pick<Post, "id"|"createdAt"|"usuarioId"> & Pick<ComentarioRespuesta, "comentario"|"replyCommentId">) {
@@ -57,21 +57,25 @@ export async function getCommentsAnswered({ id, createdAt, replyCommentId }: Pic
         const url = (`/post/${id}/${createdAt}/comentarios/${replyCommentId}`).replace("+", "%2B");
         const res = await agorappApi.get(url);
         const respuesta = res.data;
-        console.log(respuesta);
 
         if( !respuesta.success ) {
             const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
             throw new APIAgorAppError(apiErrors);
         }
         
-        const result = ComentarioSchema.array().safeParse(respuesta.data);
-
+        const result = AnswerSchema.array().safeParse(respuesta.data);
+        
         if( !result.success ) {
             const errors = result.error.issues.map(error => error.message);
             throw new APIAgorAppError(errors);
         }
 
-        return result.data;
+        const newData = result.data.map(data => {
+            data.answerTo = replyCommentId;
+            return data;
+        });
+
+        return newData;
     }
     catch( error ) {
         handleApiError( error );

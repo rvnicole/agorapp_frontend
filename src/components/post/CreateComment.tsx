@@ -39,9 +39,7 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
             }
         },
         onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => {
-                showMessages("error", error);
-            }); 
+            error.messages.forEach((error: string) => showMessages("error", error)); 
         }
     });
 
@@ -51,16 +49,16 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
 
     if( replyCommentId ) {
         return (
-            <div className="flex gap-1 items-start mt-5">
+            <div className="flex gap-2 items-start">
                 <Textarea 
-                    className="text-sm min-h-min"
+                    className="text-sm min-h-[38px] max-h-[120px]"
                     placeholder="Escribe un comentario..."
                     onChange={OnChangeComment}
                     value={comentario}
                 />
 
                 <Button 
-                    className="flex items-center bg-transparent"
+                    className="flex items-center"
                     variant="secondary"
                     onClick={() => mutate({ id: postId, createdAt, usuarioId, comentario, replyCommentId })}
                 >

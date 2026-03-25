@@ -1,6 +1,7 @@
 import z from 'zod';
 import { 
     AddressResultSchema, 
+    AnswerSchema, 
     ComentarioRespuestaSchema, 
     ComentarioSchema, 
     DescriptionRespuestaSchema, 
@@ -45,6 +46,7 @@ export type NewReport = Omit<Report, "id"|"usuarioId">;
 export type EstadoStr = z.infer<typeof EstadoStrSchema>;
 
 export type Comentario = z.infer<typeof ComentarioSchema>;
+export type Answer = z.infer<typeof AnswerSchema>;
 
 export type ImagenPreview = {
     id: string;

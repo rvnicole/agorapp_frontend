@@ -23,9 +23,7 @@ export function useUbicacion({ onChange }: UseUbicacionProps) {
             setAddress(data);
         },
         onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => {
-                showMessages("error", error);
-            });          
+            error.messages.forEach((error: string) => showMessages("error", error));        
         }
     });
 
