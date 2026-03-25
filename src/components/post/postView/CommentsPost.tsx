@@ -76,7 +76,7 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
                 </div>
             }
 
-            { !comments.length &&
+            { !comments.length && hasFetched.current &&
                 <div className="flex justify-center py-5">
                     <p className="text-sm text-muted-foreground">Sé el primero en comentar</p>
                 </div> 

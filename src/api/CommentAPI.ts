@@ -1,7 +1,7 @@
 import { agorappApi } from "../lib/agorappApi";
 import { APIAgorAppError } from "../errors/ApiError";
 import { handleApiError } from "./handleAgorappError";
-import { ComentarioRespuestaSchema, ComentarioSchema } from "../schemas";
+import { ComentarioSchema } from "../schemas";
 import type { ComentarioRespuesta, Post } from "../types";
 
 export async function createComment({ id, createdAt, usuarioId, comentario, replyCommentId }: Pick<Post, "id"|"createdAt"|"usuarioId"> & Pick<ComentarioRespuesta, "comentario"|"replyCommentId">) {
