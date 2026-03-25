@@ -91,7 +91,7 @@ export default function CommentsPost({ postId, createdAt, usuarioId }: CommentsP
                         postId={postId}
                         createdAt={createdAt}
                         usuarioId={usuarioId}
-                        comment={comment}
+                        comentario={comment}
                     />                                          
                 </Card>
             ))}

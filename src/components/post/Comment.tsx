@@ -14,10 +14,11 @@ type CommentProps = {
     postId: Post["id"],
     createdAt: Post["createdAt"],
     usuarioId: Post["usuarioId"],
-    comment: Comentario
+    comentario: Comentario
 }
 
-export default function Comment({ postId, createdAt, usuarioId, comment }: CommentProps) {
+export default function Comment({ postId, createdAt, usuarioId, comentario }: CommentProps) {
+    const [comment, setComment] = useState(comentario);
     const [comments, setComments] = useState<Comentario []>([]);
     const hasFetched = useRef<boolean>(false);
 
@@ -56,7 +57,7 @@ export default function Comment({ postId, createdAt, usuarioId, comment }: Comme
                             setComments(c => ([ comentario, ...c ]));
                         } 
                         else if( !comment.answered ) {
-                            comment.answered = true;
+                            setComment(c => ({...c, answered: true }));
                         }
                     }}
                 />
