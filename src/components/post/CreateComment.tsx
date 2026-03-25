@@ -5,15 +5,15 @@ import { useMessageStore } from "../../store/messageStore";
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/Textarea";
 import { createComment } from "../../api/CommentAPI";
-import { Loader2, Send, Undo2 } from "lucide-react";
-import type { ApiErrorType, ComentarioRespuesta, Post } from "../../types";
+import { Loader2, Send } from "lucide-react";
+import type { ApiErrorType, Comentario, ComentarioRespuesta, Post } from "../../types";
 
 type CreateCommentProps = {
     postId: Post["id"],
     createdAt: Post["createdAt"],
     usuarioId: Post["usuarioId"]
     replyCommentId?: ComentarioRespuesta["replyCommentId"];
-    onSuccess?: (comentario: ComentarioRespuesta) => void;
+    onSuccess?: (comentario: Comentario) => void;
 }
 
 export default function CreateComment({ postId, createdAt, usuarioId, replyCommentId, onSuccess }: CreateCommentProps) {
@@ -24,13 +24,17 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
     const { mutate, isPending } = useMutation({
         mutationFn: createComment,
         onSuccess: (data) => {
-            if( onSuccess && data && data.success ) {
-                onSuccess({
-                    ...data.data,
-                    usuario: alias
-                });
+            setComentario("");
 
-                setComentario("");
+            if( onSuccess && data && alias ) {
+                console.log(data);
+
+                onSuccess({
+                    id: data.comentId,
+                    comentario: data.comentario,
+                    created_at: data.fecha,
+                    alias: alias
+                });
             }
         },
         onError: (error: ApiErrorType) => {
@@ -57,7 +61,7 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
                 <Button 
                     className="flex items-center bg-transparent"
                     variant="secondary"
-                    onClick={() => {}}
+                    onClick={() => mutate({ id: postId, createdAt, usuarioId, comentario, replyCommentId })}
                 >
                     { isPending ?
                         <Loader2 className="h-5 w-5 animate-spin text-primary" />
@@ -80,7 +84,7 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
             <Button
                 className="flex justify-center items-center gap-2 w-fit"
                 disabled={!Boolean(comentario) || isPending}
-                onClick={() => mutate({ id: postId, createdAt, usuarioId, comentario, replyCommentId })}
+                onClick={() => mutate({ id: postId, createdAt, usuarioId, comentario })}
             >
                 { isPending ? (
                     <>

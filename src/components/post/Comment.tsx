@@ -51,6 +51,7 @@ export default function Comment({ postId, createdAt, usuarioId, comment }: Comme
                     createdAt={createdAt}
                     usuarioId={usuarioId}
                     replyCommentId={comment.id}
+                    onSuccess={comentario => setComments(c => ({ comentario, ...c }))}
                 />
 
                 { comment.answered && !hasFetched.current && !isPending &&
