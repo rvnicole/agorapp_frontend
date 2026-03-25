@@ -54,10 +54,9 @@ export default function Post() {
                 <EstadoPost estados={data[0].estados}/>
 
                 <CommentsPost 
-                    id={data[0].id} 
+                    postId={data[0].id} 
                     createdAt={data[0].created_at} 
                     usuarioId={data[0].usuario_id}
-                    comentarios={data[0].comentarios}
                 />
             </div>
         </div>

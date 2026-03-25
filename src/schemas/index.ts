@@ -63,7 +63,7 @@ export const ComentarioSchema = z.object({
     alias: z.string(),
     created_at: z.string(),
     url_img: z.string().optional(),
-    answared: z.boolean().nullable()
+    answered: z.boolean().optional()
 });
 
 export const PostSchema = z.object({

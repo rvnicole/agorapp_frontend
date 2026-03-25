@@ -44,3 +44,29 @@ export async function getComments({ id, createdAt }: Pick<Post, "id"|"createdAt"
         handleApiError( error );
     }
 };
+
+export async function getCommentsAnswered({ id, createdAt, replyCommentId }: Pick<Post, "id"|"createdAt"> & Pick<ComentarioRespuesta, "replyCommentId"> ) {
+    try {
+        const url = (`/post/${id}/${createdAt}/comentarios/${replyCommentId}`).replace("+", "%2B");
+        const res = await agorappApi.get(url);
+        const respuesta = res.data;
+        console.log(respuesta);
+
+        if( !respuesta.success ) {
+            const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );
+            throw new APIAgorAppError(apiErrors);
+        }
+        
+        const result = ComentarioSchema.array().safeParse(respuesta.data);
+
+        if( !result.success ) {
+            const errors = result.error.issues.map(error => error.message);
+            throw new APIAgorAppError(errors);
+        }
+
+        return result.data;
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+};
