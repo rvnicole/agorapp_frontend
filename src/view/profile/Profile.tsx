@@ -10,7 +10,6 @@ import { formatDate } from "../../utils/date";
 import PostResume from "../../components/post/postResume/PostResume";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getUserPosts } from "../../api/PostAPI";
-import { useMessageStore } from "../../store/messageStore";
 import Spinner from "../../components/ui/Spinner";
 import type { PostsUsuarioRespuesta } from "../../types";
 
@@ -24,7 +23,6 @@ const preferenciasNotificaciones = [
 export function Profile(){
     const ref = useRef(null);
     const [shouldFetch, setShouldFetch] = useState(false);
-    const [postResume, setPostResume] = useState<PostsUsuarioRespuesta[]>([]);
     const { user } = useUserStore( state => state );
     
     const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -42,12 +40,13 @@ export function Profile(){
         const observador = new IntersectionObserver((elementos) => {
             if(elementos[0].isIntersecting){
                 console.log("Se esta viendo");
-                console.log({ data, hasNextPage, isFetchingNextPage, isPending, postResume })
+                console.log({ data, hasNextPage, isFetchingNextPage, isPending })
                 if( !data ) {
                     console.log("Primera peticion");
                     setShouldFetch(true);
                     return;
                 }
+                fetchNextPage();
             };
         });
         if(ref.current) observador.observe(ref.current);
@@ -117,7 +116,9 @@ export function Profile(){
                 <p className="text-muted-foreground font-semibold">MIS ÚLTIMOS REPORTES</p>
             </div>
             {
-                postResume && postResume.map( userPost => <PostResume key={userPost.id} postResumeData={userPost}/>)
+                data?.pages && data.pages.flat().map( userPost => { 
+                    if( userPost ) return <PostResume key={userPost.id} postResumeData={userPost}/>
+                })
             }
             <div ref={ref}>
                 {
