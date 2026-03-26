@@ -60,8 +60,11 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
 
             const newComments = comments.map(c => {
                 if( c.id === comment.id ) {
-                    c.answers = data;
-                    c.answered = true;
+                    return {
+                        ...c,
+                        answers: data,
+                        answered: true
+                    }
                 }
 
                 return c;
@@ -136,10 +139,10 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
 
                     <div 
                         className="fixed bottom-8 left-4 w-2/3 right-20 p-1 md:p-2 md:left-1/2 md:right-auto md:-translate-x-1/2 
-                        lg:w-full lg:max-w-2xl bg-card/10 backdrop-blur-md rounded-xl"
+                        lg:w-full lg:max-w-2xl bg-card/10 backdrop-blur-md rounded-xl z-30"
                     >
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1 py-1 text-primary">
+                            <div className="flex items-center gap-1 py-1 text-primary text-xs ml-2 font-semibold">
                                 <Undo2 className="h-3.5 w-3.5"/>
                                 Responder a {comments.find(c => c.id === answer)?.alias}
                             </div>
@@ -162,8 +165,11 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
 
                                 const newComments = comments.map(c => {
                                     if( c.id === answer ) {
-                                        c.answers = c.answers ? [...c.answers, comment] : [comment];
-                                        c.answered = true;
+                                        return {
+                                            ...c,
+                                            answers: c.answers ? [...c.answers, comment] : [comment],
+                                            answered: true
+                                        }
                                     }
                     
                                     return c;
