@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Mail, Bell, Calendar, Megaphone  } from "lucide-react";
+import { Mail, Bell, Calendar, Megaphone } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
 import { Toggle } from "../../components/ui/Toggle";
 import Avatar from "../../components/ui/Avatar";
@@ -11,19 +11,21 @@ import PostResume from "../../components/post/postResume/PostResume";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getUserPosts } from "../../api/PostAPI";
 import Spinner from "../../components/ui/Spinner";
-import type { PostsUsuarioRespuesta } from "../../types";
+import useNotification from "../../hooks/useNotifications";
+import AdjustmentHorizontal from "../../components/ui/AdjustmentHorizontal";
 
 const preferenciasNotificaciones = [
-    { titulo: "Notificaciones", descripcion: "Recibe notificaciones en tu dispositivo", estilos: "pb-5 border-b" },
-    { titulo: "Notificaciones de reacciones de apoyo", descripcion: "Notificar cuando alguien apoye tu publicación", estilos: "py-5 border-b" },
-    { titulo: "Notificaciones de nuevos comentarios", descripcion: "Notificar cuando alguien comente tu publicación", estilos: "py-5 border-b" },
-    { titulo: "Notificaciones de cambios de estado", descripcion: "Recibe notificaciones cuando tu publicación tenga un cambio de estado", estilos: "pt-5" }
+    { titulo: "Notificaciones", descripcion: "Recibe notificaciones en tu dispositivo", estilos: "" },
+    //{ titulo: "Notificaciones de reacciones de apoyo", descripcion: "Notificar cuando alguien apoye tu publicación", estilos: "py-5 border-b" },
+    //{ titulo: "Notificaciones de nuevos comentarios", descripcion: "Notificar cuando alguien comente tu publicación", estilos: "py-5 border-b" },
+    //{ titulo: "Notificaciones de cambios de estado", descripcion: "Recibe notificaciones cuando tu publicación tenga un cambio de estado", estilos: "pt-5" }
 ];
 
 export function Profile(){
     const ref = useRef(null);
     const [shouldFetch, setShouldFetch] = useState(false);
     const { user } = useUserStore( state => state );
+    const { checkNotificationPermission, deactivateNotifications } = useNotification();
     
     const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ["getUserPosts"],
@@ -88,12 +90,12 @@ export function Profile(){
                 <p className="text-muted-foreground font-semibold">PREFERENCIAS DE NOTIFICACIONES</p>
             </div>
             <Card className="border">
-                <CardContent className="">
+                <CardContent>
                     {
-                        preferenciasNotificaciones.map( tipoNotificacion => 
+                        preferenciasNotificaciones.map( (tipoNotificacion) => 
                             <div
                                 key={tipoNotificacion.titulo} 
-                                className={`flex items-center justify-between pb-5 ${tipoNotificacion.estilos}`}
+                                className={`flex items-center justify-between ${tipoNotificacion.estilos}`}
                             >
                                 <p className="text-base font-semibold mr-5 w-3/4 md:w-auto">{tipoNotificacion.titulo}
                                     <span 
@@ -101,11 +103,23 @@ export function Profile(){
                                     >{tipoNotificacion.descripcion}</span>
                                 </p>
                                 <Toggle 
-                                    setModeFalse={()=>{}}
-                                    setModeTrue={()=>{}}
+                                    setModeFalse={async () => await deactivateNotifications() }
+                                    setModeTrue={ async () => await checkNotificationPermission(Notification.permission)}
+                                    isOn={ Notification.permission === "granted" && Boolean(localStorage.getItem("fb_token")) }
+                                    disable={ Notification.permission === "denied" }
                                 />
                             </div>
                         )
+                    }
+                    {
+                        Notification.permission === "denied" &&
+                        <p className="text-xs pt-3 text-destructive">
+                          Tienes las notificaciones bloqueadas. Para activarlas:
+                          Haz clic en el candado en la barra de URL <span className="text-base"><AdjustmentHorizontal className="inline"/></span>
+                          {" "} busca "Notificaciones"
+                          y cámbialo a "Permitir"
+                          luego recarga la página
+                        </p>
                     }
                 </CardContent>
             </Card>

@@ -92,7 +92,7 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
     }, [spinner, isPending]);
 
     return (
-        <div id="comentarios" className="w-full space-y-3">
+        <div className="w-full space-y-3">
             <div className="flex items-center gap-2 ml-4 md:ml-0">
                 <MessageCircle className="h-5 w-5" />
                 <h3 className="text-lg font-semibold">Comentarios ({totalComentarios})</h3>
@@ -115,7 +115,6 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
                        
             { comments.map(comment => (
                 <Card
-                    id={String(comment.id)}
                     key={comment.id}
                     className="border p-5 w-full"
                 >
@@ -136,11 +135,11 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
 
             { answer &&
                 <>
-                    <div className="h-14" />
+                    <div className="h-20" />
 
                     <div 
-                        className="fixed bottom-8 w-full lg:w-2xl p-2 left-1/2 right-auto -translate-x-1/2 
-                        bg-card/10 backdrop-blur-md rounded-xl z-60"
+                        className="fixed bottom-8 left-4 w-2/3 right-20 p-1 md:p-2 md:left-1/2 md:right-auto md:-translate-x-1/2 
+                        lg:w-full lg:max-w-2xl bg-card/10 backdrop-blur-md rounded-xl z-30"
                     >
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-1 py-1 text-primary text-xs ml-2 font-semibold">

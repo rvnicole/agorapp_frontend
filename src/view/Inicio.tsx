@@ -18,6 +18,7 @@ export default function Inicio() {
     const navigate = useNavigate();
     const handleLogout = async () => {
         localStorage.removeItem("userData");
+        localStorage.removeItem("fb_token");
         const res = await deleteToken(messaging);
         console.log("token push eliminado", res);
         const { data } = await agorappApi.get("/logout");
