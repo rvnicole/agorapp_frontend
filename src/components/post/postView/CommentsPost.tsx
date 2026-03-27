@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMessageStore } from "../../../store/messageStore";
 import { Card } from "../../ui/Card";
 import CreateComment from "../CreateComment";
+import ReplyComment from "../ReplyComment";
 import Comment from "../Comment";
 import Spinner from "../../ui/Spinner";
-import { getComments, getCommentsAnswered } from "../../../api/CommentAPI";
-import { MessageCircle, Undo2, X } from "lucide-react";
-import type { Answer, ApiErrorType, Comentario, Post } from "../../../types";
+import { APIAgorAppError } from "../../../errors/ApiError";
+import { getComments } from "../../../api/CommentAPI";
+import { MessageCircle } from "lucide-react";
+import type { Comentario, Post } from "../../../types";
 
 type CommentsPostProps = {
     postId: Post["id"],
@@ -17,79 +19,49 @@ type CommentsPostProps = {
 }
 
 export default function CommentsPost({ postId, createdAt, usuarioId, totalComentarios }: CommentsPostProps) {
-    const [comments, setComments] = useState<Comentario []>([]);
-    const [answer, setAnswer] = useState<number | null>(null);
-
-    const [lastId, setLastId] = useState(0);
-    const [lastResult, setLastResult] = useState(false);
+    const [commentToReply, setCommentToReply] = useState<Comentario | null>(null);
     const spinner = useRef<HTMLDivElement>(null);
 
     const { showMessages } = useMessageStore( state => state );
 
-    const { mutate, isPending } = useMutation({
-        mutationFn: getComments,
-        onSuccess: (data: Comentario[] | undefined ) => {
-            if( !data ) return;
-
-            const newComments = data.filter(comment => !comments.find(c => c.id === comment.id));
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error, isError } = useInfiniteQuery({
+        queryKey: ["comments", postId],
+        queryFn: ({ pageParam = 0 }) => getComments({
+            id: postId,
+            createdAt,
+            lastId: pageParam
+        }),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage) => {
+            if( !lastPage?.length ) return undefined;
             
-            if( newComments.length > 0 ) {
-                setComments(c => ([...c, ...newComments]));
-
-                const newLastId = newComments[newComments.length - 1].id;
-                setLastId(newLastId);
-            }
-
-            if( data.length === 0 ){
-                setLastResult(true);
-            };
-        },
-        onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => showMessages("error", error));  
+            const lastComment = lastPage[lastPage.length - 1];
+            return lastComment.id;
         }
     });
 
-    const { mutate: mutateAnswer, isPending: isPendingAnswer } = useMutation({
-        mutationFn: getCommentsAnswered,
-        onSuccess: (data: Answer[] | undefined ) => {
-            if( !data ) return;
-            
-            const commentId = data[0].answerTo;
-            const comment = comments.find(c => c.id === commentId);
-            if( !comment ) return;
+    const comments = useMemo(() => {
+        const flat = data?.pages.flat() || [];
+        return flat.filter((comment, index, data) => index === data.findIndex(c => c.id === comment.id));
+    }, [data]);
 
-            const newComments = comments.map(c => {
-                if( c.id === comment.id ) {
-                    return {
-                        ...c,
-                        answers: data,
-                        answered: true
-                    }
-                }
-
-                return c;
-            });
-
-            setComments(newComments);
-        },
-        onError: (error: ApiErrorType) => {
+    useEffect(() => {
+        if ( isError && error instanceof APIAgorAppError) {
             error.messages.forEach((error: string) => showMessages("error", error));
         }
-    });
+    }, [isError, error]);
 
     useEffect(() => {
         const observador = new IntersectionObserver(arreglo => {
-            if( arreglo[0].isIntersecting && !isPending ) {
-                mutate({ id: postId, createdAt, lastId });
+            if( arreglo[0].isIntersecting && hasNextPage && !isFetchingNextPage ) {
+                fetchNextPage();
             }
         });
 
         if(spinner.current) observador.observe( spinner.current );
 
-        if( lastResult ) observador.disconnect();
-
         return () => observador.disconnect();
-    }, [spinner, isPending]);
+    }, [spinner, hasNextPage, isFetchingNextPage]);
 
     return (
         <div id="comentarios" className="w-full space-y-3">
@@ -103,7 +75,6 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
                     postId={postId}
                     createdAt={createdAt}
                     usuarioId={usuarioId}
-                    onSuccess={comentario => setComments(c => ([ comentario, ...c ]))}
                 />
             </Card>
 
@@ -120,67 +91,28 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
                     className="border p-5 w-full"
                 >
                     <Comment
+                        postId={postId}
+                        createdAt={createdAt}
                         comment={comment}
-                        isLoadingAnswers={isPendingAnswer}
-                        onAnswer={id => setAnswer(id)}
-                        onLoadAnswers={id => mutateAnswer({ id: postId, createdAt, replyCommentId: id })}
+                        onReply={comentario => setCommentToReply(comentario)}
                     />                                          
                 </Card>
             ))}
 
-            { !lastResult &&
+            { hasNextPage &&
                 <div ref={spinner} className="flex justify-center">
                     <Spinner />
                 </div>
             }
 
-            { answer &&
-                <>
-                    <div className="h-14" />
-
-                    <div 
-                        className="fixed bottom-8 w-full lg:w-2xl p-2 left-1/2 right-auto -translate-x-1/2 
-                        bg-card/10 backdrop-blur-md rounded-xl z-60"
-                    >
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1 py-1 text-primary text-xs ml-2 font-semibold">
-                                <Undo2 className="h-3.5 w-3.5"/>
-                                Responder a {comments.find(c => c.id === answer)?.alias}
-                            </div>
-
-                            <button
-                                className="text-primary p-2 mb-2 rounded-full hover:bg-muted"
-                                onClick={() => setAnswer(null)}
-                            >
-                                <X className="h-4 w-4 cursor-pointer"/>
-                            </button>
-                        </div>
-
-                        <CreateComment 
-                            postId={postId}
-                            createdAt={createdAt}
-                            usuarioId={usuarioId}
-                            replyCommentId={answer}
-                            onSuccess={ comentario => {
-                                const comment: Answer = { ...comentario, answerTo: answer };
-
-                                const newComments = comments.map(c => {
-                                    if( c.id === answer ) {
-                                        return {
-                                            ...c,
-                                            answers: c.answers ? [...c.answers, comment] : [comment],
-                                            answered: true
-                                        }
-                                    }
-                    
-                                    return c;
-                                });
-
-                                setComments(newComments);
-                            }}
-                        />
-                    </div>
-                </>
+            { commentToReply &&
+                <ReplyComment 
+                    postId={postId}
+                    createdAt={createdAt}
+                    usuarioId={usuarioId}
+                    comment={commentToReply}
+                    onClose={() => setCommentToReply(null)}
+                />
             }
         </div>        
     )

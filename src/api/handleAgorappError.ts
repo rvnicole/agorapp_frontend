@@ -4,7 +4,7 @@ import type { ZodError } from "zod";
 
 type Errores = Error | APIAgorAppError | AxiosError | ZodError | unknown;
 
-export function handleApiError(error: Errores): APIAgorAppError {
+export function handleApiError(error: Errores): never {
     console.log(error);
     
     // Axios error 
