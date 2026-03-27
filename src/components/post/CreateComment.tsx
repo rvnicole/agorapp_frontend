@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent } from "react";
+import { useQueryClient } from '@tanstack/react-query';
 import { useUserStore } from "../../store/userStore";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../../store/messageStore";
@@ -6,36 +7,73 @@ import { Button } from "../ui/Button";
 import { Textarea } from "../ui/Textarea";
 import { createComment } from "../../api/CommentAPI";
 import { Loader2, Send } from "lucide-react";
-import type { ApiErrorType, Comentario, ComentarioRespuesta, Post } from "../../types";
+import type { ApiErrorType, Comentario, ComentarioRespuesta, Post, PostRespuesta } from "../../types";
 
 type CreateCommentProps = {
     postId: Post["id"],
     createdAt: Post["createdAt"],
     usuarioId: Post["usuarioId"]
     replyCommentId?: ComentarioRespuesta["replyCommentId"];
-    onSuccess?: (comentario: Comentario) => void;
 }
 
-export default function CreateComment({ postId, createdAt, usuarioId, replyCommentId, onSuccess }: CreateCommentProps) {
+export default function CreateComment({ postId, createdAt, usuarioId, replyCommentId }: CreateCommentProps) {
     const [comentario, setComentario] = useState("");
+
     const { showMessages } = useMessageStore( state => state );
     const { user: { alias, url_img } } = useUserStore( state => state );
+
+    const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
         mutationFn: createComment,
         onSuccess: (data) => {
             setComentario("");
 
-            if( onSuccess && data && alias ) {
-                console.log(data);
+            const comment: Comentario = {
+                id: data.comentId,
+                comentario: data.comentario,
+                created_at: data.fecha,
+                alias: alias!,
+                url_img
+            }
 
-                onSuccess({
-                    id: data.comentId,
-                    comentario: data.comentario,
-                    created_at: data.fecha,
-                    alias,
-                    url_img
-                });
+            queryClient.setQueryData(
+                ["get-post", postId, createdAt], 
+                (oldData: PostRespuesta[]) => {
+                    if (!oldData) return oldData;
+
+                    const newData = {...oldData[0]};
+                    newData.total_comentarios = newData.total_comentarios + 1
+                    return [newData];
+                }
+            );
+
+            if( replyCommentId ) {
+                queryClient.setQueryData<Comentario[]>(
+                    ["answers", replyCommentId], 
+                    (old = []) => [ comment, ...old ]
+                );
+            }
+            else {
+                queryClient.setQueryData<{ pages: Comentario[][] }>(
+                    ['comments', postId], 
+                    (oldData) => {
+                        if (!oldData) return oldData;
+
+                        const alreadyExists = oldData.pages.some(page =>page.some(c => c.id === comment.id));                          
+                        if (alreadyExists) return oldData;
+                    
+                        const newPages = oldData.pages.map((page, index) => {
+                            if (index === 0) {
+                                const filtered = page.filter(c => c.id !== comment.id);
+                                return [comment, ...filtered];
+                            }
+                            return page.filter(c => c.id !== comment.id);
+                        });
+                    
+                        return {...oldData, pages: newPages};
+                    }
+                );
             }
         },
         onError: (error: ApiErrorType) => {
