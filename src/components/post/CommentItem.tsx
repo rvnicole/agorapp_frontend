@@ -47,39 +47,41 @@ export default function CommentItem({ comment, isAnswer }: CommentItem ) {
                     <div className="flex gap-1 items-center">
                         <p className="text-xs text-muted-foreground">{formatDate(comment.created_at)}</p> 
 
-                        <Popover>
-                            <PopoverTrigger>
-                                <Button 
-                                    className="flex items-center justify-center rounded-full bg-transparent"
-                                    variant="secondary"
-                                    size="icon"
-                                    disabled={edit}
-                                >
-                                    <EllipsisVertical className="h-5 w-5 text-muted-foreground"/>
-                                </Button>
-                            </PopoverTrigger>
-
-                            { !edit &&
-                                <PopoverContent className="w-fit">
-                                    <PopoverItem 
-                                        key={`comment-edit-${comment.id}`}
-                                        onClick={() => setEdit(true)}
+                        { user.alias === comment.alias &&
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button 
+                                        className="flex items-center justify-center rounded-full bg-transparent"
+                                        variant="secondary"
+                                        size="icon"
+                                        disabled={edit}
                                     >
-                                        <Pencil className="size-4"/>
-                                        Editar
-                                    </PopoverItem>
+                                        <EllipsisVertical className="h-5 w-5 text-muted-foreground"/>
+                                    </Button>
+                                </PopoverTrigger>
 
-                                    <PopoverItem 
-                                        key={`comment-delete-${comment.id}`}
-                                        onClick={() => mutate()}
-                                    >
-                                        <Trash2 className="size-4"/>
-                                        Eliminar
-                                    </PopoverItem>
-                                </PopoverContent>
-                            }
-                        </Popover>
-                    </div>                    
+                                { !edit &&
+                                    <PopoverContent className="w-fit">
+                                        <PopoverItem 
+                                            key={`comment-edit-${comment.id}`}
+                                            onClick={() => setEdit(true)}
+                                        >
+                                            <Pencil className="size-4"/>
+                                            Editar
+                                        </PopoverItem>
+
+                                        <PopoverItem 
+                                            key={`comment-delete-${comment.id}`}
+                                            onClick={() => mutate()}
+                                        >
+                                            <Trash2 className="size-4"/>
+                                            Eliminar
+                                        </PopoverItem>
+                                    </PopoverContent>
+                                }
+                            </Popover>
+                        }
+                    </div>                 
                 </div> 
 
                 { edit ?
