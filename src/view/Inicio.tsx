@@ -5,13 +5,10 @@ import { useUserStore } from "../store/userStore";
 import { deleteToken } from "firebase/messaging";
 import { messaging } from "../api/firebase";
 import { useEffect } from "react";
-import Comment from "../components/post/Comment";
-import { Card } from "../components/ui/Card";
 
 export default function Inicio() {
     const { setUserData } =  useUserStore();
     
-
     useEffect(()=> {
         
     }, []);
@@ -64,22 +61,7 @@ export default function Inicio() {
             </div>
             <div>
                 <button onClick={() => navigate("/profile")} className="text-xl">Profile</button>
-            </div>
-
-            <Card className="border p-5">
-                <Comment
-                    postId={1}
-                    createdAt="a" 
-                    comment={{
-                        id:1,
-                        comentario:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                        alias:"Nico",
-                        created_at:(new Date()).toString()
-                    }}
-                    onReply={c => console.log("Comment", c)}
-                />
-            </Card>
-            
+            </div>            
         </div>
     )
 }
