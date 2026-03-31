@@ -1,7 +1,7 @@
-import { Moon, Palette, Sun } from "lucide-react";
-import { Content, Item, Portal, Root, Trigger } from "@radix-ui/react-dropdown-menu";
-import { Button } from "../ui/Button";
 import { useAppStore } from "../../store/appStore";
+import { Popover, PopoverContent, PopoverItem, PopoverTrigger } from "../ui/Popover";
+import { Button } from "../ui/Button";
+import { Moon, Palette, Sun } from "lucide-react";
 
 const themes = [
     {
@@ -53,40 +53,33 @@ export default function ThemeSelector() {
     const { setTheme } = useAppStore(state => state);
 
     return (
-        <Root>
-            <Trigger asChild>
+        <Popover>
+            <PopoverTrigger>
                 <Button variant="ghost" size="icon" className="flex items-center justify-center">
                     <Palette className="h-5 w-5" />
                     <span className="sr-only">Seleccionar tema</span>
                 </Button>                
-            </Trigger>
+            </PopoverTrigger>
 
-            <Portal>
-                <Content 
-                    align="end"
-                    forceMount
-                    className="bg-popover/60 backdrop-blur-lg text-popover-foreground min-w-32 w-56 rounded-lg border p-1 shadow-md z-50 max-h-(--radix-dropdown-menu-content-available-height) origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto fade-in"
-                >
-                    { themes.map(t => (
-                        <Item
-                            key={t.value}
-                            onClick={() => setTheme(t.value)}
-                            className="flex items-center gap-3 cursor-pointer px-2 py-1 hover:bg-foreground/10"
+            <PopoverContent>
+                { themes.map(t => (
+                    <PopoverItem
+                        key={t.value}
+                        onClick={() => setTheme(t.value)}
+                    >
+                        <div
+                            className={`flex items-center justify-center h-6 w-6 rounded ${t.preview} ring-2 ring-offset-2 ${theme === t.value ? "ring-primary" : "ring-transparent"}`}
                         >
-                            <div
-                                className={`flex items-center justify-center h-6 w-6 rounded ${t.preview} ring-2 ring-offset-2 ${theme === t.value ? "ring-primary" : "ring-transparent"}`}
-                            >
-                                { t.type === "light" ? <Sun className={`h-5  w-5 ${t.value === "light" ? "text-zinc-900" : "text-white"}`} /> : <Moon className="h-5  w-5 text-white" /> }                               
-                            </div>
+                            { t.type === "light" ? <Sun className={`h-5  w-5 ${t.value === "light" ? "text-zinc-900" : "text-white"}`} /> : <Moon className="h-5  w-5 text-white" /> }                               
+                        </div>
 
-                            <div className="flex flex-col">
-                                <span className="font-medium">{t.name}</span>
-                                <span className="text-xs text-muted-foreground">{t.description}</span>
-                            </div>
-                        </Item>
-                    ))}
-                </Content>
-            </Portal>
-        </Root>
+                        <div className="flex flex-col">
+                            <span className="font-medium">{t.name}</span>
+                            <span className="text-xs text-muted-foreground">{t.description}</span>
+                        </div>
+                    </PopoverItem>
+                ))}
+            </PopoverContent>
+        </Popover>
     )
 }

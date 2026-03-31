@@ -26,10 +26,10 @@ export default function ReplyComment({ postId, createdAt, usuarioId, comment, on
                     </div>
 
                     <button
-                        className="text-primary p-2 mb-2 rounded-full hover:bg-muted"
+                        className="text-primary p-2 mb-2 rounded-full  cursor-pointer hover:bg-muted"
                         onClick={onClose}
                     >
-                        <X className="h-4 w-4 cursor-pointer"/>
+                        <X className="h-4 w-4"/>
                     </button>
                 </div>
 

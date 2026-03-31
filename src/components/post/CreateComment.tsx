@@ -114,6 +114,7 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
         <div className="flex flex-col gap-3 items-end">
             <Textarea 
                 placeholder="Escribe un comentario..."
+                className="max-h-60"
                 onChange={OnChangeComment}
                 value={comentario}
             />
