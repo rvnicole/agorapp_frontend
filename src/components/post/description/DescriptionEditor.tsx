@@ -1,5 +1,5 @@
-import { Button } from "../ui/Button";
-import { Textarea } from "../ui/Textarea";
+import { Button } from "../../ui/Button";
+import { Textarea } from "../../ui/Textarea";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 
 type DescriptionEditorProps = {

@@ -1,11 +1,11 @@
 import { useState, type ChangeEvent } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useMessageStore } from "../../store/messageStore";
-import { Textarea } from "../ui/Textarea";
-import { Button } from "../ui/Button";
-import { editComment } from "../../api/CommentAPI";
+import { useMessageStore } from "../../../store/messageStore";
+import { Textarea } from "../../ui/Textarea";
+import { Button } from "../../ui/Button";
+import { editComment } from "../../../api/CommentAPI";
 import { Loader2, Send, X } from "lucide-react";
-import type { ApiErrorType, Comentario } from "../../types";
+import type { ApiErrorType, Comentario } from "../../../types";
 
 type EditCommentProps = {
     comment: Comentario;

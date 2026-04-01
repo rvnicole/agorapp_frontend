@@ -5,7 +5,7 @@ import { useMessageStore } from "../../store/messageStore";
 import Spinner from "../../components/ui/Spinner";
 import UbicacionPost from "../../components/post/postView/UbicacionPost";
 import InformationPost from "../../components/post/postView/InformationPost";
-import CarruselImgs from "../../components/post/CarruselImgs";
+import CarruselImgs from "../../components/post/imagenes/CarruselImgs";
 import type { Post } from "../../types";
 import { useEffect } from "react";
 import EstadoPost from "../../components/post/postView/EstadoPost";

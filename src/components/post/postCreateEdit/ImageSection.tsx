@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useCameraImagePreview } from "../../../hooks/useCameraImagePreview";
 import FullScreen from "../../ui/FullScreen";
-import CapturedImgs from "../CapturedImgs";
-import PreviewImg from "../PreviewImg";
+import CapturedImgs from "../imagenes/CapturedImgs";
+import PreviewImg from "../imagenes/PreviewImg";
 import { Button } from "../../ui/Button";
 import { Label } from "../../ui/Label";
 import { ImagePlus } from "lucide-react";

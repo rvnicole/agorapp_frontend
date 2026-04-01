@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useRecording } from "../../hooks/useRecording";
+import { useRecording } from "../../../hooks/useRecording";
 import { useMutation } from "@tanstack/react-query";
-import { useMessageStore } from "../../store/messageStore";
+import { useMessageStore } from "../../../store/messageStore";
 import VoiceRecorder from "./VoiceRecorder";
 import DescriptionEditor from "./DescriptionEditor";
 import DescriptionComparison from "./DescriptionComparison";
-import { getRefinedDescription } from "../../api/PostAPI";
-import type { ApiErrorType, DescriptionRespuesta } from "../../types";
+import { getRefinedDescription } from "../../../api/PostAPI";
+import type { ApiErrorType, DescriptionRespuesta } from "../../../types";
 
 type RecordDescriptionProps = {
     next: (data: DescriptionRespuesta) => void;

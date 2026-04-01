@@ -1,6 +1,6 @@
-import { Button } from "../ui/Button";
+import { Button } from "../../ui/Button";
 import { X } from "lucide-react";
-import type { ImagenPreview } from "../../types";
+import type { ImagenPreview } from "../../../types";
 
 type PreviewImgProps = {
     img: ImagenPreview;
