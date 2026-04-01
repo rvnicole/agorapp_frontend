@@ -1,7 +1,7 @@
 import { useState } from "react";
-import FullScreen from "../ui/FullScreen";
+import FullScreen from "../../ui/FullScreen";
 import { ChevronLeft, ChevronRight, CircleSmall } from "lucide-react";
-import type { ImgsRespuesta } from "../../types"
+import type { ImgsRespuesta } from "../../../types"
 
 type CarruselImgs = {
     imgs: ImgsRespuesta[]

@@ -31,7 +31,6 @@ export default function UbicacionSection({ onChange }: UbicacionSectionProps) {
                             <>
                                 <p className={`text-sm font-medium ${ mode ? "text-primary" : "text-muted-foreground"}`}>Usar ubicación actual</p>
                                 <Toggle
-                                    enabled={mode}
                                     setModeTrue={() => getPosition() }
                                     setModeFalse={() => setMode(false) }
                                 />

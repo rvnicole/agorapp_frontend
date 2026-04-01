@@ -36,17 +36,12 @@ export default function LikedPost({ id, like, createdAt, totalLikes }: LikedPost
             <Button
                 className="flex justify-center items-center gap-2 w-full"
                 onClick={() => {
+                    const newLiked = !liked;
+
                     mutate({ id, liked, createdAt, alias: user.alias });
-                    setLiked(l => {
-                        if( l ) {
-                            setTotal(t => t - 1);
-                            return false;
-                        }
-                        else {
-                            setTotal(t => t + 1);
-                            return true;
-                        }
-                    });
+                    
+                    setLiked(newLiked);
+                    setTotal(t => t + (newLiked ? 1 : -1));
                 }}
             >
                 { liked ?

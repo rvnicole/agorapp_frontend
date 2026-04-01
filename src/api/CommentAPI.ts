@@ -76,3 +76,21 @@ export async function getCommentsAnswered({ id, createdAt, replyCommentId }: Pic
         handleApiError( error );
     }
 };
+
+export async function editComment() {
+    try {
+       console.log("Editando...");
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+};
+
+export async function deleteComment() {
+    try {
+       console.log("Eliminando...");
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+};

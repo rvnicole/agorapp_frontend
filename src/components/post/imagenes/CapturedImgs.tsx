@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { useMessageStore } from "../../store/messageStore";
-import { useCameraCapture } from "../../hooks/useCameraCapture";
-import { useCameraImagePreview } from "../../hooks/useCameraImagePreview";
-import { useUbicacion } from "../../hooks/useUbicacion";
+import { useMessageStore } from "../../../store/messageStore";
+import { useCameraCapture } from "../../../hooks/useCameraCapture";
+import { useCameraImagePreview } from "../../../hooks/useCameraImagePreview";
+import { useUbicacion } from "../../../hooks/useUbicacion";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../ui/Button";
-import Spinner from "../ui/Spinner";
+import { Button } from "../../ui/Button";
+import Spinner from "../../ui/Spinner";
 import PreviewImg from "./PreviewImg";
 import { ArrowRight, Camera, ImagePlus, Loader2 } from "lucide-react";
-import type { ImagenData, NewUbicacionType } from "../../types";
+import type { ImagenData, NewUbicacionType } from "../../../types";
 
 type CapturedImgsProps = {
     imgs?: File[];

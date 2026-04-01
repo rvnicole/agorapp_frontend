@@ -9,7 +9,6 @@ import { useEffect } from "react";
 export default function Inicio() {
     const { setUserData } =  useUserStore();
     
-
     useEffect(()=> {
         
     }, []);
@@ -63,7 +62,7 @@ export default function Inicio() {
             </div>
             <div>
                 <button onClick={() => navigate("/profile")} className="text-xl">Profile</button>
-            </div>
+            </div>            
         </div>
     )
 }

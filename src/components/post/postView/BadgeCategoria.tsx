@@ -1,5 +1,5 @@
-import Badge from "../ui/Badge";
-import { categorias } from "../../data/categorias";
+import Badge from "../../ui/Badge";
+import { categorias } from "../../../data/categorias";
 
 export default function BadgeCategoria({ categoria }: { categoria: number }) {
     return (

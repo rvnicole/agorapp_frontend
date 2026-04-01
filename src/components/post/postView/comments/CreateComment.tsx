@@ -1,13 +1,13 @@
 import { useState, type ChangeEvent } from "react";
 import { useQueryClient } from '@tanstack/react-query';
-import { useUserStore } from "../../store/userStore";
+import { useUserStore } from "../../../../store/userStore";
 import { useMutation } from "@tanstack/react-query";
-import { useMessageStore } from "../../store/messageStore";
-import { Button } from "../ui/Button";
-import { Textarea } from "../ui/Textarea";
-import { createComment } from "../../api/CommentAPI";
+import { useMessageStore } from "../../../../store/messageStore";
+import { Button } from "../../../ui/Button";
+import { Textarea } from "../../../ui/Textarea";
+import { createComment } from "../../../../api/CommentAPI";
 import { Loader2, Send } from "lucide-react";
-import type { ApiErrorType, Comentario, ComentarioRespuesta, Post, PostRespuesta } from "../../types";
+import type { ApiErrorType, Comentario, ComentarioRespuesta, Post, PostRespuesta } from "../../../../types";
 
 type CreateCommentProps = {
     postId: Post["id"],
@@ -114,6 +114,7 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
         <div className="flex flex-col gap-3 items-end">
             <Textarea 
                 placeholder="Escribe un comentario..."
+                className="max-h-60"
                 onChange={OnChangeComment}
                 value={comentario}
             />
