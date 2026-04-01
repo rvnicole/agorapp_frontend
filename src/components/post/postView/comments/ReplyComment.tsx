@@ -1,6 +1,6 @@
 import { Undo2, X } from "lucide-react";
 import CreateComment from "./CreateComment";
-import type { Comentario } from "../../../types";
+import type { Comentario } from "../../../../types";
 
 type ReplyCommentProps = {
     postId: number,

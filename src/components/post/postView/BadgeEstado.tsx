@@ -1,6 +1,6 @@
-import Badge from "../ui/Badge";
-import { estadosDetails } from "../../data/estados";
-import type { EstadoStr } from "../../types";
+import Badge from "../../ui/Badge";
+import { estadosDetails } from "../../../data/estados";
+import type { EstadoStr } from "../../../types";
 import { Check, ClockAlert, Hammer, UserRoundCheck } from "lucide-react";
 
 const estadosIcons = {

@@ -5,8 +5,8 @@ import { getAddress } from "../../../api/AddressAPI";
 import { formatDate } from "../../../utils/date";
 import Avatar from "../../ui/Avatar";
 import LikedPost from "./LikedPost";
-import BadgeCategoria from "../BadgeCategoria";
-import BadgeEstado from "../BadgeEstado";
+import BadgeCategoria from "./BadgeCategoria";
+import BadgeEstado from "./BadgeEstado";
 import { Calendar, MapPin } from "lucide-react";
 import type { PostRespuesta } from "../../../types";
 

@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { useUserStore } from "../../../store/userStore";
+import { useUserStore } from "../../../../store/userStore";
 import { useMutation } from "@tanstack/react-query";
-import { useMessageStore } from "../../../store/messageStore";
-import { Popover, PopoverContent, PopoverItem, PopoverTrigger } from "../../ui/Popover";
-import Avatar from "../../ui/Avatar";
+import { useMessageStore } from "../../../../store/messageStore";
+import { Popover, PopoverContent, PopoverItem, PopoverTrigger } from "../../../ui/Popover";
+import Avatar from "../../../ui/Avatar";
 import EditComment from "./EditComment";
-import { Button } from "../../ui/Button";
-import { deleteComment } from "../../../api/CommentAPI";
-import { formatDate } from "../../../utils/date";
+import { Button } from "../../../ui/Button";
+import { deleteComment } from "../../../../api/CommentAPI";
+import { formatDate } from "../../../../utils/date";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import type { ApiErrorType, Comentario } from "../../../types";
+import type { ApiErrorType, Comentario } from "../../../../types";
 
 type CommentItem = {
     comment: Comentario;

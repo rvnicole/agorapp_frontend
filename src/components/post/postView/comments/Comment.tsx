@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useMessageStore } from "../../../store/messageStore";
-import { Button } from "../../ui/Button";
+import { useMessageStore } from "../../../../store/messageStore";
+import { Button } from "../../../ui/Button";
 import CommentItem from "./CommentItem";
-import { APIAgorAppError } from "../../../errors/ApiError";
-import { getCommentsAnswered } from "../../../api/CommentAPI";
+import { APIAgorAppError } from "../../../../errors/ApiError";
+import { getCommentsAnswered } from "../../../../api/CommentAPI";
 import { ChevronDown, Loader2, Undo2 } from "lucide-react";
-import type { Comentario, Post } from "../../../types"
+import type { Comentario, Post } from "../../../../types"
 
 type CommentProps = {
     postId: Post["id"],
