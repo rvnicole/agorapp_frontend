@@ -64,7 +64,11 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
     }, [spinner, hasNextPage, isFetchingNextPage]);
 
     return (
+<<<<<<< HEAD
         <div className="w-full space-y-3">
+=======
+        <div id="comentarios-post" className="w-full space-y-3">
+>>>>>>> 8e8a7d83c33fdc9b6d0bdf4162c4e54ed88b99ca
             <div className="flex items-center gap-2 ml-4 md:ml-0">
                 <MessageCircle className="h-5 w-5" />
                 <h3 className="text-lg font-semibold">Comentarios ({totalComentarios})</h3>
