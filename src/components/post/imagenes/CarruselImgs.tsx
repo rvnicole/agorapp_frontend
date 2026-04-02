@@ -48,12 +48,21 @@ export default function CarruselImgs({ imgs }: CarruselImgs) {
                 style={{ transform: `translateX(-${current * 100}%)` }}
             >
                 {imgs.map((img, index) => (
-                    <img
+                    <div
                         key={index}
-                        src={img.urlImg}
-                        className="w-full h-full object-cover shrink-0"
+                        className="relative w-full h-full shrink-0 flex items-center justify-center"
                         onClick={() => setFullScreen(true)}
-                    />
+                    >
+                        <div
+                            className="absolute inset-0 bg-cover bg-center blur"
+                            style={{ backgroundImage: `url(${img.urlImg})` }}
+                        />
+
+                        <img
+                            src={img.urlImg}
+                            className="relative max-h-full max-w-full object-contain z-10"
+                        />
+                    </div>
                 ))}
             </div>
 
