@@ -46,7 +46,11 @@ export default function Comment({ postId, createdAt, comment, onReply }: Comment
 
     return (
         <div className="w-full">
-            <CommentItem comment={comment}/>
+            <CommentItem 
+                postId={postId}
+                createdAt={createdAt}
+                comment={comment}
+            />
 
             <div className="ml-8 flex">
                 <Button
@@ -81,7 +85,12 @@ export default function Comment({ postId, createdAt, comment, onReply }: Comment
                 
             { comments?.map(comentario => (
                 <div key={comentario.id} className="ml-8 mt-5">
-                    <CommentItem comment={comentario} isAnswer={true} />
+                    <CommentItem 
+                        postId={postId}
+                        createdAt={createdAt}
+                        comment={comentario}
+                        replyCommentId={comment.id}
+                    />
                 </div>
             ))}
         </div>

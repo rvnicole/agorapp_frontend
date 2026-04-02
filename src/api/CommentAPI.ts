@@ -77,18 +77,22 @@ export async function getCommentsAnswered({ id, createdAt, replyCommentId }: Pic
     }
 };
 
-export async function editComment() {
+export async function editComment({ id, createdAt, comentId, comentario }: Pick<Post,"id"|"createdAt"> & Pick<ComentarioRespuesta, "comentId"|"comentario">) {
     try {
-       console.log("Editando...");
+        const url = (`/post/${id}/${createdAt}/comentario/${comentId}`).replace("+", "%2B");
+        const res = await agorappApi.put(url, { comentario });
+        return res.data;
     }
     catch( error ) {
         handleApiError( error );
     }
 };
 
-export async function deleteComment() {
+export async function deleteComment({ id, createdAt, comentId }: Pick<Post,"id"|"createdAt"> & Pick<ComentarioRespuesta, "comentId">) {
     try {
-       console.log("Eliminando...");
+        const url = (`/post/${id}/${createdAt}/comentario/${comentId}`).replace("+", "%2B");
+        const res = await agorappApi.delete(url);
+        return res.data;
     }
     catch( error ) {
         handleApiError( error );

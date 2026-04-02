@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useUserStore } from "../../../../store/userStore";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMessageStore } from "../../../../store/messageStore";
 import { Popover, PopoverContent, PopoverItem, PopoverTrigger } from "../../../ui/Popover";
 import Avatar from "../../../ui/Avatar";
@@ -9,22 +9,67 @@ import { Button } from "../../../ui/Button";
 import { deleteComment } from "../../../../api/CommentAPI";
 import { formatDate } from "../../../../utils/date";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import type { ApiErrorType, Comentario } from "../../../../types";
+import type { ApiErrorType, Comentario, Post, PostRespuesta } from "../../../../types";
 
 type CommentItem = {
+    postId: Post["id"];
+    createdAt: Post["createdAt"];
     comment: Comentario;
-    isAnswer?: boolean;
+    replyCommentId?: Comentario["id"];
 }
 
-export default function CommentItem({ comment, isAnswer }: CommentItem ) {
+export default function CommentItem({ postId, createdAt, comment, replyCommentId }: CommentItem ) {
     const [edit, setEdit] = useState(false);
     const { user } = useUserStore( state => state );
     const { showMessages } = useMessageStore( state => state );
 
+    const queryClient = useQueryClient();
+
     const { mutate } = useMutation({
-        mutationFn: deleteComment,
+        mutationFn: () => deleteComment({ 
+            id: postId, 
+            createdAt, 
+            comentId: comment.id
+        }),
         onSuccess: (data) => {
-            console.log(data);
+            if(data.success) {
+                showMessages("success", "Comentario Eliminado");
+
+                queryClient.setQueryData(
+                    ["get-post", postId, createdAt], 
+                    (oldData: PostRespuesta[]) => {
+                        if (!oldData) return oldData;
+    
+                        const newData = {...oldData[0]};
+                        newData.total_comentarios = newData.total_comentarios - 1
+                        return [newData];
+                    }
+                );
+
+                if( replyCommentId ) {
+                    queryClient.setQueryData<Comentario[]>(
+                        ["answers", replyCommentId], 
+                        (old = []) => {
+                            const filtered = old.filter(c => c.id !== comment.id);
+                            return [...filtered];
+                        }
+                    );
+                }
+                else {
+                    queryClient.setQueryData<{ pages: Comentario[][] }>(
+                        ['comments', postId], 
+                        (oldData) => {
+                            if (!oldData) return oldData;
+                        
+                            const newPages = oldData.pages.map(page => {
+                                return page.filter(c => c.id !== comment.id);
+                            });
+                        
+                            return {...oldData, pages: newPages};
+                        }
+                    );
+                }
+            }
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => showMessages("error", error)); 
@@ -33,7 +78,7 @@ export default function CommentItem({ comment, isAnswer }: CommentItem ) {
     
     return (
         <div className="flex items-start gap-2">
-            <Avatar className={`${isAnswer && "h-7 w-7 mt-1"}`} >
+            <Avatar className={`${replyCommentId && "h-7 w-7 mt-1"}`} >
                 <img 
                     className="w-full h-fit" 
                     src={comment.url_img || "/public/user-avar-default.jpg"} 
@@ -86,7 +131,13 @@ export default function CommentItem({ comment, isAnswer }: CommentItem ) {
 
                 { edit ?
                     <div className="mt-3">
-                        <EditComment comment={comment} onClose={() => setEdit(false)} />
+                        <EditComment
+                            postId={postId}
+                            createdAt={createdAt}
+                            comment={comment} 
+                            replyCommentId={replyCommentId}
+                            onClose={() => setEdit(false)} 
+                        />
                     </div>                    
                     :
                     <p className="text-sm text-muted-foreground">{comment.comentario}</p>
