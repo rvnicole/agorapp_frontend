@@ -54,6 +54,8 @@ export default function EditComment({ postId, createdAt, comment, replyCommentId
                     }
                 );
             }
+
+            onClose();
         },
         onError: (error: ApiErrorType) => {
             error.messages.forEach((error: string) => showMessages("error", error)); 
