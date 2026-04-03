@@ -6,6 +6,7 @@ import CreateComment from "./CreateComment";
 import ReplyComment from "./ReplyComment";
 import Comment from "./Comment";
 import Spinner from "../../../ui/Spinner";
+import TitleSection from "../../../ui/TitleSection";
 import { APIAgorAppError } from "../../../../errors/ApiError";
 import { getComments } from "../../../../api/CommentAPI";
 import { MessageCircle } from "lucide-react";
@@ -65,10 +66,10 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
 
     return (
         <div id="comentarios-post" className="w-full space-y-3">
-            <div className="flex items-center gap-2 ml-4 md:ml-0">
-                <MessageCircle className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">Comentarios ({totalComentarios})</h3>
-            </div>
+            <TitleSection
+                icon={<MessageCircle className="h-5 w-5" />}
+                title={`Comentarios (${totalComentarios})`}
+            />
 
             <Card className="border p-5 w-full">
                 <CreateComment 

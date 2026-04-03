@@ -44,6 +44,10 @@ export type AddressResult = z.infer<typeof AddressResultSchema>;
 export type NewReport = Omit<Report, "id"|"usuarioId">;
 
 export type EstadoStr = z.infer<typeof EstadoStrSchema>;
+export type NewEstado = { 
+    estado: EstadoStr, 
+    descripcion: string 
+};
 
 export type Comentario = z.infer<typeof ComentarioSchema>;
 

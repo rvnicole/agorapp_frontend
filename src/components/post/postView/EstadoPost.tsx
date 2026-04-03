@@ -2,6 +2,7 @@ import { Card } from "../../ui/Card";
 import { formatDate } from "../../../utils/date";
 import { estadosDetails } from "../../../data/estados";
 import { GitCommitVertical } from "lucide-react";
+import TitleSection from "../../ui/TitleSection";
 import type { Post } from "../../../types";
 
 type EstadoPostProps = {
@@ -13,10 +14,10 @@ export default function EstadoPost({ estados }: EstadoPostProps) {
 
     return (
         <div id="estados-post" className="w-full space-y-3">
-            <div className="flex items-center gap-2 ml-4 md:ml-0">
-                <GitCommitVertical className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">Historial de Estados</h3>
-            </div>
+            <TitleSection
+                icon={<GitCommitVertical className="h-5 w-5" />}
+                title="Historial de Estados"
+            />
 
             <Card className="border p-5 w-full relative">
                 <div className="absolute top-6 bottom-5 left-[33px] w-0.5 bg-muted" />

@@ -120,7 +120,7 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
             />
             
             <Button
-                className="flex justify-center items-center gap-2 w-fit"
+                className="flex justify-center items-center gap-1 w-fit"
                 disabled={!Boolean(comentario) || isPending}
                 onClick={() => mutate({ id: postId, createdAt, usuarioId, comentario })}
             >
@@ -131,8 +131,8 @@ export default function CreateComment({ postId, createdAt, usuarioId, replyComme
                     </>
                 ) : (
                     <>
-                        <Send className="h-5 w-5"/>
                         Comentar
+                        <Send className="h-4 w-4 mt-1"/>
                     </>                        
                 )}
             </Button>

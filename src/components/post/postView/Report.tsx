@@ -4,6 +4,7 @@ import UbicacionPost from "./UbicacionPost";
 import EstadoPost from "./EstadoPost";
 import CommentsPost from "./comments/CommentsPost";
 import type { PostRespuesta } from "../../../types";
+import CreateEstado from "./CreateEstado";
 
 type ReportProps = {
     post: PostRespuesta;
@@ -20,6 +21,7 @@ export default function Report({ post }: ReportProps) {
                 <UbicacionPost position={{ lat: post.lat, lng: post.lon }}/>
             )}
 
+            <CreateEstado postId={post.id} postCreatedAt={post.created_at}/>
             <EstadoPost estados={post.estados}/>
 
             <CommentsPost 
