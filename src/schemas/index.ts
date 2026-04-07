@@ -45,15 +45,11 @@ const ImagenSchema = z.instanceof(File);
 
 export const EstadoStrSchema = z.literal(["asignado","pendiente", "en progreso", "resuelto"]);
 export const EstadoSchema = z.object({
-    estadoId: z.number(),
+    id: z.number(),
     estado: EstadoStrSchema,
     descripcion: z.string(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
-    alias: z.object({
-        usuarioOrganizacionId: z.number(),
-        alias: z.string(),
-    }),
+    created_at: z.string(),
+    alias: z.string(),
     editado: z.boolean()
 });
 
@@ -138,15 +134,14 @@ export const PostRespuestaSchema = z.object({
     updated_at: z.string(),
     fk_categoria_id: z.coerce.number().nullable(),
     alias: z.string().nullable(),
+    url_img: z.string(),
     usuario_id: z.coerce.number(),
     estilos: z.string().nullable(),
     lon: z.coerce.number().nullable(),
     lat: z.coerce.number().nullable(),
     ubicacion_id: z.coerce.number().nullable(),
     nombre: z.string().nullable(),
-    imagenes: z.array(RespuestaImagenSchema).nullable(),
-    estados: z.array( EstadoSchema ).optional(),
-    comentarios: z.array( ComentarioRespuestaSchema ).optional()
+    imagenes: z.array(RespuestaImagenSchema).nullable()
 });
 
 export const PostsUsuarioRespuestaSchema = PostRespuestaSchema.pick({

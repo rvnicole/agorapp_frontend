@@ -4,6 +4,7 @@ import {
     ComentarioRespuestaSchema, 
     ComentarioSchema, 
     DescriptionRespuestaSchema, 
+    EstadoSchema, 
     EstadoStrSchema, 
     googleAuthURL, LoginSchema, 
     MessageSchema, 
@@ -44,6 +45,11 @@ export type AddressResult = z.infer<typeof AddressResultSchema>;
 export type NewReport = Omit<Report, "id"|"usuarioId">;
 
 export type EstadoStr = z.infer<typeof EstadoStrSchema>;
+export type Estado = z.infer<typeof EstadoSchema>;
+export type NewEstado = { 
+    estado: EstadoStr, 
+    descripcion: string 
+};
 
 export type Comentario = z.infer<typeof ComentarioSchema>;
 

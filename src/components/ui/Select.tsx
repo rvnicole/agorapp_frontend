@@ -63,6 +63,7 @@ export function SelectItem({value, className, text }: SelectItemProps) {
             className={`focus:bg-accent focus:text-accent-foreground relative flex w-full cursor-pointer 
             items-center gap-2 rounded-lg px-3 py-1 text-sm outline-hidden select-none data-disabled:pointer-events-none 
             data-disabled:opacity-50 ${className}`}
+            style={{ transition: "none" }}
         >
             <ItemText>{text}</ItemText>
             <ItemIndicator>

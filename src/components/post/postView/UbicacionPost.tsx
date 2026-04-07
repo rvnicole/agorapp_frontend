@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "../../ui/Card";
+import TitleSection from "../../ui/TitleSection";
 import Map from "../../Map";
 import { getAddress } from "../../../api/AddressAPI";
 import { MapPin, MapPinned } from "lucide-react";
@@ -18,10 +19,10 @@ export default function UbicacionPost({ position }: UbicacionPostProps) {
     
     return (
         <div id="ubicacion-post" className="w-full space-y-3">
-            <div className="flex items-center gap-2 ml-4 md:ml-0">
-                <MapPinned className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">Ubicación del Incidente</h3>
-            </div>
+            <TitleSection
+                icon={<MapPinned className="h-5 w-5" />}
+                title="Ubicación del Incidente"
+            />
 
             <Card className="border p-5 w-full">
                 <div className="relative">

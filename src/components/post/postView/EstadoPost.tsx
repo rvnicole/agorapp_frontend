@@ -2,34 +2,31 @@ import { Card } from "../../ui/Card";
 import { formatDate } from "../../../utils/date";
 import { estadosDetails } from "../../../data/estados";
 import { GitCommitVertical } from "lucide-react";
-import type { Post } from "../../../types";
+import TitleSection from "../../ui/TitleSection";
+import type { Estado } from "../../../types";
 
 type EstadoPostProps = {
-    estados: Post['estados'];
+    estados: Estado[];
 }
 
 export default function EstadoPost({ estados }: EstadoPostProps) {
-    if( !estados || !estados.length ) return null;
-
     return (
         <div id="estados-post" className="w-full space-y-3">
-            <div className="flex items-center gap-2 ml-4 md:ml-0">
-                <GitCommitVertical className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">Historial de Estados</h3>
-            </div>
+            <TitleSection
+                icon={<GitCommitVertical className="h-5 w-5" />}
+                title="Historial de Estados"
+            />
 
             <Card className="border p-5 w-full relative">
                 <div className="absolute top-6 bottom-5 left-[33px] w-0.5 bg-muted" />
                 
                 { estados.map( data => {
-                    const { estadoId, estado, descripcion, createdAt, updatedAt, editado, alias: { alias } } = data;
-        
-                    const fecha = editado ? updatedAt : createdAt;
+                    const { id, estado, descripcion, created_at, alias } = data;
                     const estadoDetail = estadosDetails[estado];
 
                     return (
                         <div
-                            key={estadoId}
+                            key={id}
                             className="w-full flex items-start gap-3"
                         >                   
                             <div className={`z-10 flex items-center justify-center h-7 w-7 shrink-0 rounded-full ${estadoDetail.color}`}>
@@ -39,7 +36,7 @@ export default function EstadoPost({ estados }: EstadoPostProps) {
                             <div className="w-full">
                                 <div className="flex items-center justify-between">
                                     <p className="font-semibold">{estadoDetail.titulo}</p>
-                                    <p className="text-xs text-muted-foreground">{formatDate(fecha)}</p> 
+                                    <p className="text-xs text-muted-foreground">{formatDate(created_at)}</p> 
                                 </div>
                                 
                                 <p className="text-sm text-muted-foreground">{descripcion}</p>
