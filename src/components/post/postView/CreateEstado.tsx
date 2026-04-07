@@ -15,9 +15,10 @@ import { useMessageStore } from "../../../store/messageStore";
 type CreateEstadoProps = {
     postId: Post["id"];
     postCreatedAt: Post["createdAt"];
+    postOwnerId: number;
 }
 
-export default function CreateEstado({ postId, postCreatedAt }: CreateEstadoProps) {
+export default function CreateEstado({ postId, postCreatedAt, postOwnerId }: CreateEstadoProps) {
     const { register, handleSubmit, control, formState: { errors }} = useForm<NewEstado>({ mode: "onChange" });
     const { showMessages } = useMessageStore( state => state );
 
@@ -32,7 +33,7 @@ export default function CreateEstado({ postId, postCreatedAt }: CreateEstadoProp
     });
 
     const handleOnSubmit = ({ estado, descripcion }: NewEstado) => {      
-        mutate({ estado, descripcion, postId, postCreatedAt });
+        mutate({ estado, descripcion, postId, postCreatedAt, postOwnerId });
     } 
 
     return (

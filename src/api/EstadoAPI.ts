@@ -21,7 +21,6 @@ export async function getEstados({ id, createdAt }: Pick<Post, "id"|"createdAt">
             const errors = result.error.issues.map(error => error.message);
             throw new APIAgorAppError(errors);
         }
-        console.log(result.data)
 
         return result.data;
     }
@@ -30,7 +29,7 @@ export async function getEstados({ id, createdAt }: Pick<Post, "id"|"createdAt">
     }
 }
 
-export async function createEstado(data: NewEstado & { postId: Post["id"], postCreatedAt: Post["createdAt"] }) {
+export async function createEstado(data: NewEstado & { postId: Post["id"], postCreatedAt: Post["createdAt"], postOwnerId: number }) {
     try {
         const url = "/estado-post";
         const res = await agorappApi.post(url, data);

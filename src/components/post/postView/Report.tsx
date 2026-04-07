@@ -29,7 +29,7 @@ export default function Report({ post }: ReportProps) {
                 <UbicacionPost position={{ lat: post.lat, lng: post.lon }}/>
             )}
 
-            <CreateEstado postId={post.id} postCreatedAt={post.created_at}/>
+            <CreateEstado postId={post.id} postCreatedAt={post.created_at} postOwnerId={post.usuario_id} />
             { estados && <EstadoPost estados={estados}/>}
 
             <CommentsPost 
