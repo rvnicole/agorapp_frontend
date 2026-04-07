@@ -8,13 +8,14 @@ import LikedPost from "./LikedPost";
 import BadgeCategoria from "./BadgeCategoria";
 import BadgeEstado from "./BadgeEstado";
 import { Calendar, MapPin } from "lucide-react";
-import type { PostRespuesta } from "../../../types";
+import type { Estado, PostRespuesta } from "../../../types";
 
 type InformationPostProps = {
     post: PostRespuesta;
+    estado?: Estado;
 }
 
-export default function InformationPost({ post }: InformationPostProps) {
+export default function InformationPost({ post, estado }: InformationPostProps) {
     const { data: address } = useQuery({
         queryKey: ["get-address", { lat: post.lat, lng:post.lon }],
         queryFn: async () => {
@@ -28,7 +29,7 @@ export default function InformationPost({ post }: InformationPostProps) {
         <Card className="border p-5 w-full">
             <div className="space-y-3">
                 <div className="flex gap-2">
-                    { post.estados!.length > 0 && <BadgeEstado estado={post.estados![post.estados!.length - 1].estado} />}
+                    { estado && <BadgeEstado estado={estado.estado} />}
                     { post.fk_categoria_id != null && <BadgeCategoria categoria={post.fk_categoria_id} />}                    
                 </div>
 
@@ -48,7 +49,7 @@ export default function InformationPost({ post }: InformationPostProps) {
             <div className="flex flex-col gap-3 space-y-3">
                 <div className="flex items-start gap-2">
                     <Avatar>
-                        <img src="/public/user-avar-default.jpg"/>
+                        <img src={post.url_img || "/public/user-avar-default.jpg"} />
                     </Avatar>
                     <div className="flex-1">
                         <p className="text-sm font-medium">Reportado por</p>
