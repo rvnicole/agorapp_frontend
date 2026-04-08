@@ -1,15 +1,15 @@
-import { Card } from "../../ui/Card";
-import { formatDate } from "../../../utils/date";
-import { estadosDetails } from "../../../data/estados";
+import { Card } from "../../../ui/Card";
+import { formatDate } from "../../../../utils/date";
+import { estadosDetails } from "../../../../data/estados";
 import { GitCommitVertical } from "lucide-react";
-import TitleSection from "../../ui/TitleSection";
-import type { Estado } from "../../../types";
+import TitleSection from "../../../ui/TitleSection";
+import type { Estado } from "../../../../types";
 
 type EstadoPostProps = {
     estados: Estado[];
 }
 
-export default function EstadoPost({ estados }: EstadoPostProps) {
+export default function EstadosPost({ estados }: EstadoPostProps) {
     return (
         <div id="estados-post" className="w-full space-y-3">
             <TitleSection

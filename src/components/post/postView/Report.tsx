@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import CarruselImgs from "../imagenes/CarruselImgs";
 import InformationPost from "./InformationPost";
 import UbicacionPost from "./UbicacionPost";
-import EstadoPost from "./EstadoPost";
+import EstadosPost from "./estados/EstadosPost";
 import CommentsPost from "./comments/CommentsPost";
-import CreateEstado from "./CreateEstado";
-import type { PostRespuesta } from "../../../types";
+//import CreateEstado from "./estados/CreateEstado";
 import { getEstados } from "../../../api/EstadoAPI";
+import type { PostRespuesta } from "../../../types";
 
 type ReportProps = {
     post: PostRespuesta;
@@ -29,8 +29,8 @@ export default function Report({ post }: ReportProps) {
                 <UbicacionPost position={{ lat: post.lat, lng: post.lon }}/>
             )}
 
-            <CreateEstado postId={post.id} postCreatedAt={post.created_at} postOwnerId={post.usuario_id} />
-            { estados && <EstadoPost estados={estados}/>}
+            {/*<CreateEstado postId={post.id} postCreatedAt={post.created_at} postOwnerId={post.usuario_id} />*/}
+            { estados && estados.length > 0  && <EstadosPost estados={estados}/>}
 
             <CommentsPost 
                 postId={post.id} 

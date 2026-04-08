@@ -6,9 +6,10 @@ import { formatDate } from "../../../utils/date";
 import Avatar from "../../ui/Avatar";
 import LikedPost from "./LikedPost";
 import BadgeCategoria from "./BadgeCategoria";
-import BadgeEstado from "./BadgeEstado";
+import BadgeEstado from "./estados/BadgeEstado";
 import { Calendar, MapPin } from "lucide-react";
 import type { Estado, PostRespuesta } from "../../../types";
+import DeletePost from "../postDelete/DeletePost";
 
 type InformationPostProps = {
     post: PostRespuesta;
@@ -28,9 +29,17 @@ export default function InformationPost({ post, estado }: InformationPostProps) 
     return (
         <Card className="border p-5 w-full">
             <div className="space-y-3">
-                <div className="flex gap-2">
-                    { estado && <BadgeEstado estado={estado.estado} />}
-                    { post.fk_categoria_id != null && <BadgeCategoria categoria={post.fk_categoria_id} />}                    
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                        { estado && <BadgeEstado estado={estado.estado} />}
+                        { post.fk_categoria_id != null && <BadgeCategoria categoria={post.fk_categoria_id} />}
+                    </div>
+
+                    <DeletePost 
+                        id={post.id} 
+                        createdAt={post.created_at} 
+                        creador={post.alias}
+                    />               
                 </div>
 
                 <h1 className="text-2xl font-bold leading-tight">{post.titulo}</h1>
@@ -49,7 +58,10 @@ export default function InformationPost({ post, estado }: InformationPostProps) 
             <div className="flex flex-col gap-3 space-y-3">
                 <div className="flex items-start gap-2">
                     <Avatar>
-                        <img src={post.url_img || "/public/user-avar-default.jpg"} />
+                        <img
+                            className="w-full h-fit" 
+                            src={post.url_img || "/public/user-avar-default.jpg"} 
+                        />
                     </Avatar>
                     <div className="flex-1">
                         <p className="text-sm font-medium">Reportado por</p>

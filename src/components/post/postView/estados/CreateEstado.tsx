@@ -1,16 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
-import { Card } from "../../ui/Card";
-import { Select, SelectItem } from "../../ui/Select";
-import { estadosDetails } from "../../../data/estados";
-import { Textarea } from "../../ui/Textarea";
-import { Button } from "../../ui/Button";
-import MessageErrors from "../../ui/MessageErrors";
-import TitleSection from "../../ui/TitleSection";
-import { createEstado } from "../../../api/EstadoAPI";
+import { Card } from "../../../ui/Card";
+import { Select, SelectItem } from "../../../ui/Select";
+import { estadosDetails } from "../../../../data/estados";
+import { Textarea } from "../../../ui/Textarea";
+import { Button } from "../../../ui/Button";
+import MessageErrors from "../../../ui/MessageErrors";
+import TitleSection from "../../../ui/TitleSection";
+import { createEstado } from "../../../../api/EstadoAPI";
 import { Loader2, Send, Settings } from "lucide-react";
-import type { ApiErrorType, NewEstado, Post } from "../../../types";
-import { useMessageStore } from "../../../store/messageStore";
+import type { ApiErrorType, NewEstado, Post } from "../../../../types";
+import { useMessageStore } from "../../../../store/messageStore";
 
 type CreateEstadoProps = {
     postId: Post["id"];
