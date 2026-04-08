@@ -28,7 +28,8 @@ export default function Post() {
         if (isError) {
             showMessages("error", "No se encontro la publicación");
             navigate("/");
-        }
+        };
+        window.scrollTo(0,0);
     }, [isError]);
 
     if( isLoading ) return (

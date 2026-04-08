@@ -1,5 +1,5 @@
 import z from "zod";
-import { MapPin, ThumbsUp, LucideThumbsUp, MessageCircle, Clock } from "lucide-react";
+import { MapPin, ThumbsUp, MessageCircle, Clock, Share2 } from "lucide-react";
 import type { PostsUsuarioRespuestaSchema } from "../../../schemas";
 import { Card } from "../../ui/Card";
 import { formatDate } from "../../../utils/date";
@@ -10,6 +10,7 @@ import type { Post, UserData } from "../../../types";
 import { updateLikeStatus } from "../../../api/PostAPI";
 import { useMessageStore } from "../../../store/messageStore";
 import { useState } from "react";
+import axios from "axios";
 
 type PostResumeProps = z.infer<typeof PostsUsuarioRespuestaSchema>;
 
@@ -35,12 +36,43 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
             });
         }
         else{
-            console.log("Ya diste like");
             setCurrentLike( (state) => ({ number: state.number - 1, liked: false }));
             mutate({
                 id: postResumeData.id,
                 createdAt: postResumeData.created_at,
                 liked: true
+            });
+        };
+    };
+
+    const handleShare = async () => {
+        const tituloCompartido = postResumeData.titulo ? postResumeData.titulo : "Reporte Agorapp";
+        const url = `/post/${postResumeData.tipo}/${postResumeData.id}?createdAt=${encodeURIComponent(postResumeData.created_at)}`;
+        if( postResumeData.imagenes && postResumeData.imagenes.length > 0 ){
+            console.log("Entra");
+            const imgBlob = await axios.get(postResumeData.imagenes[0].urlImg, {
+                responseType: "blob",
+                timeout: 4000
+            });
+            const imagen = new File(
+                [imgBlob.data],
+                "reporte-agorapp.webp",
+                { type: imgBlob.data.type }
+            );
+            if( "share" in navigator ) {
+                navigator.share({
+                    title: tituloCompartido,
+                    text: postResumeData.descripcion,
+                    url,
+                    files: [imagen]
+                });
+            }
+        }
+        else if( "share" in navigator ){
+            navigator.share({
+                title: tituloCompartido,
+                text: postResumeData.descripcion,
+                url
             });
         };
     };
@@ -65,8 +97,12 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                     <h3 className="text-lg font-semibold">{postResumeData.titulo}</h3>
                     <p className="text-sm text-muted-foreground">{postResumeData.descripcion}</p>
                     <p className="flex space-x-1 items-center text-sm text-muted-foreground">
-                        <MapPin className="size-4" />
-                        <span>{"Av. Direccion de Ejemplo"}</span>
+                        <div><MapPin className="size-4" /></div>
+                        <span className="text-xs">{postResumeData.direccion}</span>
+                    </p>
+                    <p className="flex space-x-1 items-center text-xs text-muted-foreground">
+                        <Clock className="size-4" />
+                        <span>{formatDate(postResumeData.created_at)}</span>
                     </p>
                 </div>
             </Link>
@@ -96,9 +132,11 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                         </Link>
                         <p>{postResumeData.total_comentarios}</p>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <Clock className="size-5"/>
-                        <p className="text-xs">{formatDate(postResumeData.created_at)}</p>
+                    <div 
+                        className="flex items-center gap-1"
+                        onClick={handleShare}
+                    >
+                        <Share2 className="size-5 cursor-pointer"/>
                     </div>
                 </div>
             </div>

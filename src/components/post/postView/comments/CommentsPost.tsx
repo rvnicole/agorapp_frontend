@@ -87,7 +87,6 @@ export default function CommentsPost({ postId, createdAt, usuarioId, totalComent
                        
             { comments.map(comment => (
                 <Card
-                    id={String(comment.id)}
                     key={comment.id}
                     className="border p-5 w-full"
                 >

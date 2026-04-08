@@ -6,8 +6,7 @@ import { loginOnAgorapp } from "../../api/authAPI";
 import { useEffect, useRef } from "react";
 import { useUserStore } from "../../store/userStore";
 import type { ApiErrorType } from "../../types";
-import { createPushToken } from "../../api/notificationsAPI";
-import { getNotificationToken } from "../../api/firebase";
+import useNotification from "../../hooks/useNotifications";
 
 export default function LoadUserProfile(){
     const solicitud = useRef(false);
@@ -15,6 +14,7 @@ export default function LoadUserProfile(){
     const navigate = useNavigate();
     const { showMessages } = useMessageStore( state => state );
     const { setUserData } = useUserStore( state => state );
+    const { checkNotificationPermission } = useNotification();
     
     const { mutate, isPending } = useMutation({
         mutationFn: loginOnAgorapp,
@@ -29,17 +29,6 @@ export default function LoadUserProfile(){
             navigate("/");
         },
         retry: false
-    });
-
-    const { mutate: mutatePushToken } = useMutation({
-        mutationFn: createPushToken,
-        onError: (error: ApiErrorType) => {
-            error.messages.forEach((error: string) => showMessages("error", error));
-            showMessages("error", "Error al registrar el push token");
-        },
-        onSuccess: () => {
-            showMessages("success", "Notificaciones activadas");
-        }
     });
 
     useEffect(()=>{
@@ -60,20 +49,6 @@ export default function LoadUserProfile(){
         solicitud.current = true;
         mutate({ code, deviceInfo });
     },[]);
-
-    const checkNotificationPermission = async (notificationPermission: string) => {
-        if( notificationPermission === "granted" ){
-            const tokenStorage = localStorage.getItem("fb_token");
-            const pushToken = await getNotificationToken();
-            if( !tokenStorage && pushToken ){
-                localStorage.setItem("fb_token", pushToken);
-                mutatePushToken({pushToken, platform: "firebase"});
-            } 
-            else if( tokenStorage && pushToken && tokenStorage !== pushToken ){
-                mutatePushToken({pushToken, platform: "firebase"});
-            };
-        };
-    };
 
     if( isPending ) return (
         <>
