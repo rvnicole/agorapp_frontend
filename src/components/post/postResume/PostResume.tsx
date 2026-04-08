@@ -10,7 +10,7 @@ import type { Post, UserData } from "../../../types";
 import { updateLikeStatus } from "../../../api/PostAPI";
 import { useMessageStore } from "../../../store/messageStore";
 import { useState } from "react";
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 
 type PostResumeProps = z.infer<typeof PostsUsuarioRespuestaSchema>;
 
@@ -69,7 +69,6 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
             }
         }
         else if( "share" in navigator ){
-            console.log("comparticion solita");
             navigator.share({
                 title: tituloCompartido,
                 text: postResumeData.descripcion,
@@ -98,8 +97,8 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                     <h3 className="text-lg font-semibold">{postResumeData.titulo}</h3>
                     <p className="text-sm text-muted-foreground">{postResumeData.descripcion}</p>
                     <p className="flex space-x-1 items-center text-sm text-muted-foreground">
-                        <MapPin className="size-4" />
-                        <span>{"Av. Direccion de Ejemplo"}</span>
+                        <div><MapPin className="size-4" /></div>
+                        <span className="text-xs">{postResumeData.direccion}</span>
                     </p>
                     <p className="flex space-x-1 items-center text-xs text-muted-foreground">
                         <Clock className="size-4" />

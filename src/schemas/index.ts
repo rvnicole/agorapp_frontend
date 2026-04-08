@@ -140,6 +140,7 @@ export const PostRespuestaSchema = z.object({
     lon: z.coerce.number().nullable(),
     lat: z.coerce.number().nullable(),
     ubicacion_id: z.coerce.number().nullable(),
+    direccion: z.string(),
     nombre: z.string().nullable(),
     imagenes: z.array(RespuestaImagenSchema).nullable()
 });
@@ -154,6 +155,7 @@ export const PostsUsuarioRespuestaSchema = PostRespuestaSchema.pick({
     imagenes: true,
     lat: true,
     lon: true,
+    direccion: true,
     liked: true,
     link: true,
     nombre: true,

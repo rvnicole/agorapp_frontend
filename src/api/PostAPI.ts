@@ -84,6 +84,7 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
         const result = PostRespuestaSchema.array().safeParse(respuesta.data);
 
         if( !result.success ) {
+            console.log({result, res});
             const errors = result.error.issues.map(error => error.message);
             throw new APIAgorAppError(errors);
         }

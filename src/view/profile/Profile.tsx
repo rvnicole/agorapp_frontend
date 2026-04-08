@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Mail, Bell, Calendar, Megaphone } from "lucide-react";
+import { Mail, Bell, Calendar, Megaphone, Pencil } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
 import { Toggle } from "../../components/ui/Toggle";
 import Avatar from "../../components/ui/Avatar";
@@ -41,10 +41,7 @@ export function Profile(){
     useEffect(() => {
         const observador = new IntersectionObserver((elementos) => {
             if(elementos[0].isIntersecting){
-                console.log("Se esta viendo");
-                console.log({ data, hasNextPage, isFetchingNextPage, isPending })
                 if( !data ) {
-                    console.log("Primera peticion");
                     setShouldFetch(true);
                     return;
                 }
@@ -67,6 +64,10 @@ export function Profile(){
                     />
                 </Avatar>
                 <CardTitle className="text-2xl text-center font-bold">{user.nombre}</CardTitle>
+                <div className="flex space-x-1 justify-center">
+                    <h2 className="text-center">Alias:</h2>
+                    <p className="font-semibold">{user.alias}</p>
+                </div>
             </CardHeader>
             <CardContent className="flex flex-col justify-center items-center">
                 <Badge className="bg-secondary w-fit">
