@@ -139,6 +139,7 @@ export const PostRespuestaSchema = z.object({
     estilos: z.string().nullable(),
     lon: z.coerce.number().nullable(),
     lat: z.coerce.number().nullable(),
+    direccion: z.string(),
     ubicacion_id: z.coerce.number().nullable(),
     nombre: z.string().nullable(),
     imagenes: z.array(RespuestaImagenSchema).nullable()

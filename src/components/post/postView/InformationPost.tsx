@@ -1,7 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import { Card } from "../../ui/Card";
 import { SeparatorHorizontal } from "../../ui/Separator";
-import { getAddress } from "../../../api/AddressAPI";
 import { formatDate } from "../../../utils/date";
 import Avatar from "../../ui/Avatar";
 import LikedPost from "./LikedPost";
@@ -17,15 +15,6 @@ type InformationPostProps = {
 }
 
 export default function InformationPost({ post, estado }: InformationPostProps) {
-    const { data: address } = useQuery({
-        queryKey: ["get-address", { lat: post.lat, lng:post.lon }],
-        queryFn: async () => {
-            if( post.lat != null && post.lon != null ) {
-                return getAddress({ lat: post.lat, lng:post.lon });
-            }            
-        }    
-    });
-
     return (
         <Card className="border p-5 w-full">
             <div className="space-y-3">
@@ -81,7 +70,7 @@ export default function InformationPost({ post, estado }: InformationPostProps) 
                     <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
                     <div className="flex-1">
                         <p className="text-sm font-medium">Ubicación</p>
-                        <p className="text-sm text-muted-foreground">{address}</p>
+                        <p className="text-sm text-muted-foreground">{post.direccion}</p>
                     </div> 
                 </div>
             </div>
