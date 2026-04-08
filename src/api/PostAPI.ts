@@ -173,12 +173,22 @@ export async function getRefinedDescription(description: string) {
     }
 };
 
+export async function deletePost({ id, createdAt }: Pick<Post, "id"|"createdAt"> ) {
+    try {
+        const url = (`/post/${id}?createdAt=${createdAt}`).replace("+", "%2B");
+        const res = await agorappApi.delete(url);
+        return res;
+    }
+    catch( error ) {
+        handleApiError( error );
+    }
+}
+
 export async function updateLikeStatus({ id, liked, createdAt, alias }: Pick<Post, "id"|"liked"|"createdAt"> & Pick<UserData, "alias">) {
     try {
         if( liked ) {
             const url = (`/like?postId=${id}&postCreatedAt=${createdAt}`).replace("+", "%2B");
             const res = await agorappApi.delete(url);
-
             return res;
         }
         else {
