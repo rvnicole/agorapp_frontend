@@ -23,7 +23,7 @@ export default function LayoutApp() {
                 </div>
             </main>
 
-            <Navbar />
+            <Navbar onCreate={() => navigate("/create-report")} />
         </div>
     )
 }
