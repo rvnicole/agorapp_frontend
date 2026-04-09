@@ -96,7 +96,7 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                 <div className="px-4 space-y-2 mt-4">
                     <h3 className="text-lg font-semibold">{postResumeData.titulo}</h3>
                     <p className="text-sm text-muted-foreground">{postResumeData.descripcion}</p>
-                    <div className="mt-4 mx-7 space-y-2">
+                    <div className="mt-4 space-y-2">
                         <div className="flex items-center gap-2">
                             <Avatar className=" size-7">
                                     <img
