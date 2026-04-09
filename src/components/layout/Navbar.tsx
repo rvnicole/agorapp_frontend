@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/Button";
 import { Bell, House, Map, Plus, UserRound } from "lucide-react"
 
@@ -17,8 +17,6 @@ type NavbarProps = {
 export default function Navbar({ onCreate }: NavbarProps) {
     const location = useLocation();
     const pathname = location.pathname;
-    
-    const navigate = useNavigate();
 
     return (
         <nav className="fixed block md:hidden bottom-0 left-0 z-40 w-full border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
