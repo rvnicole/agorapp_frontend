@@ -7,7 +7,7 @@ import BadgeCategoria from "./BadgeCategoria";
 import BadgeEstado from "./estados/BadgeEstado";
 import { Calendar, MapPin } from "lucide-react";
 import type { Estado, PostRespuesta } from "../../../types";
-import DeletePost from "../postDelete/DeletePost";
+import MenuPost from "../postMenu/MenuPost";
 
 type InformationPostProps = {
     post: PostRespuesta;
@@ -19,12 +19,12 @@ export default function InformationPost({ post, estado }: InformationPostProps) 
         <Card className="border p-5 w-full">
             <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                        { estado && <BadgeEstado estado={estado.estado} />}
+                    <div className="flex flex-col items-start md:flex-row md:items-center gap-2">
                         { post.fk_categoria_id != null && <BadgeCategoria categoria={post.fk_categoria_id} />}
+                        { estado && <BadgeEstado estado={estado.estado} />}
                     </div>
 
-                    <DeletePost 
+                    <MenuPost 
                         id={post.id} 
                         createdAt={post.created_at} 
                         creador={post.alias}

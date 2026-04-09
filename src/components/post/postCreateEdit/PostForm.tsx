@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form"
 import { Button } from "../../ui/Button";
 import InformationSection from "./InformationSection";
@@ -12,10 +12,10 @@ type PostFormProps = {
     post?: NewReport;
     tipo: Post["tipo"];
     onSubmit: (post: Post) => void;
+    isPending: Boolean
 }
 
-export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
-    const [isSubmitting, setIsSubmitting] = useState(false);
+export default function PostForm({ post, tipo, onSubmit, isPending }: PostFormProps){
 
     const { register, handleSubmit, setValue, watch, control, formState: { errors } } = useForm<Post>({
         mode: "onChange",
@@ -49,7 +49,6 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
 
     // Enviar formulario
     const handleOnSubmit = (post: Post) => {
-        setIsSubmitting(true);
         onSubmit(post);
     }
 
@@ -83,9 +82,9 @@ export default function PostForm({ post, tipo, onSubmit }: PostFormProps){
                 <Button 
                     type="submit" 
                     className="w-full h-12 flex items-center justify-center gap-1 text-base" 
-                    disabled={isSubmitting}
+                    disabled={Boolean(isPending)}
                 >
-                    { isSubmitting ? (
+                    { isPending ? (
                         <>
                             <Loader2 className="h-4 w-4 animate-spin" />
                             Enviando...

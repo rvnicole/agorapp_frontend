@@ -87,37 +87,40 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                     (postResumeData.imagenes && postResumeData.imagenes.length > 0) 
                     &&
                         <img
-                            className="h-[55dvh] w-full object-cover mb-3" 
+                            className="h-[40dvh] md:h-96 w-full object-cover md:object-center mb-3" 
                             src={postResumeData.imagenes[0].urlImg} 
                             alt={"img_" + postResumeData.titulo} 
                         />
                     
                 }
-                <div className="px-4 space-y-3">
+                <div className="px-4 space-y-2 mt-4">
                     <h3 className="text-lg font-semibold">{postResumeData.titulo}</h3>
                     <p className="text-sm text-muted-foreground">{postResumeData.descripcion}</p>
-                    <p className="flex space-x-1 items-center text-sm text-muted-foreground">
-                        <div><MapPin className="size-4" /></div>
-                        <span className="text-xs">{postResumeData.direccion}</span>
-                    </p>
-                    <p className="flex space-x-1 items-center text-xs text-muted-foreground">
-                        <Clock className="size-4" />
-                        <span>{formatDate(postResumeData.created_at)}</span>
-                    </p>
+                    <div className="mt-4 mx-7 space-y-2">
+                        <div className="flex items-center gap-2">
+                            <Avatar className=" size-7">
+                                    <img
+                                        className="w-full h-fit" 
+                                        src={postResumeData.url_img} 
+                                        alt="user-image" 
+                                    />
+                            </Avatar>
+                            <p className="text-sm font-semibold text-muted-foreground">{postResumeData.alias}</p>
+                        </div>
+                        <p className="flex space-x-1 items-center text-sm text-muted-foreground">
+                            <span><MapPin className="size-4" /></span>
+                            <span className="text-xs">{postResumeData.direccion}</span>
+                        </p>
+                        <p className="flex space-x-1 items-center text-xs text-muted-foreground">
+                            <Clock className="size-4" />
+                            <span>{formatDate(postResumeData.created_at)}</span>
+                        </p>
+                    </div>
                 </div>
             </Link>
             <div className="mx-4 h-px bg-muted-foreground/40" />
-            <div className="flex flex-col space-y-7 md:space-y-0 md:flex-row md:justify-between px-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                    <Avatar className=" size-10">
-                        <img
-                            className="w-full h-fit" 
-                            src={postResumeData.url_img} 
-                            alt="user-image" 
-                        />
-                    </Avatar>
-                    <p>{postResumeData.alias}</p>
-                </div>
+            <div className="flex flex-col md:space-y-0 md:flex-row md:justify-between px-4 text-sm text-muted-foreground">
+                
                 <div className="flex justify-around w-full md:w-auto md:justify-center space-x-7">
                     <div 
                         className="flex items-center gap-1"

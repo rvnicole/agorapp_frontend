@@ -36,7 +36,12 @@ export default function InformationSection({ tipo, register, control, errors }: 
                     name="categoriaId"
                     control={control}
                     rules={{ 
-                        required: "La categoría es obligatoria" 
+                        required: "La categoría es obligatoria",
+                        validate: (value) => {
+                            console.log({ value });
+                            
+                            return +value ? true : "La categoría es obligatoria"
+                        }
                     }}
                     render={({ field }) => (
                         <Select

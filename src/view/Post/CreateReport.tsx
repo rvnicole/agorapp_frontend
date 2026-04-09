@@ -25,7 +25,7 @@ export default function CreateReport() {
         imgs: []
     });
 
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: createPost,
         onSuccess: (data) => {
             showMessages("success", "Reporte creado");
@@ -66,6 +66,7 @@ export default function CreateReport() {
                             post={report}
                             tipo="reporte"
                             onSubmit={mutate}
+                            isPending={isPending}
                         />
                         :
                         <FullScreen
