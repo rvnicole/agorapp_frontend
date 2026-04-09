@@ -2,6 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useAppStore } from "../store/appStore";
 import Header from "../components/layout/Header";
 import ButtonCreate from "../components/layout/ButtonCreate";
+import Navbar from "../components/layout/Navbar";
 
 export default function LayoutApp() {
     const { setTheme } = useAppStore(state => state);
@@ -21,6 +22,8 @@ export default function LayoutApp() {
                     />
                 </div>
             </main>
+
+            <Navbar onCreate={() => navigate("/create-report")} />
         </div>
     )
 }

@@ -4,6 +4,9 @@ type SeparatorProps = {
 
 export function SeparatorHorizontal({ className, ...rest }: SeparatorProps) {
     return (
-        <div className={`bg-border w-full h-0.5 rounded-full ${className}`}/>
+        <div 
+            className={`bg-border w-full h-0.5 rounded-full ${className}`}
+            {...rest}
+        />
     )
 }
