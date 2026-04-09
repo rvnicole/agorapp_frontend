@@ -11,7 +11,7 @@ export default function ButtonCreate({ onClick, text, className }: ButtonCreate)
         <button
             type="button"
             onClick={onClick}
-            className={`fixed bottom-8 right-8 z-50 group bg-primary text-primary-foreground p-3 rounded-full cursor-pointer hover:scale-105 ${className}`}
+            className={`fixed hidden md:block bottom-8 right-8 z-50 group bg-primary text-primary-foreground p-3 rounded-full cursor-pointer hover:scale-105 ${className}`}
         >
             { text && (
                 <span
