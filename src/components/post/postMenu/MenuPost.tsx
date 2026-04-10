@@ -5,21 +5,19 @@ import { useUserStore } from "../../../store/userStore";
 import { Button } from "../../ui/Button";
 import { deletePost } from "../../../api/PostAPI";
 import { Popover, PopoverContent, PopoverItem, PopoverTrigger } from "../../ui/Popover";
-import { EllipsisVertical, Trash2 } from "lucide-react";
+import { EllipsisVertical, Trash2, Share2 } from "lucide-react";
 import type { ApiErrorType, PostRespuesta } from "../../../types";
 
-type DeletePostProps = {
+type MenuPostProps = {
     id: PostRespuesta["id"];
     createdAt: PostRespuesta["created_at"]
     creador: PostRespuesta["alias"];
 }
 
-export default function DeletePost({ id, createdAt, creador }: DeletePostProps) {
+export default function MenuPost({ id, createdAt, creador }: MenuPostProps) {
     const { showMessages } = useMessageStore( state => state );
     const { user: { alias }} = useUserStore( state => state );
     const navigate = useNavigate();
-
-    if( alias !== creador ) return null;
 
     const { mutate, isPending } = useMutation({
         mutationFn: deletePost,
@@ -48,12 +46,22 @@ export default function DeletePost({ id, createdAt, creador }: DeletePostProps) 
 
                 { !isPending &&
                     <PopoverContent className="w-fit">
+                        {
+                            alias === creador &&
+                            <PopoverItem 
+                                key={`delete-post-${id}`}
+                                onClick={() => mutate({ id, createdAt })}
+                            >
+                                <Trash2 className="size-4"/>
+                                Eliminar
+                            </PopoverItem>
+                        }
                         <PopoverItem 
-                            key={`delete-post-${id}`}
-                            onClick={() => mutate({ id, createdAt })}
+                            key={`compartir-post-${id}`}
+                            onClick={() => {}}
                         >
-                            <Trash2 className="size-4"/>
-                            Eliminar
+                            <Share2 className="size-4"/>
+                            Compartir
                         </PopoverItem>
                     </PopoverContent>
                 }

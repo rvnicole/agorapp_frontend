@@ -80,7 +80,7 @@ export function Profile(){
                     </div>
                     <div className="flex items-center gap-3">
                         <Calendar className="size-5"/>
-                        <p>{formatDate(user.createdAt)}</p>
+                        <p>Miembro desde el {formatDate(user.createdAt)}</p>
                     </div>
                 </div>
             </CardContent>
