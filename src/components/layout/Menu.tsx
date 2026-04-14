@@ -2,7 +2,7 @@ import { useUserStore } from "../../store/userStore";
 import { Link, useLocation } from "react-router-dom";
 import { Slidemenu, SlidemenuClose, SlidemenuContent, SlidemenuDescription, SlidemenuTitle, SlidemenuTrigger } from "../ui/Slidemenu";
 import Avatar from "../ui/Avatar";
-import { House, Map, MenuIcon, X } from "lucide-react";
+import { House, LogOut, Map, MenuIcon, X } from "lucide-react";
 import Logout from "./Logout";
 
 const menuItems = [
@@ -19,7 +19,7 @@ export default function Menu(){
     return (
         <Slidemenu>
             <SlidemenuTrigger 
-                className="flex items-center justify-center size-9 transition-all cursor-pointer rounded hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"
+                className="hidden md:flex items-center justify-center size-9 transition-all cursor-pointer rounded hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"
             >
                 <MenuIcon className="h-4 w-4" />
                 <span className="sr-only">Seleccionar Opcion</span>
@@ -45,8 +45,8 @@ export default function Menu(){
                     </Avatar>
 
                     <div>
-                        <p className="font-semibold">{user.alias} Rosva</p>
-                        <p className="bg-primary text-primary-foreground text-xs px-2 rounded-full">{user.rol} Usuario</p>
+                        <p className="font-semibold">{user.alias}</p>
+                        { user.rol && <p className="bg-primary text-primary-foreground text-xs px-2 w-fit rounded-full">{user.rol}</p>}
                     </div>                    
                 </Link>
 
@@ -65,7 +65,10 @@ export default function Menu(){
                     )
                 })}
 
-                <Logout className="absolute bottom-0"/>
+                <Logout className="absolute bottom-0 p-2 w-full hover:bg-muted">
+                    <LogOut className="h-5 w-5"/>
+                    <span>Cerrar sesión</span>
+                </Logout>
             </SlidemenuContent>
         </Slidemenu>
     )

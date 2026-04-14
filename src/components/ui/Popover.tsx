@@ -23,7 +23,11 @@ export function PopoverContent({ children, className, ...rest }:  ComponentProps
             <Content
                 align="end"
                 forceMount
-                className={`bg-popover/60 backdrop-blur-lg text-popover-foreground min-w-32 w-56 rounded-lg border p-1 shadow-md z-50 max-h-(--radix-dropdown-menu-content-available-height) origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto fade-in ${className}`}
+                className={`bg-popover/60 backdrop-blur-lg text-popover-foreground min-w-32 w-56 rounded-lg border p-1 shadow-md 
+                z-50 max-h-(--radix-dropdown-menu-content-available-height) origin-(--radix-dropdown-menu-content-transform-origin) 
+                overflow-x-hidden overflow-y-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 
+                data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 
+                transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 **:${className}`}
                 data-slot="popover-content"
                 {...rest}
             >

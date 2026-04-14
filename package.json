@@ -25,6 +25,7 @@
     "react-leaflet": "^5.0.0-rc.2",
     "react-router-dom": "^7.10.0",
     "tailwindcss": "^4.1.17",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^4.1.13",
     "zustand": "^5.0.9"
   },
