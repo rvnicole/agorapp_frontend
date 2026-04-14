@@ -20,19 +20,24 @@ export default function Inicio() {
         localStorage.removeItem("fb_token");
         const res = await deleteToken(messaging);
         console.log("token push eliminado", res);
-        const { data } = await agorappApi.get("/logout");
-        if( data.success ) {
-            flushSync(() => setUserData({
-                email: "",
-                nombre: "",
-                apellido: "",
-                alias: "",
-                createdAt: "",
-                esp: "",
-                url_img: ""
-            }));
-            navigate("/auth/login");
+        try{
+            const { data } = await agorappApi.get("/logout");
+            if( data.success ) {
+                flushSync(() => setUserData({
+                    email: "",
+                    nombre: "",
+                    apellido: "",
+                    alias: "",
+                    createdAt: "",
+                    esp: "",
+                    url_img: ""
+                }));
+                navigate("/auth/login");
+            }
         }
+        catch(error){
+            console.log(error);
+        };
     };
 
     const cookie = async () => {

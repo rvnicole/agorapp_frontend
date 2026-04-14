@@ -3,6 +3,7 @@ import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
 import { DescriptionRespuestaSchema, PostRespuestaSchema, PostsUsuarioRespuestaSchema } from "../schemas";
 import type { Post, RequestListPost, UserData } from "../types";
+import { comprimirImagen } from "../utils/imageCompression";
 
 export async function createPost(post : Post) {
     try {
@@ -21,7 +22,9 @@ export async function createPost(post : Post) {
             errors.push("Debes subir al menos una imagen");
         }
 
-        post.imgs.forEach(img => {
+        const imagenesComprimidas = await Promise.all(post.imgs.map( img => comprimirImagen(img)));
+
+        imagenesComprimidas.forEach(img => {
             formData.append("imgs", img);
         });
 

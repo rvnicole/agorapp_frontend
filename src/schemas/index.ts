@@ -112,6 +112,10 @@ export const RespuestaImagenSchema = z.object({
     urlImg: z.string()
 });
 
+export const RespuestaUploadImage = z.object({
+    url_img: z.url()
+});
+
 export const ComentarioRespuestaSchema = z.object({
     comentId: z.number(),
     comentario: z.string(),

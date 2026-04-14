@@ -24,7 +24,7 @@ export default function Navbar({ onCreate }: NavbarProps) {
                 { navItems.map(item => {
                     const { id, link, icon: Icon, label } = item;
                     return (
-                        <div>
+                        <div key={id}>
                             { id === "create" ?
                                 <Button
                                     className="flex items-center justify-center p-3 rounded-full hover:scale-105"
@@ -36,7 +36,6 @@ export default function Navbar({ onCreate }: NavbarProps) {
                                 :
                                 <>
                                     <Link
-                                        key={id}
                                         to={link}
                                         className={`text-muted-foreground flex flex-col items-center gap-1 mb-1 ${pathname === link ? "text-primary":"group"}`}
                                     >

@@ -1,6 +1,6 @@
 import { ApiError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
-import { UserDataSchema } from "../schemas";
+import { RespuestaUploadImage, UserDataSchema } from "../schemas";
 import { handleApiError } from "./handleAgorappError";
 
 export async function getUserData(){
@@ -15,6 +15,23 @@ export async function getUserData(){
         return data;
     }
     catch( error ){
+        handleApiError(error);
+    };
+};
+
+export async function updateImageProfile(formData: FormData){
+    try{
+        const url = `/usuario/img`;
+        const res = await agorappApi.patch(url, formData);
+        console.log(res.data);
+        const { data, success, error } = RespuestaUploadImage.safeParse(res.data.data);
+        if( !success ){
+            throw new Error(error.message);
+        };
+        return data;
+
+    }
+    catch(error){
         handleApiError(error);
     };
 };

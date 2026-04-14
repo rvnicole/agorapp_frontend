@@ -45,8 +45,8 @@ export default function Menu(){
                     </Avatar>
 
                     <div>
-                        <p className="font-semibold">{user.alias} Rosva</p>
-                        <p className="bg-primary text-primary-foreground text-xs px-2 rounded-full">{user.rol} Usuario</p>
+                        <p className="font-semibold">{user.alias}</p>
+                        { user.rol && <p className="bg-primary text-primary-foreground text-xs px-2 rounded-full">{user.rol}</p> }
                     </div>                    
                 </Link>
 

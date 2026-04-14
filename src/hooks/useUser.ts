@@ -19,8 +19,14 @@ export function useUser(){
     };
 
     const getUserFromStorage = () => {
-        const userData = localStorage.getItem("userData");
-        return userData ? JSON.parse(userData) : null;
+        try{
+            const userData = localStorage.getItem("userData");
+            return userData ? JSON.parse(userData) : null;
+        }
+        catch(error){
+            localStorage.removeItem("userData");
+            return null;
+        };
     };
 
     const getUserPreferences = () => {

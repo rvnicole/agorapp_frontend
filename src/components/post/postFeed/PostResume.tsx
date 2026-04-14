@@ -12,7 +12,7 @@ import { useMessageStore } from "../../../store/messageStore";
 import { useState } from "react";
 import axios from "axios";
 
-type PostResumeProps = z.infer<typeof PostsUsuarioRespuestaSchema>;
+export type PostResumeProps = z.infer<typeof PostsUsuarioRespuestaSchema>;
 
 export default function PostResume( { postResumeData} : { postResumeData: PostResumeProps} ){
     const urlPost = `/post/${postResumeData.tipo}/${postResumeData.id}?createdAt=${postResumeData.created_at}`;
@@ -79,6 +79,7 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
 
     return(
         <Card className="w-full border">
+            <div className="space-y-4">
             <Link 
                 className="cursor-pointer"
                 to={urlPost}
@@ -90,6 +91,7 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                             className="h-[40dvh] md:h-96 w-full object-cover md:object-center mb-3" 
                             src={postResumeData.imagenes[0].urlImg} 
                             alt={"img_" + postResumeData.titulo} 
+                            loading="lazy"
                         />
                     
                 }
@@ -118,7 +120,7 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                     </div>
                 </div>
             </Link>
-            <div className="mx-4 h-px bg-muted-foreground/40" />
+            <div className="mx-4 mt-3 h-px bg-muted-foreground/40" />
             <div className="flex flex-col md:space-y-0 md:flex-row md:justify-between px-4 text-sm text-muted-foreground">
                 
                 <div className="flex justify-around w-full md:w-auto md:justify-center space-x-7">
@@ -142,6 +144,7 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                         <Share2 className="size-5 cursor-pointer"/>
                     </div>
                 </div>
+            </div>
             </div>
         </Card>
     );
