@@ -4,13 +4,13 @@ import { agorappApi } from "../../lib/agorappApi";
 import { deleteToken } from "firebase/messaging";
 import { messaging } from "../../api/firebase";
 import { flushSync } from "react-dom";
-import { LogOut } from "lucide-react";
 
 type LogoutProps = {
-    className: string;
+    children: React.ReactNode;
+    className?: string;
 }
 
-export default function Logout({ className }: LogoutProps) {
+export default function Logout({ children, className }: LogoutProps) {
     const { setUserData } = useUserStore( state => state );
     const navigate = useNavigate();
 
@@ -39,11 +39,10 @@ export default function Logout({ className }: LogoutProps) {
 
     return (
         <button
-            className={`flex items-center gap-2 w-full p-2 cursor-pointer hover:bg-muted ${className}`}
+            className={`flex items-center gap-2 cursor-pointer ${className}`}
             onClick={handleLogout}
         >
-            <LogOut className="h-5 w-5"/>
-            <span>Cerrar sesión</span>
+            {children}
         </button>
     )
 }
