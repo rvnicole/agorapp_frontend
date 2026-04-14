@@ -101,7 +101,7 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
 
 export async function getPosts({ lat, lng, distancia, lastId, lastPostDate }: RequestListPost) {
     try {
-        const url = `/post/?lat=${lat}&lon=${lng}&distancia=${"3000"}`;
+        const url = `/post/?lat=${lat}&lon=${lng}&distancia=${"2000"}`;
         if( lastId && lastPostDate ) url.concat(`&lastId=${lastId}&lastPostDate=${lastPostDate}`);
     
         const res = await agorappApi.get(url);

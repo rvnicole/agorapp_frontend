@@ -15,14 +15,22 @@ export default function Logout({ children, className }: LogoutProps) {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        localStorage.removeItem("userData");
-        localStorage.removeItem("fb_token");
+        try{
+            localStorage.removeItem("userData");
+            localStorage.removeItem("fb_token");
 
-        const res = await deleteToken(messaging);
-        console.log("token push eliminado", res);
+            const res = await deleteToken(messaging);
+            console.log("token push eliminado", res);
 
-        const { data } = await agorappApi.get("/logout");
-        if( data.success ) {
+            const { data } = await agorappApi.get("/logout");
+            if( data.success ) {
+                console.warn("Sesión cerrada");
+            };
+        }
+        catch(error){
+            if(error) console.error(error);
+        }
+        finally{
             flushSync(() => setUserData({
                 email: "",
                 nombre: "",

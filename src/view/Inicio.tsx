@@ -4,9 +4,78 @@ import { agorappApi } from "../lib/agorappApi";
 import { useUserStore } from "../store/userStore";
 import { deleteToken } from "firebase/messaging";
 import { messaging } from "../api/firebase";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import PostWrapper from "../components/post/postFeed/PostWrapper";
+import { MapPinned, Megaphone } from "lucide-react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getPosts } from "../api/PostAPI";
 
 export default function Inicio() {
+    const ref = useRef(null);
+    const [shouldFetch, setShouldFetch] = useState(false);
+
+    const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+        queryKey: ["getUserPosts"],
+        queryFn: ({ pageParam }) => getPosts(pageParam),
+        initialPageParam: new Date().toISOString(),
+        getNextPageParam: (lastPage) => {
+            if( !lastPage?.length ) return undefined;
+            return lastPage[lastPage.length - 1].created_at;
+        },
+        enabled: shouldFetch
+    });
+
+    useEffect(() => {
+        const observador = new IntersectionObserver((elementos) => {
+            if(elementos[0].isIntersecting){
+                if( !data ) {
+                    setShouldFetch(true);
+                    return;
+                }
+                fetchNextPage();
+            };
+        });
+        if(ref.current) observador.observe(ref.current);
+
+        return () => observador.disconnect();
+    },[isPending, isFetchingNextPage]);
+    
+    if(true) return (
+        <main className="h-[80dvh] flex flex-col justify-center items-center"> 
+            <p className="text-center p-10">
+                No hay publicaciones cercanas. 
+                Puedes comenzar a publicar para encontrar 
+                reportes cerca de tu ubicación.
+            </p>
+            <MapPinned 
+                className="size-20"
+                strokeWidth={0.5}
+            />
+        </main> );
+    if(true) return (
+        <main>
+            <div className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center">
+                <div className="w-full flex justify-items-start space-x-2 px-2 pb-3">
+                    <Megaphone className="size-6 text-base"/>
+                    <p className="text-muted-foreground font-semibold">ÚLTIMOS REPORTES</p>
+                </div>
+                
+                {
+                    data?.pages && data.pages.flat().map( userPost => { 
+                        if( userPost ) return <PostWrapper key={userPost.id} postResumeData={userPost}/>
+                    })
+                }
+                
+                <div ref={ref}>
+                    {
+                        (isPending || hasNextPage) && <div className="my-10"><Spinner /></div>
+                    }
+                </div>
+            </div>
+        </main>
+    );
+
+    /*
     const { setUserData } =  useUserStore();
     
     useEffect(()=> {
@@ -48,10 +117,12 @@ export default function Inicio() {
         console.log(res);
     }
 
+    
     const deleteUser = async () => {
         const res = await agorappApi.delete("/usuario");
         console.log(res);
     };
+    
     
     return (
         <div className="bg-none">
@@ -69,5 +140,5 @@ export default function Inicio() {
                 <button onClick={() => navigate("/profile")} className="text-xl">Profile</button>
             </div>            
         </div>
-    )
+    )*/
 }

@@ -101,9 +101,9 @@ export const RequestListPostSchema = ReportSchema.pick({
     lat: true,
     lng: true,
 }).extend({
-    distancia: z.literal(["3000"]),
-    lastId: z.number(),
-    lastPostDate: z.string()
+    distancia: z.literal(["3000"]).optional(),
+    lastId: z.number().optional(),
+    lastPostDate: z.string().optional()
 });
 
 /* ------------------ API AgorApp Backend ------------------ */

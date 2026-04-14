@@ -3,7 +3,7 @@ import PostResume, { type PostResumeProps } from "./PostResume";
 
 type PostWrapperProps = PostResumeProps;
 
-export default function PostWrapper({ postResumeData }: any){
+export default function PostWrapper({ postResumeData } : { postResumeData: PostWrapperProps}){
     const ref = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
 

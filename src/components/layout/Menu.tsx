@@ -19,7 +19,7 @@ export default function Menu(){
     return (
         <Slidemenu>
             <SlidemenuTrigger 
-                className="hidden md:flex items-center justify-center size-9 transition-all cursor-pointer rounded hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"
+                className="flex items-center justify-center size-9 transition-all cursor-pointer rounded hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"
             >
                 <MenuIcon className="h-4 w-4" />
                 <span className="sr-only">Seleccionar Opcion</span>
