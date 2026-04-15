@@ -1,31 +1,51 @@
-import { flushSync } from "react-dom";
-import { useNavigate } from "react-router-dom";
-import { agorappApi } from "../lib/agorappApi";
-import { useUserStore } from "../store/userStore";
-import { deleteToken } from "firebase/messaging";
-import { messaging } from "../api/firebase";
 import { useEffect, useRef, useState } from "react";
 import PostWrapper from "../components/post/postFeed/PostWrapper";
-import { MapPinned, Megaphone } from "lucide-react";
+import { MapPinned } from "lucide-react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getPosts } from "../api/PostAPI";
+import { useUbicacion } from "../hooks/useUbicacion";
+import Spinner from "../components/ui/Spinner";
+import Permissions from "../components/permissons/Permissions";
 
 export default function Inicio() {
     const ref = useRef(null);
     const [shouldFetch, setShouldFetch] = useState(false);
+    const [ready, setReady] = useState(false);
+    const { getPosition, position } = useUbicacion({});
 
     const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-        queryKey: ["getUserPosts"],
-        queryFn: ({ pageParam }) => getPosts(pageParam),
-        initialPageParam: new Date().toISOString(),
+        queryKey: ["getPosts"],
+        queryFn: ({ pageParam }) => {console.log({pageParam}); return getPosts(pageParam)},
+        initialPageParam: position,
         getNextPageParam: (lastPage) => {
+            console.log("ultima pagina", lastPage);
             if( !lastPage?.length ) return undefined;
-            return lastPage[lastPage.length - 1].created_at;
+                const ultimoRes = lastPage[lastPage.length - 1];
+                console.log(ultimoRes);
+                return {
+                    lat: ultimoRes.lat, 
+                    lng: ultimoRes.lon,  
+                    lastId: ultimoRes.id, 
+                    lastPostDate: ultimoRes.created_at
+                }
         },
-        enabled: shouldFetch
+        enabled: shouldFetch,
+        gcTime: 10 * 60 * 1000
     });
 
     useEffect(() => {
+        console.log({ ready });
+        if(ready) {
+            const getCoordenadas = async () => {
+                await getPosition();
+                setShouldFetch(true);
+            };
+            getCoordenadas();
+        }
+    },[ready]);
+
+    useEffect(() => {
+        console.log("Observador se dispara")
         const observador = new IntersectionObserver((elementos) => {
             if(elementos[0].isIntersecting){
                 if( !data ) {
@@ -40,7 +60,20 @@ export default function Inicio() {
         return () => observador.disconnect();
     },[isPending, isFetchingNextPage]);
     
-    if(true) return (
+    
+    if(!ready) return <>
+            <main className="h-[80dvh] flex flex-col justify-center items-center">
+                <Permissions onGranted={() => setReady(true)}/>
+            </main>
+        </>
+    if(position.lat === 0) return <>
+            <main className="h-[80dvh] flex flex-col justify-center items-center">
+                <p className="text-center p-10">
+                    No fue posible obtener tu ubicación, muevete un poquito e intentalo de nuevo
+                </p>
+            </main>
+        </>
+    if( data?.pages.flat().length === 0 ) return (
         <main className="h-[80dvh] flex flex-col justify-center items-center"> 
             <p className="text-center p-10">
                 No hay publicaciones cercanas. 
@@ -52,14 +85,9 @@ export default function Inicio() {
                 strokeWidth={0.5}
             />
         </main> );
-    if(true) return (
+    if( data?.pages.flat().length ) return (
         <main>
             <div className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center">
-                <div className="w-full flex justify-items-start space-x-2 px-2 pb-3">
-                    <Megaphone className="size-6 text-base"/>
-                    <p className="text-muted-foreground font-semibold">ÚLTIMOS REPORTES</p>
-                </div>
-                
                 {
                     data?.pages && data.pages.flat().map( userPost => { 
                         if( userPost ) return <PostWrapper key={userPost.id} postResumeData={userPost}/>

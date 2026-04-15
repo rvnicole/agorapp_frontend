@@ -40,7 +40,8 @@ export function Profile(){
             if( !lastPage?.length ) return undefined;
             return lastPage[lastPage.length - 1].created_at;
         },
-        enabled: shouldFetch
+        enabled: shouldFetch,
+        gcTime: 30 * 60 * 1000
     });
 
     const { mutate, isPending: isPendingMutate } = useMutation({
