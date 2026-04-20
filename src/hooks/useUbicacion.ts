@@ -50,6 +50,11 @@ export function useUbicacion({ onChange }: UseUbicacionProps) {
                 },
                 (error) => {
                     reject(error);
+                },
+                {
+                    enableHighAccuracy: false,
+                    timeout: 10000,
+                    maximumAge: 40000,
                 }
             );
         });

@@ -7,7 +7,6 @@ import { useUserStore } from "../../store/userStore";
 import Badge from "../../components/ui/Badge";
 import { roles } from "../../data/roles";
 import { formatDate } from "../../utils/date";
-import PostResume from "../../components/post/postFeed/PostResume";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { getUserPosts } from "../../api/PostAPI";
 import Spinner from "../../components/ui/Spinner";
@@ -177,7 +176,7 @@ export function Profile(){
                     </CardContent>
                 </Card>
             </div>
-            <div className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center">
+            <section className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center">
                 <div className="w-full flex justify-items-start space-x-2 px-2 pb-3">
                     <Megaphone className="size-6 text-base"/>
                     <p className="text-muted-foreground font-semibold">MIS ÚLTIMOS REPORTES</p>
@@ -185,7 +184,7 @@ export function Profile(){
                 
                 {
                     data?.pages && data.pages.flat().map( userPost => { 
-                        if( userPost ) return <PostWrapper key={userPost.id} postResumeData={userPost}/>
+                        if( userPost ) return <PostWrapper key={"profile"+userPost.id} postResumeData={userPost}/>
                     })
                 }
                 
@@ -194,6 +193,6 @@ export function Profile(){
                         (isPending || hasNextPage) && <div className="my-10"><Spinner /></div>
                     }
                 </div>
-            </div>
+            </section>
         </div>
 }

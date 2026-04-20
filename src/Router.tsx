@@ -28,8 +28,9 @@ export default function Router() {
                     <Route path="/" element={<Inicio />} />
                     <Route path="/create-report" element={<CreateReport />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/post/:tipo/:id" element={<Post />} />
                 </Route>
-                <Route path="/post/:tipo/:id" element={<Post />} />
+                
             </Route>
         </Routes>
     )

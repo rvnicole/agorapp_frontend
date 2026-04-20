@@ -11,7 +11,10 @@ const agorappApi = axios.create({
 agorappApi.interceptors.response.use(
     res => res,
     async (error: AxiosError) => {
-
+        if( !error ) {
+            alert(error)
+            return;
+        }
         if( error.status === 401 && retryRefreshToken && !error.config?.url?.includes("/auth-refresh")){
             console.log("refrescando");
             retryRefreshToken = false;

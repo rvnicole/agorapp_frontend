@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import PostResume, { type PostResumeProps } from "./PostResume";
 
-type PostWrapperProps = PostResumeProps;
+type PostWrapperProps = { 
+    postResumeData:PostResumeProps
+    key: string | number
+};
 
-export default function PostWrapper({ postResumeData } : { postResumeData: PostWrapperProps}){
+export default function PostWrapper({ postResumeData, key } : PostWrapperProps ){
     const ref = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -23,6 +26,7 @@ export default function PostWrapper({ postResumeData } : { postResumeData: PostW
     
     return (
         <div
+            key={key}
             ref={ref}
             className="w-full"
         >
