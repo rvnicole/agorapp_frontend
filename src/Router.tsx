@@ -10,6 +10,7 @@ import Post from "./view/Post/Post";
 import LoadUserProfile from "./view/auth/LoadUserProfile";
 import LayoutProtectedRoute from "./layout/auth/LayoutProtectedRoute";
 import { Profile } from "./view/profile/Profile";
+import Notifications from "./view/Notifications";
 
 export default function Router() {
     return (
@@ -29,6 +30,7 @@ export default function Router() {
                     <Route path="/create-report" element={<CreateReport />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/post/:tipo/:id" element={<Post />} />
+                    <Route path="/notifications" element={<Notifications />}/>
                 </Route>
                 
             </Route>
