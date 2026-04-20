@@ -9,6 +9,7 @@ import {
     googleAuthURL, LoginSchema, 
     MessageSchema, 
     NewUbicacionSchema, 
+    NotificationSchema, 
     PostRespuestaSchema, 
     PostSchema, 
     PostsUsuarioRespuestaSchema, 
@@ -66,6 +67,9 @@ export type ImagenData = {
 }
 
 export type RequestListPost = z.infer<typeof RequestListPostSchema>
+
+/* ------------------ Notification ------------------ */
+export type Notification = z.infer<typeof NotificationSchema>;
 
 /* ------------------ Messages ------------------ */
 export type Message = z.infer<typeof MessageSchema>;

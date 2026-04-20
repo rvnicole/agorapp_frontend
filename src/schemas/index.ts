@@ -202,6 +202,17 @@ export const MessageSchema = z.object({
 });
 
 /* ------------------ Notifications ------------------ */
+export const NotificationSchema = z.object({
+    leido: z.boolean(),
+    titulo: z.string(),
+    descripcion: z.string(),
+    tipo: z.literal(["comentario", "actualizacion", "aviso", "like"]),
+    post_id: z.number(),
+    receptor_id: z.number(),
+    post_created_at: z.string(),
+    notification_created_at: z.string()
+});
+
 export const ResponseCreatePushToken = z.object({
     push_token_id: z.coerce.number(),
     push_token: z.string()
