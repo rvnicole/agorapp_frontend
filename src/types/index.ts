@@ -17,6 +17,7 @@ import {
     ReportSchema, 
     RequestListPostSchema, 
     RespuestaImagenSchema, 
+    RespuestaUploadImage, 
     UserDataSchema 
 } from './../schemas/index';
 
@@ -110,6 +111,7 @@ export type ResultPermission = {
 /* ------------------ API AgorApp Backend ------------------ */
 export type PostRespuesta = z.infer<typeof PostRespuestaSchema>;
 export type ImgsRespuesta = z.infer<typeof RespuestaImagenSchema>;
+export type UploadImageProfile = z.infer<typeof RespuestaUploadImage>;
 export type DescriptionRespuesta = z.infer<typeof DescriptionRespuestaSchema>;
 export type ComentarioRespuesta = z.infer<typeof ComentarioRespuestaSchema>;
 export type PostsUsuarioRespuesta = z.infer<typeof PostsUsuarioRespuestaSchema>;

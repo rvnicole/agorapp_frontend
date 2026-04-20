@@ -3,7 +3,7 @@ import { useState } from "react";
 type ToggleProps = {
     setModeTrue: () => void,
     setModeFalse: () => void,
-    isOn: boolean,
+    isOn?: boolean,
     disable?: boolean
 };
 

@@ -1,12 +1,109 @@
-import { flushSync } from "react-dom";
-import { useNavigate } from "react-router-dom";
-import { agorappApi } from "../lib/agorappApi";
-import { useUserStore } from "../store/userStore";
-import { deleteToken } from "firebase/messaging";
-import { messaging } from "../api/firebase";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import PostWrapper from "../components/post/postFeed/PostWrapper";
+import { MapPinned } from "lucide-react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getPosts } from "../api/PostAPI";
+import { useUbicacion } from "../hooks/useUbicacion";
+import Spinner from "../components/ui/Spinner";
+import Permissions from "../components/permissons/Permissions";
 
 export default function Inicio() {
+    const ref = useRef(null);
+    const [shouldFetch, setShouldFetch] = useState(false);
+    const [ready, setReady] = useState(false);
+    const { getPosition, position } = useUbicacion({});
+
+    const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+        queryKey: ["getPosts"],
+        queryFn: ({ pageParam }) => {console.log({pageParam}); return getPosts(pageParam)},
+        initialPageParam: position,
+        getNextPageParam: (lastPage) => {
+            console.log("ultima pagina", lastPage);
+            if( !lastPage?.length ) return undefined;
+                const ultimoRes = lastPage[lastPage.length - 1];
+                console.log(ultimoRes);
+                return {
+                    lat: ultimoRes.lat, 
+                    lng: ultimoRes.lon,  
+                    lastId: ultimoRes.id, 
+                    lastPostDate: ultimoRes.created_at
+                }
+        },
+        enabled: shouldFetch,
+        gcTime: 10 * 60 * 1000
+    });
+
+    useEffect(() => {
+        console.log({ ready });
+        if(ready) {
+            const getCoordenadas = async () => {
+                await getPosition();
+                setShouldFetch(true);
+            };
+            getCoordenadas();
+        }
+    },[ready]);
+
+    useEffect(() => {
+        console.log("Observador se dispara")
+        const observador = new IntersectionObserver((elementos) => {
+            if(elementos[0].isIntersecting){
+                if( !data ) {
+                    setShouldFetch(true);
+                    return;
+                }
+                fetchNextPage();
+            };
+        });
+        if(ref.current) observador.observe(ref.current);
+
+        return () => observador.disconnect();
+    },[isPending, isFetchingNextPage]);
+    
+    
+    if(!ready) return <>
+            <main className="h-[80dvh] flex flex-col justify-center items-center">
+                <Permissions onGranted={() => setReady(true)}/>
+            </main>
+        </>
+    if(position.lat === 0) return <>
+            <main className="h-[80dvh] flex flex-col justify-center items-center">
+                <p className="text-center p-10">
+                    No fue posible obtener tu ubicación, muevete un poquito e intentalo de nuevo
+                </p>
+            </main>
+        </>
+    if( data?.pages.flat().length === 0 ) return (
+        <main className="h-[80dvh] flex flex-col justify-center items-center"> 
+            <p className="text-center p-10">
+                No hay publicaciones cercanas. 
+                Puedes comenzar a publicar para encontrar 
+                reportes cerca de tu ubicación.
+            </p>
+            <MapPinned 
+                className="size-20"
+                strokeWidth={0.5}
+            />
+        </main> );
+    if( data?.pages.flat().length ) return (
+        <main>
+            <div className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center">
+                {
+                    data?.pages && data.pages.flat().map( userPost => { 
+                        if( userPost ) return <PostWrapper key={userPost.id} postResumeData={userPost}/>
+                    })
+                }
+                
+                <div ref={ref}>
+                    {
+                        (isPending || hasNextPage) && <div className="my-10"><Spinner /></div>
+                    }
+                </div>
+            </div>
+        </main>
+    );
+
+    /*
     const { setUserData } =  useUserStore();
     
     useEffect(()=> {
@@ -20,19 +117,24 @@ export default function Inicio() {
         localStorage.removeItem("fb_token");
         const res = await deleteToken(messaging);
         console.log("token push eliminado", res);
-        const { data } = await agorappApi.get("/logout");
-        if( data.success ) {
-            flushSync(() => setUserData({
-                email: "",
-                nombre: "",
-                apellido: "",
-                alias: "",
-                createdAt: "",
-                esp: "",
-                url_img: ""
-            }));
-            navigate("/auth/login");
+        try{
+            const { data } = await agorappApi.get("/logout");
+            if( data.success ) {
+                flushSync(() => setUserData({
+                    email: "",
+                    nombre: "",
+                    apellido: "",
+                    alias: "",
+                    createdAt: "",
+                    esp: "",
+                    url_img: ""
+                }));
+                navigate("/auth/login");
+            }
         }
+        catch(error){
+            console.log(error);
+        };
     };
 
     const cookie = async () => {
@@ -43,10 +145,12 @@ export default function Inicio() {
         console.log(res);
     }
 
+    
     const deleteUser = async () => {
         const res = await agorappApi.delete("/usuario");
         console.log(res);
     };
+    
     
     return (
         <div className="bg-none">
@@ -64,5 +168,5 @@ export default function Inicio() {
                 <button onClick={() => navigate("/profile")} className="text-xl">Profile</button>
             </div>            
         </div>
-    )
+    )*/
 }

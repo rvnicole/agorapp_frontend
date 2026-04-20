@@ -3,6 +3,7 @@ import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
 import { DescriptionRespuestaSchema, PostRespuestaSchema, PostsUsuarioRespuestaSchema } from "../schemas";
 import type { Post, RequestListPost, UserData } from "../types";
+import { comprimirImagen } from "../utils/imageCompression";
 
 export async function createPost(post : Post) {
     try {
@@ -21,7 +22,9 @@ export async function createPost(post : Post) {
             errors.push("Debes subir al menos una imagen");
         }
 
-        post.imgs.forEach(img => {
+        const imagenesComprimidas = await Promise.all(post.imgs.map( img => comprimirImagen(img)));
+
+        imagenesComprimidas.forEach(img => {
             formData.append("imgs", img);
         });
 
@@ -98,9 +101,9 @@ export async function getPost({ id, createdAt }: Pick<Post, "id" | "createdAt">)
 
 export async function getPosts({ lat, lng, distancia, lastId, lastPostDate }: RequestListPost) {
     try {
-        const url = `/post/?lat=${lat}&lon=${lng}&distancia=${"3000"}`;
-        if( lastId && lastPostDate ) url.concat(`&lastId=${lastId}&lastPostDate=${lastPostDate}`);
-    
+        let url = `/post/?lat=${lat}&lon=${lng}&distancia=${"2000"}`;
+        if( lastId && lastPostDate ) url += `&lastId=${lastId}&lastPostDate=${lastPostDate.replace("+", "%2B")}`;
+        console.log({url},{ lat, lng, distancia, lastId, lastPostDate });
         const res = await agorappApi.get(url);
         const respuesta = res.data;
 

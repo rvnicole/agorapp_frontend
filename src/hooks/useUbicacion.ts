@@ -10,7 +10,7 @@ type UseUbicacionProps = {
 
 export function useUbicacion({ onChange }: UseUbicacionProps) {
     const [mode, setMode] = useState(false); // true -> ubicación en tiempo real // false -> Manual
-    const [position, setPosition] = useState<NewUbicacionType>({ lat: 19.4326, lng: -99.1332 });
+    const [position, setPosition] = useState<NewUbicacionType>({ lat: 0, lng: 0 });
     const [address, setAddress] = useState("");
     const [loadingUbicacion, setloadingUbicacion] = useState(false);
 
