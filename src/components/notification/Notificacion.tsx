@@ -1,11 +1,14 @@
+import { useMessageStore } from "../../store/messageStore";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import DeleteNotificacion from "./DeleteNotificacion";
+import { updateNotification } from "../../api/notificationsAPI";
 import { formatDate } from "../../utils/date";
 import { ArrowRight, Check, Info, MessageCircle, RotateCw, ThumbsUp } from "lucide-react";
 import type { MouseEvent } from "react";
-import type { Notification } from "../../types"
+import type { ApiErrorType, Notification } from "../../types"
 
 const tiposNotificacion = {
     comentario: {
@@ -31,12 +34,22 @@ type NotificacionProps = {
 }
 
 export default function Notificacion({ notificacion }: NotificacionProps) {
+    const { showMessages } = useMessageStore();
     const navigate = useNavigate();
 
     const { icon: Icon, color } = tiposNotificacion[notificacion.tipo];
 
+    const { mutate } = useMutation({
+        mutationFn: () => updateNotification({ receptor_id: notificacion.receptor_id }),
+        onError: (error: ApiErrorType) => {
+            error.messages.forEach((error: string) => showMessages("error", error)); 
+        }
+    });
+
     const handleClick = (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
         e.preventDefault();
+
+        mutate();
 
         const url = `/post/reporte/${notificacion.post_id}?createdAt=${notificacion.post_created_at}`;
         navigate(url);

@@ -59,3 +59,18 @@ export async function deleteNotification({ receptor_id }: Pick<Notification, "re
         handleApiError(error);
     }
 };
+
+export async function updateNotification({ receptor_id }: Pick<Notification, "receptor_id">) {
+    try {
+        const url = "/notificacion-receptor";        
+        const res = await agorappApi.put(url, {
+            receptorId: receptor_id
+        });
+        const respuesta = res.data;        
+
+        return respuesta;
+    }
+    catch(error) {
+        handleApiError(error);
+    }
+};
