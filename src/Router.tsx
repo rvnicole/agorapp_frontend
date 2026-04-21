@@ -25,13 +25,13 @@ export default function Router() {
            
             
             <Route element={<LayoutApp />}>
-                <Route element={<LayoutProtectedRoute />}>
+                {/*<Route element={<LayoutProtectedRoute />}>*/}
                     <Route path="/" element={<Inicio />} />
                     <Route path="/create-report" element={<CreateReport />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/post/:tipo/:id" element={<Post />} />
                     <Route path="/notifications" element={<Notifications />}/>
-                </Route>
+                {/*</Route>*/}
                 
             </Route>
         </Routes>

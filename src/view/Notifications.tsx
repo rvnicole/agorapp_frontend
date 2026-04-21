@@ -53,11 +53,17 @@ export default function Notifications() {
                     title="Notificaciones"
                 />
 
-                <div className="w-full space-y-3">
-                    { notificaciones?.map((notificacion: Notification) => (
-                        <Notificacion key={notificacion.receptor_id} notificacion={notificacion} />
-                    ))}
-                </div>                
+                { notificaciones.length > 0 ?
+                    <div className="w-full space-y-3">
+                        { notificaciones?.map((notificacion: Notification) => (
+                            <Notificacion key={notificacion.receptor_id} notificacion={notificacion} />
+                        ))}
+                    </div> 
+                    :
+                    <div className="text-center">
+                        <p className="text-sm text-muted-foreground">No hay notificaciones</p>
+                    </div> 
+                }                              
             </div>         
 
             { hasNextPage &&
