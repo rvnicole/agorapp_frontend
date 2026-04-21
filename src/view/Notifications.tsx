@@ -67,7 +67,7 @@ export default function Notifications() {
             </div>         
 
             { hasNextPage &&
-                <div ref={spinner} className="flex justify-center">
+                <div ref={spinner} className="flex justify-center my-5">
                     <Spinner />
                 </div>
             }   
