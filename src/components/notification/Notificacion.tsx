@@ -67,7 +67,7 @@ export default function Notificacion({ notificacion }: NotificacionProps) {
                     <p className="text-sm text-muted-foreground">{notificacion.descripcion}</p>
 
                     <div className="flex items-center justify-between">
-                        <p className="text-xs text-muted-foreground">{formatDate(notificacion.post_created_at)}</p>
+                        <p className="text-xs text-muted-foreground">{formatDate(notificacion.notification_created_at)}</p>
                     
                         <div className="flex gap-3">
                             <DeleteNotificacion id={notificacion.receptor_id}/>
