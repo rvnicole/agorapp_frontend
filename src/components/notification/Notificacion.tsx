@@ -34,7 +34,7 @@ type NotificacionProps = {
 }
 
 export default function Notificacion({ notificacion }: NotificacionProps) {
-    const { showMessages } = useMessageStore();
+    const { showMessages } = useMessageStore( state => state );
     const navigate = useNavigate();
 
     const { icon: Icon, color } = tiposNotificacion[notificacion.tipo];
