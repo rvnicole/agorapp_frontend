@@ -50,10 +50,10 @@ export async function getNotifications({ createdAt }: { createdAt?: Notification
 export async function deleteNotification({ receptor_id }: Pick<Notification, "receptor_id">) {
     try {
         const url = `/notificacion-receptor/${receptor_id}`;        
-        //const res = await agorappApi.delete(url);
-        //const respuesta = res.data;        
+        const res = await agorappApi.delete(url);
+        const respuesta = res.data;        
 
-        //return respuesta;
+        return respuesta;
         return { success: true }
     }
     catch(error) {
