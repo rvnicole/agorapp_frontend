@@ -70,7 +70,10 @@ export default function Notificacion({ notificacion }: NotificacionProps) {
             </div>
 
             <SwipeLeft action={mutateDelete}>
-                <Card className={`border p-5 cursor-pointer hover:shadow-lg hover:shadow-primary/20 transition-shadow ${!notificacion.leido && "border-l-4 border-l-primary"}`}>
+                <Card 
+                    className={`border p-5 hover:shadow-lg hover:shadow-primary/20 transition-shadow ${!notificacion.leido && "border-l-4 border-l-primary"}`}
+                    onClick={ isTouchDevice ? handleClick : () => null }
+                >
                     <div className="flex gap-2">
                         <IconNotificacion tipo={notificacion.tipo} />
 
@@ -87,30 +90,32 @@ export default function Notificacion({ notificacion }: NotificacionProps) {
                             
                                 <div className="flex gap-3">
                                     { !isTouchDevice &&
-                                        <Button
-                                            size="sm"
-                                            variant="link"
-                                            style={{ padding:0, height:"auto" }}
-                                            onClick={() => mutateDelete()}
-                                        >            
-                                            { isPending ? (
-                                                <span className="flex gap-1 text-xs">
-                                                    <Loader2 className="h-4 w-4 animate-spin" />
-                                                    Eliminando...
-                                                </span>
-                                            ) : <span className="text-xs">Eliminar</span> }
-                                        </Button>
-                                    }                                    
+                                        <>
+                                            <Button
+                                                size="sm"
+                                                variant="link"
+                                                style={{ padding:0, height:"auto" }}
+                                                onClick={() => mutateDelete()}
+                                            >            
+                                                { isPending ? (
+                                                    <span className="flex gap-1 text-xs">
+                                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                                        Eliminando...
+                                                    </span>
+                                                ) : <span className="text-xs">Eliminar</span> }
+                                            </Button>
 
-                                    <Button
-                                        variant="link"
-                                        className="flex items-center gap-1"
-                                        style={{ padding: 0, height: "auto" }}
-                                        onClick={handleClick}
-                                    >
-                                        <p className="text-xs">Ver Reporte</p>
-                                        <ArrowRight className="h-4 w-4"/>
-                                    </Button>
+                                            <Button
+                                                variant="link"
+                                                className="flex items-center gap-1"
+                                                style={{ padding: 0, height: "auto" }}
+                                                onClick={handleClick}
+                                            >
+                                                <p className="text-xs">Ver Reporte</p>
+                                                <ArrowRight className="h-4 w-4"/>
+                                            </Button>
+                                        </>
+                                    }                                    
                                 </div>
                             </div>
                         </div>              
