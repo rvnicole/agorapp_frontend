@@ -1,12 +1,17 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAppStore } from "../store/appStore";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/layout/Header";
 import ButtonCreate from "../components/layout/ButtonCreate";
 import Navbar from "../components/layout/Navbar";
+import { useEffect } from "react";
 
 export default function LayoutApp() {
-    const { setTheme } = useAppStore(state => state);
     const navigate = useNavigate();
+
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     return (
         <div>

@@ -11,6 +11,7 @@ import LoadUserProfile from "./view/auth/LoadUserProfile";
 import LayoutProtectedRoute from "./layout/auth/LayoutProtectedRoute";
 import { Profile } from "./view/profile/Profile";
 import Notifications from "./view/Notifications";
+import { MapFeed } from "./view/MapFeed/MapFeed";
 
 export default function Router() {
     return (
@@ -27,6 +28,7 @@ export default function Router() {
             <Route element={<LayoutApp />}>
                 <Route element={<LayoutProtectedRoute />}>
                     <Route path="/" element={<Inicio />} />
+                    <Route path="/map" element={<MapFeed />} />
                     <Route path="/create-report" element={<CreateReport />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/post/:tipo/:id" element={<Post />} />

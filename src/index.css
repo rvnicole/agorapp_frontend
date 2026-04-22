@@ -341,3 +341,11 @@ body {
     -webkit-transform: scale(1.0);
   }
 }
+
+/*---------- Marcadores del mapa ----------------*/
+.leaflet-marker-icon {
+    animation: aparecer 0.3s ease-out;
+}
+
+@keyframes aparecer {
+}

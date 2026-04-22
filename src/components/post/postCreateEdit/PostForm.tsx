@@ -75,7 +75,10 @@ export default function PostForm({ post, tipo, onSubmit, isPending }: PostFormPr
                 errors={ errors}
             /> 
             
-            <Map position={{lat, lng}} />
+            <Map 
+                userPosition={{lat, lng}} 
+                postPosition={[{lat, lng}]}
+            />
             { (errors.lat || errors.lng ) && <MessageErrors>La ubicación es obligatoria</MessageErrors> }
 
             <div className="space-y-3 pt-4">

@@ -101,10 +101,17 @@ export const RequestListPostSchema = ReportSchema.pick({
     lat: true,
     lng: true,
 }).extend({
-    distancia: z.literal(["3000"]).optional(),
+    distancia: z.literal(["3000","2000"]).optional(),
     lastId: z.number().optional(),
     lastPostDate: z.string().optional()
 });
+
+export const BoundsMapSchema = z.object({
+    neLat: z.number(),
+    neLng: z.number(),
+    swLat: z.number(),
+    swLng: z.number()
+})
 
 /* ------------------ API AgorApp Backend ------------------ */
 export const RespuestaImagenSchema = z.object({
@@ -220,4 +227,15 @@ export const NotificationSchema = z.object({
 export const ResponseCreatePushToken = z.object({
     push_token_id: z.coerce.number(),
     push_token: z.string()
+});
+
+export const ResponseMapPostListSchema = z.object({
+    id: z.coerce.number(),
+    created_at: z.string(),
+    titulo: z.string().optional().nullable(),
+    descripcion: z.string(),
+    direccion: z.string(),
+    lat: z.coerce.number(),
+    lng: z.coerce.number(),
+    tipo: z.string()
 });
