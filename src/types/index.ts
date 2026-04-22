@@ -1,6 +1,7 @@
 import z from 'zod';
 import { 
     AddressResultSchema,
+    BoundsMapSchema,
     ComentarioRespuestaSchema, 
     ComentarioSchema, 
     DescriptionRespuestaSchema, 
@@ -15,7 +16,8 @@ import {
     PostsUsuarioRespuestaSchema, 
     RegisterSchema, 
     ReportSchema, 
-    RequestListPostSchema, 
+    RequestListPostSchema,  
+    ResponseMapPostListSchema,  
     RespuestaImagenSchema, 
     RespuestaUploadImage, 
     UserDataSchema 
@@ -67,7 +69,8 @@ export type ImagenData = {
     position: NewUbicacionType;
 }
 
-export type RequestListPost = z.infer<typeof RequestListPostSchema>
+export type RequestListPost = z.infer<typeof RequestListPostSchema>;
+export type BoundsMap = z.infer<typeof BoundsMapSchema>;
 
 /* ------------------ Notification ------------------ */
 export type Notification = z.infer<typeof NotificationSchema>;
@@ -115,3 +118,4 @@ export type UploadImageProfile = z.infer<typeof RespuestaUploadImage>;
 export type DescriptionRespuesta = z.infer<typeof DescriptionRespuestaSchema>;
 export type ComentarioRespuesta = z.infer<typeof ComentarioRespuestaSchema>;
 export type PostsUsuarioRespuesta = z.infer<typeof PostsUsuarioRespuestaSchema>;
+export type ResponseMapPostList = z.infer<typeof ResponseMapPostListSchema>;

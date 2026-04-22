@@ -1,10 +1,17 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/layout/Header";
 import ButtonCreate from "../components/layout/ButtonCreate";
 import Navbar from "../components/layout/Navbar";
+import { useEffect } from "react";
 
 export default function LayoutApp() {
     const navigate = useNavigate();
+
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     return (
         <div>
