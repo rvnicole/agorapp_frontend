@@ -54,6 +54,7 @@ export async function deleteNotification({ receptor_id }: Pick<Notification, "re
         const respuesta = res.data;        
 
         return respuesta;
+        return { success: true }
     }
     catch(error) {
         handleApiError(error);
