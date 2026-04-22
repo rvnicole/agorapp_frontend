@@ -68,11 +68,13 @@ export function useUbicacion({ onChange }: UseUbicacionProps) {
 
             setMode(true);
             applyPosition(coords);
+            return coords;
         }
         catch(error) {
             setMode(false);
             console.error(error);
             showMessages("error", "No se pudo obtener la ubicación.");
+            return position;
         }
         finally {
             setloadingUbicacion(false);

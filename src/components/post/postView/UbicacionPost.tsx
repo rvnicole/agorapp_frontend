@@ -26,7 +26,11 @@ export default function UbicacionPost({ position }: UbicacionPostProps) {
 
             <Card className="border p-5 w-full">
                 <div className="relative">
-                    <Map className="rounded-none md:rounded-lg" position={position} />
+                    <Map 
+                        className="rounded-none md:rounded-lg" 
+                        userPosition={position} 
+                        postPosition={[position]}
+                    />
 
                     <div className="absolute bottom-0 left-0 right-0 flex flex-col md:flex-row justify-between gap-3 p-3 bg-white/30 backdrop-blur rounded-none md:rounded-b-lg">
                         <div>

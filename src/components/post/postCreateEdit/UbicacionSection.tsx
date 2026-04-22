@@ -47,7 +47,8 @@ export default function UbicacionSection({ onChange }: UbicacionSectionProps) {
             </div>
 
             <Map
-                position={position}
+                userPosition={position}
+                postPosition={[position]}
                 onDragend={getManualPosition}
             />
         </div>

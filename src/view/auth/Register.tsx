@@ -260,7 +260,7 @@ export default function Register() {
                     <div className="flex items-center justify-between my-2">
                         <p className="text-sm md:text-base font-medium select-none">Usar ubicación en tiempo real</p>
                         <Toggle
-                            enabled={mode}
+                            isOn={mode}
                             setModeTrue={() => getPosition() }
                             setModeFalse={() => setMode(false) }
                         />
@@ -269,7 +269,8 @@ export default function Register() {
                     <Label className="text-muted-foreground">{address}</Label>
 
                     <Map 
-                        position={position}
+                        userPosition={position}
+                        postPosition={[position]}
                         onDragend={getManualPosition}
                     />
 
