@@ -11,7 +11,7 @@ import { CircleCheck, Loader2, Send } from "lucide-react";
 import type { ApiErrorType } from "../../types";
 
 export default function CreateAlias() {
-    const { user } = useUserStore();
+    const { user, setUserData } = useUserStore();
     const { showMessages } = useMessageStore( state => state );
     const[ newAlias, setNewAlias ] = useState<string>("");
     const[ validaciones, setValidaciones ] = useState({
@@ -27,7 +27,8 @@ export default function CreateAlias() {
             console.log("Alias creado", data);
             if( !data.success ) return;
 
-            localStorage.setItem("userData", {...user, ...data.data});            
+            localStorage.setItem("userData", {...user, ...data.data});
+            setUserData({...user, ...data.data})         
             showMessages("success", `Bienvenid@ ${newAlias}`);
             navigate("/"); 
         },
@@ -60,7 +61,7 @@ export default function CreateAlias() {
     }
     
     return (
-        <div className="h-[75vh] flex flex-col items-center justify-center">
+        <div className="h-screen flex flex-col items-center justify-center">
             <div className="text-center mb-5">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border-2 border-primary/20 mb-2">
                     {/* Logo */}
