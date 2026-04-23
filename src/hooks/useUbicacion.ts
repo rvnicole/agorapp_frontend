@@ -8,6 +8,9 @@ type UseUbicacionProps = {
     onChange?: (coords: NewUbicacionType) => void;
 };
 
+let retry = 0;
+const maxRetry = 3;
+
 export function useUbicacion({ onChange }: UseUbicacionProps) {
     const [mode, setMode] = useState(false); // true -> ubicación en tiempo real // false -> Manual
     const [position, setPosition] = useState<NewUbicacionType>({ lat: 0, lng: 0 });
@@ -54,7 +57,7 @@ export function useUbicacion({ onChange }: UseUbicacionProps) {
                 {
                     enableHighAccuracy: false,
                     timeout: 10000,
-                    maximumAge: 40000,
+                    maximumAge: 10000,
                 }
             );
         });
@@ -73,7 +76,15 @@ export function useUbicacion({ onChange }: UseUbicacionProps) {
         catch(error) {
             setMode(false);
             console.error(error);
-            showMessages("error", "No se pudo obtener la ubicación.");
+            if( retry === maxRetry ){ 
+                showMessages("error", "No se pudo obtener la ubicación.");
+                return position;
+            }
+            else{
+                retry = retry + 1;
+                showMessages("info", "Reintentando para obtener la ubicación..."+ retry);
+                await getPosition();
+            }
             return position;
         }
         finally {

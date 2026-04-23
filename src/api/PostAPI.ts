@@ -130,7 +130,6 @@ export async function getMapPosts({ neLat, neLng, swLat, swLng }: BoundsMap) {
         let url = `/map-post/?neLat=${neLat}&neLng=${neLng}&swLat=${swLat}&swLng=${swLng}`;
         const res = await agorappApi.get(url);
         const respuesta = res.data;
-        //alert(`Ejecuta el fetch con datos ${neLat}`)
 
         if( !respuesta.success ) {
             const apiErrors = respuesta.errors.map((error: { msg: string }) => error.msg );

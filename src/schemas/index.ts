@@ -234,6 +234,7 @@ export const ResponseMapPostListSchema = z.object({
     created_at: z.string(),
     titulo: z.string().optional().nullable(),
     descripcion: z.string(),
+    categoria: z.coerce.number(),
     direccion: z.string(),
     lat: z.coerce.number(),
     lng: z.coerce.number(),

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import PostWrapper from "../components/post/postFeed/PostWrapper";
-import { MapPinned, NavigationOff } from "lucide-react";
+import { MapPinned, NavigationOff, Radar } from "lucide-react";
 import { useInfiniteQuery} from "@tanstack/react-query";
 import { getPosts } from "../api/PostAPI";
 import { useUbicacion } from "../hooks/useUbicacion";
@@ -11,7 +11,7 @@ import type { PostRespuesta, RequestListPost } from "../types";
 import { useMessageStore } from "../store/messageStore";
 import { calcularDistanciaMetros } from "../utils/calcularDistancia";
 
-const DISTANCIA_MINIMA_METROS = 30;
+const DISTANCIA_MINIMA_METROS = 70;
 
 export default function Inicio() {
     const [shouldFetch, setShouldFetch] = useState(false);
@@ -135,6 +135,10 @@ export default function Inicio() {
 
     if(  coordenadas.lat !== 0 ) return (
         <main className="flex flex-col justify-center items-center">
+            <div className="flex items-center p-3 justify-start w-full">
+                <Radar className="size-7"/>
+                <p className="p-3 w-full">Esto es lo que pasa cerca de ti</p>
+            </div>
             <div className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center">
                 {
                     data?.pages && data.pages.flat().map( userPost => { 

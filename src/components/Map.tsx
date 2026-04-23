@@ -8,6 +8,7 @@ import type { DragEndEvent, LeafletEventHandlerFnMap } from "leaflet";
 import type { BoundsMap, NewUbicacionType, ResponseMapPostList } from "../types";
 import "../utils/fixLeafletIcons";
 import { Link } from "react-router-dom";
+import BadgeCategoria from "./post/postView/BadgeCategoria";
 
 const crearIcono = () => divIcon({
     html: `
@@ -54,6 +55,7 @@ const crearIcono = () => divIcon({
 type MapProps = {
     className?: string,
     userPosition: NewUbicacionType,
+    firstMapRenderPosition?: NewUbicacionType,
     postPosition: NewUbicacionType[] | ResponseMapPostList[],
     onDragend?: ({lat, lng}: NewUbicacionType) => Promise<void>,
     isViewMap?: boolean,
@@ -93,11 +95,12 @@ function BoundsListener({ onBoundsChange }: { onBoundsChange: MapProps["onBounds
     return null;
 };
 
-export default function Map({ className, userPosition, onDragend, isViewMap, postPosition, onBoundsChange }: MapProps) {
+export default function Map({ className, userPosition, firstMapRenderPosition, onDragend, isViewMap, postPosition, onBoundsChange }: MapProps) {
     const [showInfo, setShowInfo] = useState(false);
     const [marcadorSeleccionado, setMarcdorSeleccionado] = useState<ResponseMapPostList>({
         id: 0,
         descripcion: "",
+        categoria: 0,
         direccion: "",
         lat: 0,
         lng: 0,
@@ -118,7 +121,7 @@ export default function Map({ className, userPosition, onDragend, isViewMap, pos
     return (
         <div className={`rounded-lg overflow-hidden relative z-0 ${className}`}>
             <MapContainer
-                center={[userPosition.lat, userPosition.lng]}
+                center={isViewMap ? [firstMapRenderPosition!.lat, firstMapRenderPosition!.lng] : [userPosition.lat, userPosition.lng]}
                 zoom={15}
                 style={{
                     height: `${isViewMap ? "85dvh": "350px"}`, 
@@ -151,7 +154,7 @@ export default function Map({ className, userPosition, onDragend, isViewMap, pos
                                     eventHandlers={{
                                         ...eventHandlers,
                                         click: () => {
-                                            setShowInfo((showInfo) => !showInfo );
+                                            setShowInfo(true);
                                             if("descripcion" in coords) setMarcdorSeleccionado(coords);
                                         }
                                     }}
@@ -164,18 +167,19 @@ export default function Map({ className, userPosition, onDragend, isViewMap, pos
             </MapContainer>
             {
                     showInfo && isViewMap &&
-                        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-700 w-full max-w-sm
+                        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-700 w-5/6 max-w-sm
                             bg-popover backdrop-blur-lg text-popover-foreground 
                             rounded-2xl border shadow-md p-3
                             animate-in fade-in slide-in-from-bottom-4 duration-300"
                         >
-                            <div className="flex justify-between items-start mb-2">
-                                <span className="text-xs text-muted-foreground">
-                                    {marcadorSeleccionado.tipo.toUpperCase()}
-                                </span>
+                            <div className="flex justify-between items-center mb-2">
+                                <BadgeCategoria 
+                                    categoria={marcadorSeleccionado.categoria} 
+                                    className="text-xs"
+                                />
                                 <button 
                                     onClick={() => setShowInfo(false)}
-                                    className="text-muted-foreground hover:text-foreground"
+                                    className="text-muted-foreground hover:text-foreground cursor-pointer px-2"
                                 >
                                     ✕
                                 </button>
