@@ -12,6 +12,7 @@ import LayoutProtectedRoute from "./layout/auth/LayoutProtectedRoute";
 import { Profile } from "./view/profile/Profile";
 import Notifications from "./view/Notifications";
 import { MapFeed } from "./view/MapFeed/MapFeed";
+import CreateAlias from "./view/auth/CreateAlias";
 
 export default function Router() {
     return (
@@ -33,8 +34,8 @@ export default function Router() {
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/post/:tipo/:id" element={<Post />} />
                     <Route path="/notifications" element={<Notifications />}/>
-                </Route>
-                
+                    <Route path="/create-alias" element={<CreateAlias />}/>
+                </Route>           
             </Route>
         </Routes>
     )
