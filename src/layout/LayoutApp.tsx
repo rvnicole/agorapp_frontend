@@ -14,10 +14,12 @@ export default function LayoutApp() {
         window.scrollTo(0, 0);
     }, [pathname]);
     
+    /*
     useEffect(() => {
         if( alias?.length ) return;
         navigate("/create-alias");        
     }, [alias]);
+    */
 
     return (
         <div>

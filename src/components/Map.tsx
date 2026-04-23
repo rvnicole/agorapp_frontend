@@ -167,9 +167,9 @@ export default function Map({ className, userPosition, firstMapRenderPosition, o
             </MapContainer>
             {
                     showInfo && isViewMap &&
-                        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-700 w-5/6 max-w-sm
+                        <div className="fixed bottom-24 left-1 right-1 md:left-1/2 md:-translate-x-1/2 z-700 md:w-full max-w-sm
                             bg-popover backdrop-blur-lg text-popover-foreground 
-                            rounded-2xl border shadow-md p-3
+                            rounded-2xl border shadow-md p-3 
                             animate-in fade-in slide-in-from-bottom-4 duration-300"
                         >
                             <div className="flex justify-between items-center mb-2">

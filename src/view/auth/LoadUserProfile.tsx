@@ -7,7 +7,6 @@ import { useEffect, useRef } from "react";
 import { useUserStore } from "../../store/userStore";
 import type { ApiErrorType } from "../../types";
 import useNotification from "../../hooks/useNotifications";
-import Permissions from "../../components/permissons/Permissions";
 
 export default function LoadUserProfile(){
     const solicitud = useRef(false);
@@ -27,7 +26,7 @@ export default function LoadUserProfile(){
             showMessages("success", "Sesión iniciada");
             localStorage.setItem("userData", JSON.stringify(userData));
             setUserData(userData!);
-            navigate("/");
+            userData.alias ? navigate("/") : navigate("/create-alias");
         },
         retry: false
     });

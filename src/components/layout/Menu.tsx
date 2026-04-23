@@ -67,7 +67,7 @@ export default function Menu(){
 
                 <Logout className="absolute bottom-0 p-2 w-full hover:bg-muted">
                     <LogOut className="h-5 w-5"/>
-                    <span>Cerrar sesión</span>
+                    <span className="py-3">Cerrar sesión</span>
                 </Logout>
             </SlidemenuContent>
         </Slidemenu>
