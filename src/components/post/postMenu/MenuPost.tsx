@@ -7,16 +7,16 @@ import { deletePost } from "../../../api/PostAPI";
 import { Popover, PopoverContent, PopoverItem, PopoverTrigger } from "../../ui/Popover";
 import { EllipsisVertical, Trash2, Share2 } from "lucide-react";
 import type { ApiErrorType, PostRespuesta } from "../../../types";
+import { useShare } from "../../../hooks/useShare";
 
 type MenuPostProps = {
-    id: PostRespuesta["id"];
-    createdAt: PostRespuesta["created_at"]
-    creador: PostRespuesta["alias"];
+    post: PostRespuesta
 }
 
-export default function MenuPost({ id, createdAt, creador }: MenuPostProps) {
+export default function MenuPost({ post }: MenuPostProps) {
     const { showMessages } = useMessageStore( state => state );
     const { user: { alias }} = useUserStore( state => state );
+    const { sharePost } = useShare();
     const navigate = useNavigate();
 
     const { mutate, isPending } = useMutation({
@@ -45,24 +45,24 @@ export default function MenuPost({ id, createdAt, creador }: MenuPostProps) {
                 </PopoverTrigger>
 
                 { !isPending &&
-                    <PopoverContent className="w-fit">
+                    <PopoverContent className="w-fit p-3">
+                        <PopoverItem 
+                            key={`compartir-post-${post.id}`}
+                            onClick={() => sharePost(post)}
+                        >
+                            <Share2 className="size-4"/>
+                            Compartir
+                        </PopoverItem>
                         {
-                            alias === creador &&
+                            alias === post.alias &&
                             <PopoverItem 
-                                key={`delete-post-${id}`}
-                                onClick={() => mutate({ id, createdAt })}
+                                key={`delete-post-${post.id}`}
+                                onClick={() => mutate({ id: post.id, createdAt: post.created_at })}
                             >
                                 <Trash2 className="size-4"/>
                                 Eliminar
                             </PopoverItem>
                         }
-                        <PopoverItem 
-                            key={`compartir-post-${id}`}
-                            onClick={() => {}}
-                        >
-                            <Share2 className="size-4"/>
-                            Compartir
-                        </PopoverItem>
                     </PopoverContent>
                 }
             </Popover>

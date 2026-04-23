@@ -24,11 +24,7 @@ export default function InformationPost({ post, estado }: InformationPostProps) 
                         { estado && <BadgeEstado estado={estado.estado} />}
                     </div>
 
-                    <MenuPost 
-                        id={post.id} 
-                        createdAt={post.created_at} 
-                        creador={post.alias}
-                    />               
+                    <MenuPost post={post} />               
                 </div>
 
                 <h1 className="text-2xl font-bold leading-tight">{post.titulo}</h1>

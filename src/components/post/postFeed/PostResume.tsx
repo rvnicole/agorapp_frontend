@@ -10,13 +10,14 @@ import type { Post, UserData } from "../../../types";
 import { updateLikeStatus } from "../../../api/PostAPI";
 import { useMessageStore } from "../../../store/messageStore";
 import { useState } from "react";
-import axios from "axios";
+import { useShare } from "../../../hooks/useShare";
 
 export type PostResumeProps = z.infer<typeof PostsUsuarioRespuestaSchema>;
 
 export default function PostResume( { postResumeData} : { postResumeData: PostResumeProps} ){
     const urlPost = `/post/${postResumeData.tipo}/${postResumeData.id}?createdAt=${postResumeData.created_at}`;
     const [currentLike, setCurrentLike] = useState({ number: postResumeData.total_likes, liked: postResumeData.liked });
+    const { sharePost } = useShare();
     const showMessage = useMessageStore(state => state.showMessages);
     const { mutate } = useMutation({
         mutationFn: (payload: Pick<Post, "id"|"liked"|"createdAt"> & Pick<UserData, "alias">) => updateLikeStatus(payload),
@@ -41,38 +42,6 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                 id: postResumeData.id,
                 createdAt: postResumeData.created_at,
                 liked: true
-            });
-        };
-    };
-
-    const handleShare = async () => {
-        const tituloCompartido = postResumeData.titulo ? postResumeData.titulo : "Reporte Agorapp";
-        const url = `/post/${postResumeData.tipo}/${postResumeData.id}?createdAt=${encodeURIComponent(postResumeData.created_at)}`;
-        if( postResumeData.imagenes && postResumeData.imagenes.length > 0 ){
-            console.log("Entra");
-            const imgBlob = await axios.get(postResumeData.imagenes[0].urlImg, {
-                responseType: "blob",
-                timeout: 4000
-            });
-            const imagen = new File(
-                [imgBlob.data],
-                "reporte-agorapp.webp",
-                { type: imgBlob.data.type }
-            );
-            if( "share" in navigator ) {
-                navigator.share({
-                    title: tituloCompartido,
-                    text: postResumeData.descripcion,
-                    url,
-                    files: [imagen]
-                });
-            }
-        }
-        else if( "share" in navigator ){
-            navigator.share({
-                title: tituloCompartido,
-                text: postResumeData.descripcion,
-                url
             });
         };
     };
@@ -139,7 +108,7 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                     </div>
                     <div 
                         className="flex items-center gap-1"
-                        onClick={handleShare}
+                        onClick={() => sharePost(postResumeData)}
                     >
                         <Share2 className="size-5 cursor-pointer"/>
                     </div>
