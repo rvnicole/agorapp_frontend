@@ -1,7 +1,8 @@
-import { ApiError } from "../errors/ApiError";
 import { agorappApi } from "../lib/agorappApi";
-import { RespuestaUploadImage, UserDataSchema } from "../schemas";
 import { handleApiError } from "./handleAgorappError";
+import { ApiError } from "../errors/ApiError";
+import { RespuestaUploadImage, UserDataSchema } from "../schemas";
+import type { UserData } from "../types";
 
 export async function getUserData(){
     try{
@@ -29,6 +30,18 @@ export async function updateImageProfile(formData: FormData){
             throw new Error(error.message);
         };
         return data;
+
+    }
+    catch(error){
+        handleApiError(error);
+    };
+};
+
+export async function registerAlias(data: Pick<UserData, "nombre"|"apellido"|"alias">){
+    try{
+        const url = "/usuario";
+        const res = await agorappApi.put(url, data);
+        return res.data;
 
     }
     catch(error){
