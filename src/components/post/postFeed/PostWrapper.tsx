@@ -3,10 +3,9 @@ import PostResume, { type PostResumeProps } from "./PostResume";
 
 type PostWrapperProps = { 
     postResumeData:PostResumeProps
-    key: string | number
 };
 
-export default function PostWrapper({ postResumeData, key } : PostWrapperProps ){
+export default function PostWrapper({ postResumeData } : PostWrapperProps ){
     const ref = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -26,7 +25,6 @@ export default function PostWrapper({ postResumeData, key } : PostWrapperProps )
     
     return (
         <div
-            key={key}
             ref={ref}
             className="w-full"
         >

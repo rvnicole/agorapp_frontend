@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { calcularDistanciaMetros } from "../utils/calcularDistancia";
 import Permissions from "../components/permissons/Permissions";
 
-const DISTANCIA_MINIMA_METROS = 70;
+const DISTANCIA_MINIMA_METROS = 30;
 
 export function LayoutGPS(){
     
@@ -57,8 +57,8 @@ export function LayoutGPS(){
         if(oldLat === 0) return;
         
         const distanciaCalculada = calcularDistanciaMetros(oldLat, oldLng, lat, lng);
+        setCoordenadas({ lat, lng });
         if( distanciaCalculada >= DISTANCIA_MINIMA_METROS ){
-            setCoordenadas({ lat, lng });
             coords.current = { lat, lng };
         };
     },[]);

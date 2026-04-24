@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Map from "../../components/Map";
 import { getMapPosts } from "../../api/PostAPI";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import type { BoundsMap, ResponseMapPostList } from "../../types";
 import { useFeedStore } from "../../store/feedStore";
 
@@ -25,7 +25,7 @@ export function MapFeed(){
     });
 
     return (
-        <main className="">
+        <main className="fixed left-0 top-14 right-0 bottom-0">
                 <Map 
                     userPosition={coordenadas}
                     firstMapRenderPosition={coords.current}

@@ -73,7 +73,7 @@ export default function Inicio() {
                 <Radar className="size-7"/>
                 <p className="p-3 w-full">Esto es lo que pasa cerca de ti</p>
             </div>
-            <div className="md:w-3xl w-full space-y-4 flex flex-col justify-center items-center">
+            <div className="md:w-3xl w-full space-y-2 flex flex-col justify-center items-center">
                 {
                     data?.pages && data.pages.flat().map( userPost => { 
                         if( userPost ) return <PostWrapper key={"feed_" + userPost.id} postResumeData={userPost}/>

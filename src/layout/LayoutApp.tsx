@@ -4,9 +4,11 @@ import ButtonCreate from "../components/layout/ButtonCreate";
 import Navbar from "../components/layout/Navbar";
 import { useEffect } from "react";
 import { useUserStore } from "../store/userStore";
+import { useMessageStore } from "../store/messageStore";
 
 export default function LayoutApp() {
     const { user: { alias } } = useUserStore();
+    const { setNewNotification, showMessages } = useMessageStore();
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
@@ -20,6 +22,20 @@ export default function LayoutApp() {
         navigate("/create-alias");        
     }, [alias]);
     */
+
+    useEffect(() => {
+        navigator.serviceWorker.addEventListener("message", (event) => {
+            console.log("Notificado", event);
+            if( event.data && event.data.type === "NEW_NOTIFICATION" ){
+                console.log("Nueva notificacion", event.data);
+                setNewNotification(true);
+            };
+        });
+        console.log("effect del service worker");
+        window.addEventListener("offline", () => {
+            showMessages("warning", "Sin conexión a internet");
+        });
+    }, []);
 
     return (
         <div>

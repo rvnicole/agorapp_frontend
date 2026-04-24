@@ -66,7 +66,7 @@ function Recenter( { userPosition } : { userPosition: NewUbicacionType }) {
     const map = useMap();
   
     useEffect(() => {
-        map.setView([userPosition.lat, userPosition.lng], 15);
+        map.setView([userPosition.lat, userPosition.lng], 17);
     }, [userPosition]);
   
     return null;
@@ -130,6 +130,7 @@ export default function Map({ className, userPosition, firstMapRenderPosition, o
             >
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 />
 
                 <Recenter userPosition={userPosition} />

@@ -3,13 +3,16 @@ import type { Message } from "../types";
 
 export interface IMessageStore {
     messages: Message[];
+    newNotification: boolean;
     showMessages: (type: Message['type'], text: string) => void;
     removeMessages: (id: string) => void;
     clearMessages: () => void;
-}
+    setNewNotification: (newNotification: boolean) => void;
+};
 
 export const  useMessageStore = create<IMessageStore>()( (set, get) => ({
     messages: [],
+    newNotification: false,
     showMessages: (type, text) => {
         const id = get().messages.length.toString();
 
@@ -33,5 +36,8 @@ export const  useMessageStore = create<IMessageStore>()( (set, get) => ({
     },
     clearMessages: () => {
         set({ messages: [] });
+    },
+    setNewNotification: (newNotification: boolean) => {
+        set({ newNotification  });
     }
 }));

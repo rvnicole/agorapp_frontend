@@ -183,12 +183,9 @@ export function Profile(){
                 </div>
                 
                 {
-                    data?.pages && data.pages[0].length > 0 ?
                     data?.pages && data.pages.flat().map( userPost => { 
-                        if( userPost ) return <PostWrapper key={"profile"+userPost.id+Date.now()} postResumeData={userPost}/>
+                        if( userPost ) return <PostWrapper key={"profile"+userPost.id} postResumeData={userPost}/>
                     })
-                    :
-                    <p className="text-sm text-center p-3">Todavía no tienes publicaciones. Comparte lo que pasa cerca de ti para que otros lo sepan</p>
                 }
                 
                 <div ref={ref}>
