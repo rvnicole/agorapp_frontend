@@ -32,12 +32,12 @@ export default function Router() {
                     <Route element={<LayoutGPS />}>
                         <Route path="/" element={<Inicio />} />
                         <Route path="/map" element={<MapFeed />} />
-                    </Route>
                         <Route path="/create-report" element={<CreateReport />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/post/:tipo/:id" element={<Post />} />
                         <Route path="/notifications" element={<Notifications />}/>
                         <Route path="/create-alias" element={<CreateAlias />}/>
+                    </Route>
                 </Route>           
             </Route>
         </Routes>
