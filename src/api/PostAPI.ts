@@ -22,9 +22,9 @@ export async function createPost(post : Post) {
             errors.push("Debes subir al menos una imagen");
         }
 
-        const imagenesComprimidas = await Promise.all(post.imgs.map( img => comprimirImagen(img)));
+        //const imagenesComprimidas = await Promise.all(post.imgs.map( img => comprimirImagen(img)));
 
-        imagenesComprimidas.forEach(img => {
+        post.imgs.forEach(img => {
             formData.append("imgs", img);
         });
 
