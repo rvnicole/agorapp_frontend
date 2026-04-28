@@ -1,4 +1,4 @@
-import type { ResultPermission } from "../../types";
+import type { PermissionsError, ResultPermission } from "../../types";
 
 export async function requestCamera(): Promise<ResultPermission> {
     try {
@@ -101,4 +101,15 @@ export async function requestLocation(): Promise<ResultPermission> {
             }
         )
     });
+};
+
+export async function requestNotification(){
+    try{
+        const res = Notification.permission;
+        return { success: true, data: res }
+    }
+    catch(error){
+        if( error instanceof Error ) console.error(error.message);
+        return { success: false, error: "PERMISSION_DENIED" };
+    };
 };

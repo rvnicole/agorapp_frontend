@@ -32,6 +32,7 @@ export default function LoadUserProfile(){
     });
 
     useEffect(()=>{
+        /*
         const requestNotificationPermission = async () => {
             if( Notification.permission === "default" ) {
                 const notificationPermission = await Notification.requestPermission();
@@ -42,6 +43,7 @@ export default function LoadUserProfile(){
             };
         };
         requestNotificationPermission();
+        */
         const searchParams = new URLSearchParams(location.search);
         const code = searchParams.get("code") || "";
         const deviceInfo = window.navigator.userAgent;

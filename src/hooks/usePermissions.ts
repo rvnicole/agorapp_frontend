@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { permissionsStatus } from "../services/permissions/permissionsStatus";
-import { requestCamera, requestLocation, requestMicrophone } from "../services/permissions/requestPermissions";
+import { requestCamera, requestLocation, requestMicrophone, requestNotification } from "../services/permissions/requestPermissions";
 import type { PermissionKey, Permissions } from "../types";
+import useNotification from "./useNotifications";
 
 export function usePermissions() {
     const [status, setStatus] = useState<Permissions | null>(null);
     const [isChecking, setIsChecking] = useState(true);
     const [loading, setLoading] = useState(false);
+    const { checkNotificationPermission } = useNotification();
 
     const hasAllGranted = !isChecking && status && Object.values(status).every(p => p === "granted");
     const hasAnyDenied = !isChecking && status && Object.values(status).some(p => p === "denied");
@@ -31,6 +33,10 @@ export function usePermissions() {
         } 
         else if(permiso === "location") {
             res = await requestLocation();
+        }
+        else if(permiso === "notification"){
+            const result = await requestNotification(); 
+            if(result.data) res = await checkNotificationPermission(result.data);
         };
 
         setLoading(false);
