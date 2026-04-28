@@ -27,17 +27,17 @@ export default function useNotification(){
             if( !tokenStorage && pushToken ){
                 localStorage.setItem("fb_token", pushToken);
                 mutatePushToken({pushToken, platform: "firebase"});
-                return true;
+                return { success: true, data: null };
             } 
             else if( tokenStorage && pushToken && tokenStorage !== pushToken ){
                 mutatePushToken({pushToken, platform: "firebase"});
-                return true;
+                return { success: true, data: null };
             };
-            return false;
+            return { success: false, error: null };
         }
         else if( notificationPermission === "denied" ){
             showMessages("info", "Para activar las notificaciones debe habilitarlas desde el navegador");
-            return false;
+            return { success: false, error: null };
         };
     };
 

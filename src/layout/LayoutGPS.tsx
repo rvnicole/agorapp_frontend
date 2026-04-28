@@ -29,7 +29,7 @@ export function LayoutGPS(){
     },[ready]);
 
     useEffect(() => {
-        if(!navigator.geolocation) return;
+        if(!navigator.geolocation || !ready) return;
         const watchId = navigator.geolocation.watchPosition(
             (position) => {
                 handleActualizarUbicacion({
