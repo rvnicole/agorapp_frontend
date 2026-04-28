@@ -38,7 +38,7 @@ export default function Router() {
                         <Route path="/post/:tipo/:id" element={<Post />} />
                         <Route path="/notifications" element={<Notifications />}/>
                         <Route path="/create-alias" element={<CreateAlias />}/>
-                </Route>           
+                </Route>    
             </Route>
         </Routes>
     )

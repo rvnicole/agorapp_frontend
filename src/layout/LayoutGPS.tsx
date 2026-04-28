@@ -65,7 +65,7 @@ export function LayoutGPS(){
     
     if(!ready && coordenadas.lat === 0) return <>
             <main className="h-[80dvh] flex flex-col justify-center items-center">
-                <Permissions onGranted={() => setReady(true)}/>
+                <Permissions onGranted={() => setReady(true)} permissions={["location", "notification"]}/>
                 <p className="text-xs">Solicitando ubicación GPS...</p>
             </main>
         </>

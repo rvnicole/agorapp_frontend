@@ -52,7 +52,12 @@ export default function CreateReport() {
     }
 
 
-    if( !ready ) return (<Permissions onGranted={() => setReady(true)} />);
+    if( !ready ) return (
+        <Permissions 
+            onGranted={() => setReady(true)} 
+            permissions={["camera", "microphone", "location"]}
+        />
+    );
     return (
         <div className="flex items-center justify-center w-full">
             <Card className="border w-full md:w-3xl">

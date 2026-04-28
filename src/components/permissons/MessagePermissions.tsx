@@ -1,4 +1,4 @@
-import { Camera, MapPin, Mic } from "lucide-react";
+import { BellRing, Camera, MapPin, Mic } from "lucide-react";
 import type { PermissionKey } from "../../types";
 
 const permisos = {
@@ -16,6 +16,11 @@ const permisos = {
         titulo: "¿Nos dejas usar tu ubicación?",
         descripcion: "Utilizamos tu ubicación para mostrarte los incidentes más cercanos y localizar el incidente que reportas con mayor exactitud",
         icono: <MapPin />
+    },
+    notification: {
+        titulo: "¿Nos dejas enviarte notificaciones?",
+        descripcion: "Te enviaremos notificaciones sobre cambios y actualizaciones en los reportes que decidas apoyar o que hayas creado.",
+        icono: <BellRing />
     }
 };
 
@@ -24,6 +29,7 @@ type MessagePermissionsProps = {
 }
 
 export default function MessagePermissions({ permiso }: MessagePermissionsProps) {
+    console.log("Permiso", permiso);
     const icono = permisos[permiso].icono;
     const titulo = permisos[permiso].titulo;
     const descripcion = permisos[permiso].descripcion;

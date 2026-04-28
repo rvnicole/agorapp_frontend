@@ -79,13 +79,14 @@ export type Notification = z.infer<typeof NotificationSchema>;
 export type Message = z.infer<typeof MessageSchema>;
 
 /* ------------------ Permisos del navegador ------------------ */
-export type PermissionKey = "camera" | "microphone" | "location";
+export type PermissionKey = "camera" | "microphone" | "location" | "notification";
 export type PermissionState = "granted" | "denied" | "prompt" | "unknown";
 
 export type Permissions = {
     camera: PermissionState;
     microphone: PermissionState;
     location: PermissionState;
+    notification: PermissionState;
 };
 
 export type CameraError = 

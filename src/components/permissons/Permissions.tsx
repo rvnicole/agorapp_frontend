@@ -6,23 +6,25 @@ import Modal from "../ui/Modal";
 import Spinner from "../ui/Spinner";
 import MessagePermissions from "./MessagePermissions";
 import MessageErrorPermissions from "./MessageErrorPermissions";
+import MessageToCreate from "./MessageToCreate";
+import MessageToLocation from "./MessageToLocation";
 import { Loader2 } from "lucide-react";
-import type { PermissionsError } from "../../types";
-
-const PERMISSION_ORDER = ["camera", "microphone", "location"] as const;
+import type { PermissionKey, PermissionsError } from "../../types";
 
 type PermissionsProps = {
     onGranted: () => void;
+    permissions: PermissionKey[]
 }
 
-export default function Permissions({ onGranted }: PermissionsProps) {
+export default function Permissions({ onGranted, permissions }: PermissionsProps) {
     const { status, isChecking, loading, hasAllGranted, check, request } = usePermissions();
     const navigate = useNavigate();
 
     const [rejectPermissions, setRejectpermissions] = useState<boolean>(false);
     const [errorPermission, setErrorpermission] = useState<PermissionsError|null>(null);
     const [step, setStep] = useState(0);
-    const currentPermission = PERMISSION_ORDER[step];
+
+    const currentPermission = permissions[step];
 
     useEffect(() => {
         check();
@@ -43,10 +45,13 @@ export default function Permissions({ onGranted }: PermissionsProps) {
     }, [isChecking, hasAllGranted]);
 
     const nextPermission = () => {
-        if (step + 1 >= PERMISSION_ORDER.length) {
+        console.log(currentPermission)
+        if (step + 1 >= permissions.length) {
+            console.log("Entra")
             onGranted();
         } 
         else {
+            console.log("No")
             setErrorpermission(null);
             setStep(step + 1);
         }
@@ -63,6 +68,15 @@ export default function Permissions({ onGranted }: PermissionsProps) {
         nextPermission();
     };
 
+    const closeModal = () => {
+        if( currentPermission === "notification" ) {
+            nextPermission();
+            return;
+        }
+
+        setRejectpermissions(true);
+    }
+
     if( isChecking && !status ) {
         return ( 
             <div className="h-[75vh] flex justify-center">
@@ -75,39 +89,22 @@ export default function Permissions({ onGranted }: PermissionsProps) {
         return (
             <Modal
                 open={ true }
-                onClose={() => setRejectpermissions(true)}
+                onClose={closeModal}
             > 
-                { rejectPermissions ? 
-                    <div className="w-full transition-all animate-traslate space-y-3">
-                        <p className="font-semibold text-foreground">¿Deseas continuar sin otorgar los permisos?</p>
-                        <p className="text-sm font-semibold text-muted-foreground">
-                            Para poder crear un reporte es necesario conceder estos permisos.
-                            Si decides no otorgarlos, no podrás continuar con esta función por ahora.
-                        </p>
-                        <p className="text-sm font-semibold text-muted-foreground">
-                            Puedes volver más tarde y activarlos cuando lo desees.
-                        </p>
+                { rejectPermissions && (currentPermission === "camera" || currentPermission === "microphone") && 
+                    <MessageToCreate 
+                        onContinue={() => setRejectpermissions(false)}
+                        onReturn={() => navigate(-1)}
+                    />
+                }
 
-                        <div className="flex flex-col gap-2 w-full">
-                            <Button
-                                type="button"
-                                className="flex items-center justify-center"
-                                onClick={() => setRejectpermissions(false)}
-                            >
-                                Conceder permisos
-                            </Button>
+                { rejectPermissions && currentPermission === "location" &&
+                    <MessageToLocation 
+                        onContinue={() => setRejectpermissions(false)}
+                    />
+                }
 
-                            <Button
-                                type="button"
-                                variant="secondary"
-                                className="flex items-center justify-center"
-                                onClick={() => navigate("/")}
-                            >
-                                Volver al inicio
-                            </Button>
-                        </div>
-                    </div>
-                    :
+                { !rejectPermissions &&
                     <div 
                         key={currentPermission}
                         className="flex flex-col gap-3 w-full transition-all animate-traslate"

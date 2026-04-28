@@ -1,4 +1,4 @@
-import { CameraOff, MapPinOff, MicOff } from "lucide-react";
+import { BellOff, CameraOff, MapPinOff, MicOff } from "lucide-react";
 import type { PermissionKey, PermissionsError } from "../../types";
 
 type MessageErrorPermissions = {
@@ -9,7 +9,8 @@ type MessageErrorPermissions = {
 export default function MessageErrorPermissions({ permiso, error }: MessageErrorPermissions) {
     const { titulo, descripcion } = getMessageError({ permiso, error });
     const icono = permiso === "camera" ? <CameraOff /> :
-                    permiso === "microphone" ? <MicOff /> : <MapPinOff />
+                    permiso === "microphone" ? <MicOff /> : 
+                        permiso === "location" ? <MapPinOff /> : <BellOff />
 
     return (
         <div className="p-3">
