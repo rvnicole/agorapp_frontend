@@ -32,18 +32,13 @@ export default function Permissions({ onGranted, permissions }: PermissionsProps
     
     useEffect(() => {
         if (!status) return;
-
-        alert(currentPermission + " " + status[currentPermission]);
       
         if (status[currentPermission] === "granted") {
             nextPermission();
         }
         else if(currentPermission === "notification" && status[currentPermission] === "default") {
-            alert("Entro a validacion de notificaciones");
             const nextTimeAsk = parseInt(localStorage.getItem("agorapp-notifications") || "0");
-            alert(nextTimeAsk >= Date.now());
             nextTimeAsk >= Date.now() ? nextPermission() : localStorage.removeItem("agorapp-notifications");
-            alert("OK");
         }
     }, [step, status]);
 
