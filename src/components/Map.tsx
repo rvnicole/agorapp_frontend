@@ -119,7 +119,7 @@ export default function Map({ className, userPosition, firstMapRenderPosition, o
     }), [onDragend]);
     
     return (
-        <div className={`rounded-lg overflow-hidden relative z-0 ${className}`}>
+        <div className={`md:rounded-lg overflow-hidden relative z-0 ${className}`}>
             <MapContainer
                 center={isViewMap ? [firstMapRenderPosition!.lat, firstMapRenderPosition!.lng] : [userPosition.lat, userPosition.lng]}
                 zoom={15}
