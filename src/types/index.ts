@@ -86,7 +86,7 @@ export type Permissions = {
     camera: PermissionState;
     microphone: PermissionState;
     location: PermissionState;
-    notification: PermissionState;
+    notification: NotificationPermission;
 };
 
 export type CameraError = 

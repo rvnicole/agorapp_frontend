@@ -1,4 +1,4 @@
-import type { Permissions } from "../../types";
+import type { PermissionKey, Permissions } from "../../types";
 import { requestCamera, requestLocation, requestMicrophone } from "./requestPermissions";
 
 const getStatusPermission = async (name: PermissionName ) => {
@@ -44,10 +44,11 @@ export const getStatusLocation = async () => {
     return status;
 }
 
-export async function permissionsStatus(): Promise<Permissions> {
+export async function permissionsStatus(permissions: PermissionKey[]): Promise<Permissions> {
     return {
-        camera: await getStatusCamera(), 
-        microphone: await getStatusMicrophone(),
-        location: await getStatusLocation()
+        camera: permissions.includes("camera") ? await getStatusCamera() : "unknown", 
+        microphone: permissions.includes("microphone") ? await getStatusMicrophone() : "unknown",
+        location: permissions.includes("location") ? await getStatusLocation() : "unknown",
+        notification: Notification.permission,
     };
 }

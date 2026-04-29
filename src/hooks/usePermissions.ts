@@ -13,11 +13,11 @@ export function usePermissions() {
     const hasAllGranted = !isChecking && status && Object.values(status).every(p => p === "granted");
     const hasAnyDenied = !isChecking && status && Object.values(status).some(p => p === "denied");
 
-    const check = async () => {
+    const check = async (permissions: PermissionKey[]) => {
         setIsChecking(true);
-        const res = await permissionsStatus();
+        const res = await permissionsStatus(permissions);
         setStatus(res);
-        setIsChecking(false);
+        setIsChecking(false);        
         return res;
     };
 
@@ -40,7 +40,7 @@ export function usePermissions() {
         };
 
         setLoading(false);
-        await check();
+        await check([permiso]);
 
         return res;
     };

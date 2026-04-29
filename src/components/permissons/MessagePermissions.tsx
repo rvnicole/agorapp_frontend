@@ -29,7 +29,6 @@ type MessagePermissionsProps = {
 }
 
 export default function MessagePermissions({ permiso }: MessagePermissionsProps) {
-    console.log("Permiso", permiso);
     const icono = permisos[permiso].icono;
     const titulo = permisos[permiso].titulo;
     const descripcion = permisos[permiso].descripcion;

@@ -27,14 +27,18 @@ export default function Permissions({ onGranted, permissions }: PermissionsProps
     const currentPermission = permissions[step];
 
     useEffect(() => {
-        check();
+        check(permissions);
     }, []);
     
     useEffect(() => {
         if (!status) return;
       
         if (status[currentPermission] === "granted") {
-          nextPermission();
+            nextPermission();
+        }
+        else if(currentPermission === "notification" && status[currentPermission] === "default") {
+            const nextTimeAsk = parseInt(localStorage.getItem("agorapp-notifications") || "0");
+            nextTimeAsk >= Date.now() ? nextPermission() : localStorage.removeItem("agorapp-notifications");
         }
     }, [step, status]);
 
@@ -47,11 +51,9 @@ export default function Permissions({ onGranted, permissions }: PermissionsProps
     const nextPermission = () => {
         console.log(currentPermission)
         if (step + 1 >= permissions.length) {
-            console.log("Entra")
             onGranted();
         } 
         else {
-            console.log("No")
             setErrorpermission(null);
             setStep(step + 1);
         }
@@ -70,6 +72,9 @@ export default function Permissions({ onGranted, permissions }: PermissionsProps
 
     const closeModal = () => {
         if( currentPermission === "notification" ) {
+            const nextTimeAsk = Date.now() + 7 * 24 * 60 * 60 * 1000;
+            localStorage.setItem("agorapp-notifications", String(nextTimeAsk));
+
             nextPermission();
             return;
         }
