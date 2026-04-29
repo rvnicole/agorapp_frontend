@@ -16,7 +16,7 @@ export default function ReplyComment({ postId, createdAt, usuarioId, comment, on
             <div className="h-14" />
 
             <div 
-                className="fixed bottom-8 w-full lg:w-2xl p-2 left-1/2 right-auto -translate-x-1/2 
+                className="fixed bottom-16 md:bottom-8 w-full md:w-xl lg:w-2xl p-2 left-1/2 right-auto -translate-x-1/2 
                 bg-card/10 backdrop-blur-md rounded-xl z-60"
             >
                 <div className="flex items-center justify-between">
