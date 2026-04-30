@@ -17,7 +17,6 @@ export async function getPublicPost({ id, createdAt }: Pick<Post, "id" | "create
         }
 
         const result = PostRespuestaSchema.array().safeParse(respuesta.data);
-        console.log("Schema", result);
 
         if( !result.success ) {
             console.log({result, res});
