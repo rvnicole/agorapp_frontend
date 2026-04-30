@@ -64,6 +64,7 @@ export default function CreateAlias() {
         });
     }
     
+    if( !consulted ) return <Spinner />
     return (
         <div className="h-screen flex flex-col items-center justify-center">
             <div className="text-center mb-5">
