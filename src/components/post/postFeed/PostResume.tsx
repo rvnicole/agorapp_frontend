@@ -14,7 +14,7 @@ import { useShare } from "../../../hooks/useShare";
 
 export type PostResumeProps = z.infer<typeof PostsUsuarioRespuestaSchema>;
 
-export default function PostResume( { postResumeData} : { postResumeData: PostResumeProps} ){
+export default function PostResume( { postResumeData, comprobacion } : { postResumeData: PostResumeProps, comprobacion?: boolean } ){
     const urlPost = `/post/${postResumeData.tipo}/${postResumeData.id}?createdAt=${postResumeData.created_at}`;
     const [currentLike, setCurrentLike] = useState({ number: postResumeData.total_likes, liked: postResumeData.liked });
     const { sharePost } = useShare();
@@ -47,7 +47,7 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
     };
 
     return(
-        <Card className="w-full border">
+        <Card className={ `w-full border ${comprobacion ? "rounded-2xl" : ""}` }>
             <div className="space-y-4">
             <Link 
                 className="cursor-pointer"
@@ -57,7 +57,7 @@ export default function PostResume( { postResumeData} : { postResumeData: PostRe
                     (postResumeData.imagenes && postResumeData.imagenes.length > 0) 
                     &&
                         <img
-                            className="h-[40dvh] md:h-96 w-full object-cover md:object-center mb-3" 
+                            className={`${ comprobacion ? "h-[20dvh]" : "h-[40dvh]"} md:h-96 w-full object-cover md:object-center mb-3`}
                             src={postResumeData.imagenes[0].urlImg} 
                             alt={"img_" + postResumeData.titulo} 
                             loading="lazy"

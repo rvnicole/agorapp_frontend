@@ -29,7 +29,7 @@ export default function Modal({ open, onClose, children }: ModalProps) {
                     className="absolute top-3 right-3 text-foreground hover:text-foreground/50"
                     onClick={onClose}
                 >
-                    <X className="h-4 w-4 cursor-pointer"/>
+                    <X className="h-5 w-5 cursor-pointer"/>
                 </button>
             </Card>
         </div>

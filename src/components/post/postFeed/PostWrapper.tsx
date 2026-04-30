@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react"
 import PostResume, { type PostResumeProps } from "./PostResume";
 
 type PostWrapperProps = { 
-    postResumeData:PostResumeProps
+    postResumeData:PostResumeProps,
+    comprobacion?: boolean
 };
 
-export default function PostWrapper({ postResumeData } : PostWrapperProps ){
+export default function PostWrapper({ postResumeData, comprobacion } : PostWrapperProps ){
     const ref = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -31,7 +32,10 @@ export default function PostWrapper({ postResumeData } : PostWrapperProps ){
             {
                 isVisible ?
                     <div className="transition-opacity duration-500 ease-in opacity-100">
-                        <PostResume postResumeData={postResumeData} />
+                        <PostResume 
+                            postResumeData={postResumeData} 
+                            comprobacion={comprobacion}
+                        />
                     </div>
                 :
                     <div className="w-full opacity-0 h-[400px]" />

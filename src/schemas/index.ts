@@ -101,7 +101,7 @@ export const RequestListPostSchema = ReportSchema.pick({
     lat: true,
     lng: true,
 }).extend({
-    distancia: z.literal(["3000","2000"]).optional(),
+    distancia: z.literal(["3000","2000", "5"]).optional(),
     lastId: z.number().optional(),
     lastPostDate: z.string().optional()
 });

@@ -9,6 +9,7 @@ import Spinner from "../../ui/Spinner";
 import PreviewImg from "./PreviewImg";
 import { ArrowRight, Camera, ImagePlus, Loader2 } from "lucide-react";
 import type { ImagenData, NewUbicacionType } from "../../../types";
+import { NearPost } from "../postFeed/NearPost";
 
 type CapturedImgsProps = {
     imgs?: File[];
@@ -23,6 +24,7 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
 
     const [ view, setView ] = useState<"loading" | "camera" | "preview">("loading");
     const [ imgPosition, setImgPosition ] = useState<NewUbicacionType | null>(position ? position : null);
+    const [ comprobar, setComprobar ] = useState(true);
 
     const { showMessages } = useMessageStore(state => state);
     const navigate = useNavigate();
@@ -153,6 +155,14 @@ export default function CapturedImgs({ imgs, position, next }: CapturedImgsProps
                             )}
                         </Button>
                     </div>
+                    {   comprobar && imgPosition &&
+                        <NearPost 
+                            lat={imgPosition?.lat}
+                            lng={imgPosition?.lng}
+                            comprobar={comprobar}
+                            setComprobar={setComprobar}
+                        />
+                    }
                 </div>
             )}
         </> 
