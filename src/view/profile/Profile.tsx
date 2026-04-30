@@ -183,9 +183,12 @@ export function Profile(){
                 </div>
                 
                 {
-                    data?.pages && data.pages.flat().map( userPost => { 
-                        if( userPost ) return <PostWrapper key={"profile"+userPost.id} postResumeData={userPost}/>
-                    })
+                    data?.pages && data.pages.flat().length > 0 ? 
+                        data.pages.flat().map( userPost => { 
+                            if( userPost ) return <PostWrapper key={"profile"+userPost.id} postResumeData={userPost}/>
+                        })
+                    :
+                        <p className="p-2 text-center">Aún no has hecho ningún reporte. ¡Anímate y empieza a mapear tu colonia!</p>
                 }
                 
                 <div ref={ref}>
