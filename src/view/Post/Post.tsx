@@ -6,9 +6,11 @@ import { getPost } from "../../api/PostAPI";
 import Spinner from "../../components/ui/Spinner";
 import Report from "../../components/post/postView/Report";
 import type { Post } from "../../types";
+import { useUserStore } from "../../store/userStore";
 
 export default function Post() {
     const { showMessages } = useMessageStore(state => state);
+    const { user } = useUserStore(state => state);
     const navigate = useNavigate();
 
     const params = useParams();
@@ -31,6 +33,14 @@ export default function Post() {
         };
         window.scrollTo(0,0);
     }, [isError]);
+
+    useEffect(() => {
+        console.log("Aqui esta", user);
+        if( !user.alias ) {
+            console.log("Alias", user.alias);
+            navigate(`/post/public/${id}?createdAt=${createdAt}`);
+        }
+    }, [user]);
 
     if( isLoading ) return (
         <div className="flex justify-center">
