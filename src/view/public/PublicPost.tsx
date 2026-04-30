@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMessageStore } from "../../store/messageStore";
-import { useUserStore } from "../../store/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { getPublicPost } from "../../api/PublicAPI";
 import Spinner from "../../components/ui/Spinner";
@@ -9,7 +8,6 @@ import Report from "../../components/post/postView/Report";
 
 export default function PublicPost() {
     const { showMessages } = useMessageStore(state => state);
-    const { user } = useUserStore(state => state);
     const navigate = useNavigate();
 
     const params = useParams();
@@ -32,14 +30,6 @@ export default function PublicPost() {
         };
         window.scrollTo(0,0);
     }, [isError]);
-
-    useEffect(() => {
-        console.log("Aqui esta", user);
-        if( user.alias ) {
-            console.log("Alias", user.alias);
-            navigate(`/post/reporte/${id}?createdAt=${createdAt}`);
-        }
-    }, [user]);
 
     if( isLoading ) return (
         <div className="flex justify-center">
