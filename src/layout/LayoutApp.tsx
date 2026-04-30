@@ -39,7 +39,6 @@ export default function LayoutApp() {
         });
     }, []);
 
-    if( !consulted ) return <Spinner />
     return (
         <div>
             { !["/create-alias"].includes(pathname) && <Header /> }
