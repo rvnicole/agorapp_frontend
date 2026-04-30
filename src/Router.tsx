@@ -12,7 +12,7 @@ import LayoutProtectedRoute from "./layout/auth/LayoutProtectedRoute";
 import { Profile } from "./view/profile/Profile";
 import Notifications from "./view/Notifications";
 import { MapFeed } from "./view/MapFeed/MapFeed";
-import CreateAlias from "./view/auth/CreateAlias";
+import CreateAlias from "./view/profile/CreateAlias";
 import { LayoutGPS } from "./layout/LayoutGPS";
 
 export default function Router() {
