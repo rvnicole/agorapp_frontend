@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../../../store/messageStore";
 import { useUserStore } from "../../../store/userStore";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../ui/Button";
 import { updateLikeStatus } from "../../../api/PostAPI";
 import { ThumbsUp, UsersRound } from "lucide-react";
@@ -17,6 +18,7 @@ type LikedPost = {
 export default function LikedPost({ id, like, createdAt, totalLikes }: LikedPost) {
     const [liked, setLiked] = useState<boolean>(like);
     const [total, setTotal] = useState<number>(totalLikes);
+    const navigate = useNavigate();
 
     const { showMessages } = useMessageStore( state => state );
     const { user } = useUserStore( state => state );
@@ -30,20 +32,21 @@ export default function LikedPost({ id, like, createdAt, totalLikes }: LikedPost
             error.messages.forEach((error: string) => showMessages("error", error)); 
         }
     })
+
+    const handleClick = () => {
+        const newLiked = !liked;
+
+        mutate({ id, liked, createdAt, alias: user.alias });
+                    
+        setLiked(newLiked);
+        setTotal(t => t + (newLiked ? 1 : -1));
+    }
     
     return (
         <div className="flex flex-col md:flex-row items-center gap-4">
             <Button
                 className="flex justify-center items-center gap-2 w-full"
-                onClick={() => {
-                    const newLiked = !liked;
-
-                    mutate({ id, liked, createdAt, alias: user.alias });
-                    
-                    setLiked(newLiked);
-                    setTotal(t => t + (newLiked ? 1 : -1));
-                }}
-            >
+                onClick={user.alias ? handleClick : () => navigate("/auth/login")}>
                 { liked ?
                     <>
                         <ThumbsUp className="h-5 w-5 fill-primary-foreground" />

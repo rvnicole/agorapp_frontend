@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../..
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 import { registerAlias } from "../../api/userAPI";
-import Spinner from "../../components/ui/Spinner"
 import { CircleCheck, Loader2, Send } from "lucide-react";
 import type { ApiErrorType } from "../../types";
 
@@ -39,8 +38,6 @@ export default function CreateAlias() {
     });
 
     useEffect(() => {
-        console.log(consulted, user.alias);
-
         if( consulted && user.alias?.length ) {
             navigate("/");  
         }       

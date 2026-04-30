@@ -5,7 +5,6 @@ import Navbar from "../components/layout/Navbar";
 import { useEffect } from "react";
 import { useUserStore } from "../store/userStore";
 import { useMessageStore } from "../store/messageStore";
-import Spinner from "../components/ui/Spinner";
 
 export default function LayoutApp() {
     const { user: { alias }, consulted } = useUserStore();
@@ -48,8 +47,7 @@ export default function LayoutApp() {
                     <Outlet />
 
                     { !["/create-report", "/create-alias"].includes(pathname) &&
-                        <ButtonCreate 
-                            className=""
+                        <ButtonCreate
                             text="Crear un reporte"
                             onClick={() => navigate("/create-report")}
                         />
