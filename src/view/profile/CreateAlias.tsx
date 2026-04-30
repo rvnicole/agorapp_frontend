@@ -7,11 +7,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../..
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 import { registerAlias } from "../../api/userAPI";
+import Spinner from "../../components/ui/Spinner"
 import { CircleCheck, Loader2, Send } from "lucide-react";
 import type { ApiErrorType } from "../../types";
 
 export default function CreateAlias() {
-    const { user, setUserData } = useUserStore();
+    const { user, consulted, setUserData } = useUserStore();
     const { showMessages } = useMessageStore( state => state );
     const[ newAlias, setNewAlias ] = useState<string>("");
     const[ validaciones, setValidaciones ] = useState({
@@ -38,9 +39,12 @@ export default function CreateAlias() {
     });
 
     useEffect(() => {
-        if( !user.alias?.length ) return;
-        navigate("/");        
-    }, [user.alias]);
+        console.log(consulted, user.alias);
+
+        if( consulted && user.alias?.length ) {
+            navigate("/");  
+        }       
+    }, [user.alias, consulted]);
 
     useEffect(() => {
         setValidaciones({

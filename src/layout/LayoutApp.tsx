@@ -5,9 +5,10 @@ import Navbar from "../components/layout/Navbar";
 import { useEffect } from "react";
 import { useUserStore } from "../store/userStore";
 import { useMessageStore } from "../store/messageStore";
+import Spinner from "../components/ui/Spinner";
 
 export default function LayoutApp() {
-    const { user: { alias } } = useUserStore();
+    const { user: { alias }, consulted } = useUserStore();
     const { setNewNotification, showMessages } = useMessageStore();
     const { pathname } = useLocation();
     const navigate = useNavigate();
@@ -16,12 +17,13 @@ export default function LayoutApp() {
         window.scrollTo(0, 0);
     }, [pathname]);
     
-    /*
     useEffect(() => {
-        if( alias?.length ) return;
-        navigate("/create-alias");        
-    }, [alias]);
-    */
+        console.log(consulted, alias);
+        
+        if( consulted && !alias?.length ) {
+            navigate("/create-alias");  
+        }              
+    }, [alias, consulted]);
 
     useEffect(() => {
         navigator.serviceWorker.addEventListener("message", (event) => {
