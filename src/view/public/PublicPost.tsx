@@ -9,7 +9,7 @@ import Report from "../../components/post/postView/Report";
 
 export default function PublicPost() {
     const { showMessages } = useMessageStore(state => state);
-    const { user: { alias} } = useUserStore(state => state);
+    const { user } = useUserStore(state => state);
     const navigate = useNavigate();
 
     const params = useParams();
@@ -34,12 +34,12 @@ export default function PublicPost() {
     }, [isError]);
 
     useEffect(() => {
-        console.log("Aqui esta", alias);
-        if( alias ) {
-            console.log("Alias", alias);
+        console.log("Aqui esta", user);
+        if( user.alias ) {
+            console.log("Alias", user.alias);
             navigate(`/post/reporte/${id}?createdAt=${createdAt}`);
         }
-    }, [alias]);
+    }, [user]);
 
     if( isLoading ) return (
         <div className="flex justify-center">
