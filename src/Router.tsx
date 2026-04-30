@@ -14,6 +14,8 @@ import Notifications from "./view/Notifications";
 import { MapFeed } from "./view/MapFeed/MapFeed";
 import CreateAlias from "./view/profile/CreateAlias";
 import { LayoutGPS } from "./layout/LayoutGPS";
+import LayoutPublicApp from "./layout/LayoutPublicApp";
+import PublicPost from "./view/public/PublicPost";
 
 export default function Router() {
     return (
@@ -36,7 +38,11 @@ export default function Router() {
                         <Route path="/notifications" element={<Notifications />}/>
                         <Route path="/create-alias" element={<CreateAlias />}/>
                     </Route>
-                </Route>           
+                </Route>          
+            </Route>
+
+            <Route element={<LayoutPublicApp />}>
+                <Route path="/post/public/:id" element={<PublicPost />} />
             </Route>
         </Routes>
     )

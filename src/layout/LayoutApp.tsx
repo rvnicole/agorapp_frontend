@@ -47,8 +47,7 @@ export default function LayoutApp() {
                     <Outlet />
 
                     { !["/create-report", "/create-alias"].includes(pathname) &&
-                        <ButtonCreate 
-                            className=""
+                        <ButtonCreate
                             text="Crear un reporte"
                             onClick={() => navigate("/create-report")}
                         />

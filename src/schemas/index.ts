@@ -152,7 +152,7 @@ export const PostRespuestaSchema = z.object({
     lat: z.coerce.number().nullable(),
     direccion: z.string(),
     ubicacion_id: z.coerce.number().nullable(),
-    nombre: z.string().nullable(),
+    nombre: z.string().nullable().optional(),
     imagenes: z.array(RespuestaImagenSchema).nullable()
 });
 

@@ -7,12 +7,14 @@ import CommentsPost from "./comments/CommentsPost";
 //import CreateEstado from "./estados/CreateEstado";
 import { getEstados } from "../../../api/EstadoAPI";
 import type { PostRespuesta } from "../../../types";
+import { useUserStore } from "../../../store/userStore";
 
 type ReportProps = {
     post: PostRespuesta;
 }
 
 export default function Report({ post }: ReportProps) {
+    const { user: { alias }} = useUserStore(state => state);
 
     const { data: estados } = useQuery({
         queryKey: ["get-estado", post.id],
@@ -32,12 +34,14 @@ export default function Report({ post }: ReportProps) {
             {/*<CreateEstado postId={post.id} postCreatedAt={post.created_at} postOwnerId={post.usuario_id} />*/}
             { estados && estados.length > 0  && <EstadosPost estados={estados}/>}
 
-            <CommentsPost 
-                postId={post.id} 
-                createdAt={post.created_at} 
-                usuarioId={post.usuario_id}
-                totalComentarios={post.total_comentarios}
-            />
+            { alias && 
+                <CommentsPost 
+                    postId={post.id} 
+                    createdAt={post.created_at} 
+                    usuarioId={post.usuario_id}
+                    totalComentarios={post.total_comentarios}
+                />
+            }
         </div>
     )
 }
