@@ -35,6 +35,7 @@ export default function PublicPost() {
 
     useEffect(() => {
         if( alias ) {
+            console.log("Alias", alias);
             navigate(`/post/reporte/${id}?createdAt=${createdAt}`);
         }
     }, [alias]);
