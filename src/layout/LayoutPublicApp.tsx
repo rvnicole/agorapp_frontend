@@ -23,7 +23,7 @@ const messages = {
         description: "Regístrate para apoyar reportes y ayudar a que tengan más impacto."
     },
     comments: {
-        title: "Únete para comentar en este reporte",
+        title: "Únete para comentar y ver los comentarios de este reporte",
         description: "Participa en la conversación, aporta información y ayuda a tu comunidad."
     },
 }
