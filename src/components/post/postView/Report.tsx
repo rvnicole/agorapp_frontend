@@ -8,6 +8,7 @@ import CommentsPost from "./comments/CommentsPost";
 import { getEstados } from "../../../api/EstadoAPI";
 import type { PostRespuesta } from "../../../types";
 import { useUserStore } from "../../../store/userStore";
+import CommentsPublicPost from "./comments/CommentsPublicPost";
 
 type ReportProps = {
     post: PostRespuesta;
@@ -34,13 +35,15 @@ export default function Report({ post }: ReportProps) {
             {/*<CreateEstado postId={post.id} postCreatedAt={post.created_at} postOwnerId={post.usuario_id} />*/}
             { estados && estados.length > 0  && <EstadosPost estados={estados}/>}
 
-            { alias && 
+            { alias ? 
                 <CommentsPost 
                     postId={post.id} 
                     createdAt={post.created_at} 
                     usuarioId={post.usuario_id}
                     totalComentarios={post.total_comentarios}
                 />
+                :
+                <CommentsPublicPost totalComentarios={post.total_comentarios} />
             }
         </div>
     )

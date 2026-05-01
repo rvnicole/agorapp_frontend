@@ -1,10 +1,19 @@
-import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { useAuthModalStore } from "../../store/authModalStore";
 import { Slidemenu, SlidemenuClose, SlidemenuContent, SlidemenuDescription, SlidemenuTitle, SlidemenuTrigger } from "../ui/Slidemenu";
 import Avatar from "../ui/Avatar";
 import { MenuIcon, X } from "lucide-react";
 
-
 export default function MenuPublic(){
+    const { setOpenModal, setAction } = useAuthModalStore( state => state );
+    const buttonRef = useRef<null | HTMLButtonElement>(null);
+    
+    const handleClick = () => {
+        if( buttonRef.current ) buttonRef.current.click();
+        setOpenModal(true);
+        setAction("default");
+    }
+
     return (
         <Slidemenu>
             <SlidemenuTrigger 
@@ -21,23 +30,27 @@ export default function MenuPublic(){
                         <SlidemenuDescription className="text-sm text-muted-foreground font-semibold">Menú</SlidemenuDescription> 
                     </div>  
 
-                    <SlidemenuClose className="flex justify-end cursor-pointer">
+                    <SlidemenuClose ref={buttonRef} className="flex justify-end cursor-pointer">
                         <div className="p-1 bg-primary rounded-full">
                             <X className="h-5 w-5 text-primary-foreground"/> 
                         </div>
                     </SlidemenuClose>
                 </div>         
 
-                <Link to="/auth/login" className="flex items-center gap-2 px-2 py-5 hover:bg-muted">
+                <button
+                    type="button"
+                    className="flex items-center gap-2 px-2 py-5 cursor-pointer hover:bg-muted"
+                    onClick={handleClick}
+                >
                     <Avatar className="size-12">
                         <img src="/public/user-avar-default.jpg" className="w-full h-fit"/>
                     </Avatar>
 
                     <div>
                         <p className="font-semibold">Nuevo usuario</p>
-                        <p className="bg-primary text-primary-foreground text-xs px-2 w-fit rounded-full">Iniciar Sesión</p>
+                        <p className="bg-primary text-primary-foreground text-xs px-2 w-fit rounded-full">Iniciar Sesión / Crear cuenta</p>
                     </div>                    
-                </Link>                
+                </button>                
             </SlidemenuContent>
         </Slidemenu>
     )

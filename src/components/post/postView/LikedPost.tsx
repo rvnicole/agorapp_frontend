@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageStore } from "../../../store/messageStore";
 import { useUserStore } from "../../../store/userStore";
-import { useNavigate } from "react-router-dom";
+import { useAuthModalStore } from "../../../store/authModalStore";
 import { Button } from "../../ui/Button";
 import { updateLikeStatus } from "../../../api/PostAPI";
 import { ThumbsUp, UsersRound } from "lucide-react";
@@ -18,8 +18,8 @@ type LikedPost = {
 export default function LikedPost({ id, like, createdAt, totalLikes }: LikedPost) {
     const [liked, setLiked] = useState<boolean>(like);
     const [total, setTotal] = useState<number>(totalLikes);
-    const navigate = useNavigate();
 
+    const { setOpenModal, setAction } = useAuthModalStore( state => state );
     const { showMessages } = useMessageStore( state => state );
     const { user } = useUserStore( state => state );
 
@@ -41,12 +41,17 @@ export default function LikedPost({ id, like, createdAt, totalLikes }: LikedPost
         setLiked(newLiked);
         setTotal(t => t + (newLiked ? 1 : -1));
     }
+
+    const handleClickPublic = () => {
+        setOpenModal(true);
+        setAction("support");
+    }
     
     return (
         <div className="flex flex-col md:flex-row items-center gap-4">
             <Button
                 className="flex justify-center items-center gap-2 w-full"
-                onClick={user.alias ? handleClick : () => navigate("/auth/login")}>
+                onClick={user.alias ? handleClick : handleClickPublic }>
                 { liked ?
                     <>
                         <ThumbsUp className="h-5 w-5 fill-primary-foreground" />
