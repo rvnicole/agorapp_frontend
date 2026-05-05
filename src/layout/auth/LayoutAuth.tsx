@@ -1,8 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { useAppStore } from "../../store/appStore";
 
 export default function LayoutAuth() {
-    const { setTheme } = useAppStore(state => state);
 
     return (
         <div>

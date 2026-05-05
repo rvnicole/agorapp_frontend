@@ -3,7 +3,6 @@ import { agorappApi } from "../lib/agorappApi";
 import { handleApiError } from "./handleAgorappError";
 import { DescriptionRespuestaSchema, PostRespuestaSchema, PostsUsuarioRespuestaSchema, ResponseMapPostListSchema } from "../schemas";
 import type { BoundsMap, Post, RequestListPost, UserData } from "../types";
-import { comprimirImagen } from "../utils/imageCompression";
 
 export async function createPost(post : Post) {
     try {

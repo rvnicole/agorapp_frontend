@@ -1,4 +1,4 @@
-import type { PermissionsError, ResultPermission } from "../../types";
+import type { ResultPermission } from "../../types";
 
 export async function requestCamera(): Promise<ResultPermission> {
     try {

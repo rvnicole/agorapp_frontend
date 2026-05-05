@@ -6,7 +6,6 @@ import { loginOnAgorapp } from "../../api/authAPI";
 import { useEffect, useRef } from "react";
 import { useUserStore } from "../../store/userStore";
 import type { ApiErrorType } from "../../types";
-import useNotification from "../../hooks/useNotifications";
 
 export default function LoadUserProfile(){
     const solicitud = useRef(false);
@@ -14,7 +13,6 @@ export default function LoadUserProfile(){
     const navigate = useNavigate();
     const { showMessages } = useMessageStore( state => state );
     const { setUserData } = useUserStore( state => state );
-    const { checkNotificationPermission } = useNotification();
     
     const { mutate, isPending } = useMutation({
         mutationFn: loginOnAgorapp,

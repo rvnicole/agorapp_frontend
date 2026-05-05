@@ -1,18 +1,14 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/Card";
 import Logo from "../../components/ui/Logo";
-import EmailForm from "../../components/auth/EmailForm";
-import TokenForm from "../../components/auth/TokenForm";
 import { Button } from "../../components/ui/Button";
 import { Loader2 } from "lucide-react";
-import type { LoginType, ProviderType } from "../../types";
+import type { ProviderType } from "../../types";
 import { loginWithGoogle } from "../../api/authAPI";
 import { useMessageStore } from "../../store/messageStore";
 
 export default function Login() {
-    const [email, setEmail] = useState("");        
-    const [sentToken, setSentToken] = useState(false);
     const [oauthLoading, setOauthLoading] = useState<ProviderType>();
     const { showMessages } = useMessageStore( state => state );
 
@@ -33,6 +29,7 @@ export default function Login() {
         };
     };
 
+    /*
     // Enviar email con el token para login
     const sendEmail = (email: LoginType["email"]) => {
         console.log("Enviando token al email ", email);
@@ -41,7 +38,7 @@ export default function Login() {
     // Login de usuario
     const login = ({email, token}: LoginType) => {
         console.log("Iniciando sesion...", {email, token});
-    }
+    } */
 
     if( localStorage.getItem("userData") ) return <Navigate to="/" />
     return (
