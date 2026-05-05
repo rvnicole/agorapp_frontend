@@ -6,9 +6,9 @@
   "gcm_sender_id": "103953800507",
   "icons": [
     {
-      "src": "vite.svg",
+      "src": "logo-01-tr.png",
       "sizes": "192x192",
-      "type": "image/svg"
+      "type": "image/png"
     }
   ]
 }

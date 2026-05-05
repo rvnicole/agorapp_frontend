@@ -27,7 +27,7 @@ export default function CreateAlias() {
             console.log("Alias creado", data);
             if( !data.success ) return;
 
-            localStorage.setItem("userData", {...user, ...data.data});
+            localStorage.setItem("userData", JSON.stringify({...user, ...data.data}));
             setUserData({...user, ...data.data})         
             showMessages("success", `Bienvenid@ ${newAlias}`);
             navigate("/"); 

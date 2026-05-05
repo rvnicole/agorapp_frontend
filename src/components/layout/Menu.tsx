@@ -2,6 +2,7 @@ import { useUserStore } from "../../store/userStore";
 import { Link, useLocation } from "react-router-dom";
 import { Slidemenu, SlidemenuClose, SlidemenuContent, SlidemenuDescription, SlidemenuTitle, SlidemenuTrigger } from "../ui/Slidemenu";
 import Avatar from "../ui/Avatar";
+import Logo from "../ui/Logo";
 import { House, LogOut, Map, MenuIcon, X } from "lucide-react";
 import Logout from "./Logout";
 
@@ -27,9 +28,14 @@ export default function Menu(){
 
             <SlidemenuContent side="left">
                 <div className="flex items-start justify-between p-2">
-                    <div>
-                        <SlidemenuTitle className="text-lg font-bold">AgorApp</SlidemenuTitle>
-                        <SlidemenuDescription className="text-sm text-muted-foreground font-semibold">Menú</SlidemenuDescription> 
+                    <div className="flex gap-2 items-center">
+                        <div className="w-10 h-10">
+                            <Logo />
+                        </div> 
+                        <div>
+                            <SlidemenuTitle className="text-lg font-bold">AgorApp</SlidemenuTitle>
+                            <SlidemenuDescription className="text-sm text-muted-foreground font-semibold">Menú</SlidemenuDescription>
+                        </div>
                     </div>  
 
                     <SlidemenuClose className="flex justify-end cursor-pointer">

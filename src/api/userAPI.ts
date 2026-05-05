@@ -27,6 +27,7 @@ export async function updateImageProfile(formData: FormData){
         console.log(res.data);
         const { data, success, error } = RespuestaUploadImage.safeParse(res.data.data);
         if( !success ){
+            console.error("error en esquema", error);
             throw new Error(error.message);
         };
         return data;

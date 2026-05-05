@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/Card";
+import Logo from "../../components/ui/Logo";
 import EmailForm from "../../components/auth/EmailForm";
 import TokenForm from "../../components/auth/TokenForm";
 import { Button } from "../../components/ui/Button";
@@ -51,6 +52,7 @@ export default function Login() {
                     <div className="text-center space-y-2">
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border-2 border-primary/20 mb-4">
                             {/* Logo */}
+                            <Logo />
                         </div>
                         <CardTitle className="text-3xl font-bold tracking-tight"><h1>AgoraApp</h1></CardTitle>
                         <p className="text-muted-foreground">Sistema de gestión de incidentes urbanos</p>
