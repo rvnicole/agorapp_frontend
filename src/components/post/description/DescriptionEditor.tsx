@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Button } from "../../ui/Button";
 import { Textarea } from "../../ui/Textarea";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
@@ -12,7 +13,26 @@ type DescriptionEditorProps = {
     onRetry: () => void;
 }
 
+const buttonDescriptions = ["Cargando...", "Espera un momento...", "Categorizando...", "Llamando modelo IA..."];
+
 export default function DescriptionEditor({ description, preferText, isSupported, isLoading, onChange, onNext, onRetry }: DescriptionEditorProps) {   
+    const [buttonDescription, setButtonDescription] = useState("");
+    
+    useEffect(() => {
+        let i = 0;
+        if(isLoading){
+            const timer = setTimeout(() => {
+                if( i > buttonDescriptions.length - 1 ){
+                    setButtonDescription(buttonDescriptions[i]);
+                    i++;
+                }
+                else{
+                    i = 0;
+                }
+            }, 3000);
+        }
+    }, [isLoading]);
+    
     return (
         <div className="relative w-screen p-10 flex flex-col justify-center items-center gap-7 select-none animate-traslate">
             <div className="text-center">
@@ -51,7 +71,7 @@ export default function DescriptionEditor({ description, preferText, isSupported
                     { isLoading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Cargando...
+                            {buttonDescription}
                         </>
                     ) : (
                         <>
