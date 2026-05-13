@@ -19,9 +19,10 @@ export default function DescriptionEditor({ description, preferText, isSupported
     const [buttonDescription, setButtonDescription] = useState("");
     
     useEffect(() => {
+        let timer = 0;
         let i = 0;
         if(isLoading){
-            const timer = setTimeout(() => {
+            timer = setTimeout(() => {
                 if( i > buttonDescriptions.length - 1 ){
                     setButtonDescription(buttonDescriptions[i]);
                     i++;
@@ -31,6 +32,8 @@ export default function DescriptionEditor({ description, preferText, isSupported
                 }
             }, 3000);
         }
+
+        return () => clearTimeout(timer);
     }, [isLoading]);
     
     return (
