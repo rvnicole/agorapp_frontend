@@ -29,7 +29,7 @@ export function LayoutGPS(){
     },[ready]);
 
     useEffect(() => {
-        if(!navigator.geolocation || !ready) return;
+        if(!navigator.geolocation) return;
         const watchId = navigator.geolocation.watchPosition(
             (position) => {
                 handleActualizarUbicacion({
@@ -50,15 +50,14 @@ export function LayoutGPS(){
         );
 
         return () => navigator.geolocation.clearWatch(watchId);
-    }, [ready]);
+    }, []);
 
     const handleActualizarUbicacion = useCallback(({ oldLat, oldLng, lat, lng } : { oldLat: number, oldLng: number, lat: number, lng: number } ) => {
-        
         if(oldLat === 0) return;
         
         const distanciaCalculada = calcularDistanciaMetros(oldLat, oldLng, lat, lng);
-        setCoordenadas({ lat, lng });
         if( distanciaCalculada >= DISTANCIA_MINIMA_METROS ){
+            setCoordenadas({ lat, lng });
             coords.current = { lat, lng };
         };
     },[]);
