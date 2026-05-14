@@ -13,24 +13,28 @@ type DescriptionEditorProps = {
     onRetry: () => void;
 }
 
-const buttonDescriptions = ["Cargando...", "Espera un momento...", "Categorizando...", "Llamando modelo IA..."];
+const buttonDescriptions = [
+    "Llamando modelo IA...",
+    "Analizando...",
+    "Refinando...",
+    "Categorizando...",
+    "Espera un momento...",
+];
 
 export default function DescriptionEditor({ description, preferText, isSupported, isLoading, onChange, onNext, onRetry }: DescriptionEditorProps) {   
     const [buttonDescription, setButtonDescription] = useState("");
     
     useEffect(() => {
+        setButtonDescription(buttonDescriptions[0]);
         let timer = 0;
-        let i = 0;
+        let i = 1;
         if(isLoading){
-            timer = setTimeout(() => {
-                if( i > buttonDescriptions.length - 1 ){
+            timer = setInterval(() => {
+                if( i < buttonDescriptions.length - 1 ){
                     setButtonDescription(buttonDescriptions[i]);
                     i++;
                 }
-                else{
-                    i = 0;
-                }
-            }, 3000);
+            }, 5000);
         }
 
         return () => clearTimeout(timer);
@@ -74,7 +78,7 @@ export default function DescriptionEditor({ description, preferText, isSupported
                     { isLoading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            {buttonDescription}
+                            <p className="text-xm">{buttonDescription}</p>
                         </>
                     ) : (
                         <>

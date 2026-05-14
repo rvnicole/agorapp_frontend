@@ -4,7 +4,6 @@ let retryRefreshToken = true;
 
 const agorappApi = axios.create({
     baseURL: import.meta.env.VITE_AGORAPP_API_BACKEND,
-    timeout: 20000,
     withCredentials: true
 });
 
