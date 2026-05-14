@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { calcularDistanciaMetros } from "../utils/calcularDistancia";
 import Permissions from "../components/permissons/Permissions";
 
-const DISTANCIA_MINIMA_METROS = 30;
+const DISTANCIA_MINIMA_METROS = 25;
 
 export function LayoutGPS(){
     
@@ -50,7 +50,7 @@ export function LayoutGPS(){
         );
 
         return () => navigator.geolocation.clearWatch(watchId);
-    }, []);
+    }, [ready]);
 
     const handleActualizarUbicacion = useCallback(({ oldLat, oldLng, lat, lng } : { oldLat: number, oldLng: number, lat: number, lng: number } ) => {
         

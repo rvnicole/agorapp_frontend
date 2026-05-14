@@ -124,7 +124,7 @@ export default function Map({ className, userPosition, firstMapRenderPosition, o
                 center={isViewMap ? [firstMapRenderPosition!.lat, firstMapRenderPosition!.lng] : [userPosition.lat, userPosition.lng]}
                 zoom={15}
                 style={{
-                    height: `${isViewMap ? "85dvh": "350px"}`, 
+                    height: `${isViewMap ? "84dvh": "350px"}`, 
                     width: "100%" 
                 }}
             >
