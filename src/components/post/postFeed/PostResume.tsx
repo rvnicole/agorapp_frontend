@@ -11,6 +11,7 @@ import { updateLikeStatus } from "../../../api/PostAPI";
 import { useMessageStore } from "../../../store/messageStore";
 import { useState } from "react";
 import { useShare } from "../../../hooks/useShare";
+import { useUserStore } from "../../../store/userStore";
 
 export type PostResumeProps = z.infer<typeof PostsUsuarioRespuestaSchema>;
 
@@ -19,6 +20,7 @@ export default function PostResume( { postResumeData, comprobacion } : { postRes
     const [currentLike, setCurrentLike] = useState({ number: postResumeData.total_likes, liked: postResumeData.liked });
     const { sharePost } = useShare();
     const showMessage = useMessageStore(state => state.showMessages);
+    const { user } = useUserStore( state => state );
     const { mutate } = useMutation({
         mutationFn: (payload: Pick<Post, "id"|"liked"|"createdAt"> & Pick<UserData, "alias">) => updateLikeStatus(payload),
         mutationKey: ["likePost"],
@@ -33,7 +35,7 @@ export default function PostResume( { postResumeData, comprobacion } : { postRes
             mutate({
                 id: postResumeData.id,
                 createdAt: postResumeData.created_at,
-                alias: postResumeData.alias
+                alias: user.alias
             });
         }
         else{
